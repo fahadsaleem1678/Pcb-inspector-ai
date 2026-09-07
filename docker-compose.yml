@@ -1,0 +1,68 @@
+name: pcb-inspector
+
+x-backend: &backend
+  build: .
+  image: pcb-inspector:dev
+  environment:
+    PCB_ENVIRONMENT: local
+    PCB_DETECTOR: demo
+    PCB_DATABASE_URL: postgresql+psycopg://pcb:local-development-only@postgres:5432/pcb
+    PCB_STORAGE_PATH: /app/.runtime/objects
+  volumes:
+    - objects:/app/.runtime
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: pcb
+      POSTGRES_USER: pcb
+      POSTGRES_PASSWORD: local-development-only
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pcb -d pcb"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    <<: *backend
+    command: ["python", "-m", "alembic", "upgrade", "head"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    <<: *backend
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  worker:
+    <<: *backend
+    command: ["python", "-m", "pcb_inspector.worker"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "127.0.0.1:5173:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  objects:

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "name": "REPLACE_WITH_DATASET_NAME",
+  "version": "v1",
+  "source_url": "https://example.com/replace-with-source",
+  "source_revision": "REPLACE_WITH_COMMIT_OR_ARCHIVE_VERSION",
+  "license": {
+    "name": "REQUIRES_REVIEW",
+    "evidence": "license-evidence.txt",
+    "allowed_uses": [],
+    "reviewed_by": "",
+    "reviewed_on": null
+  },
+  "classes": [
+    "missing_component",
+    "misaligned_component",
+    "solder_bridge",
+    "damaged_component",
+    "board_damage",
+    "foreign_object",
+    "contamination"
+  ],
+  "samples": []
+}
