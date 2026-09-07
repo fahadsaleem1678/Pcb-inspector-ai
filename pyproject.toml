@@ -17,6 +17,7 @@ dependencies = [
   "python-multipart>=0.0.20,<1",
   "prometheus-client>=0.21,<1",
   "psycopg[binary]>=3.2,<4",
+  "pyjwt[crypto]>=2.10,<3",
 ]
 
 [project.optional-dependencies]

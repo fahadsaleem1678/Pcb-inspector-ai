@@ -109,9 +109,19 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 The original assembled-board scope is retained while the model-scope preference is unresolved.
 No data rights or training approval is inferred from the template or validator.
 
+## M4 — Identity boundary implemented
+
+- [x] Optional Cognito access-token signature and issuer/client/expiry validation.
+- [x] Signing-key cache/rotation, bounded retrieval and fail-closed authentication errors.
+- [x] Verified owner filtering on uploads and all inspection read endpoints.
+- [x] Optional scope/resource-audience enforcement and identity endpoint.
+- [x] Synthetic signed-token and cross-user regression coverage.
+- [ ] Managed browser login with PKCE/session renewal/logout and live Cognito acceptance.
+- [ ] S3/SQS/outbox, worker visibility renewal, DLQ and safe URL ingestion.
+
 ## Next implementation slice
 
 Resolve the first dataset/model scope, acquire permitted data with recorded evidence and produce
 a validated grouped manifest. Then implement reproducible training/evaluation and the real
-detector adapter. M4 auth/storage/queue work can proceed with the existing demo contract.
+detector adapter. Complete the managed login/session path, then implement S3/SQS/outbox adapters with the existing demo contract.
 Container and PostgreSQL execution still need verification with an available Docker engine.

@@ -12,6 +12,7 @@ from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from sqlalchemy import select
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
+from pcb_inspector.auth import Authenticator, Principal, PrincipalDependency
 from pcb_inspector.config import Settings
 from pcb_inspector.database import Inspection, make_engine
 from pcb_inspector.images import InvalidImage, validate_image
@@ -94,6 +95,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lifespan=lifespan,
         description="Local single-user demo. No trained detector is installed.",
     )
+    app.state.authenticator = Authenticator(settings)
     app.state.repository = repository
     app.state.storage = storage
     app.state.settings = settings
@@ -132,6 +134,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             headers={"X-Request-ID": request_id, "Cache-Control": "no-store"},
         )
 
+    @app.get("/api/v1/auth/me")
+    def identity(principal: PrincipalDependency) -> Principal:
+        return principal
+
     @app.get("/health")
     def health() -> dict[str, Any]:
         return {"status": "ok", "environment": settings.environment, "is_demo": True}
@@ -159,7 +165,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
 
     @app.post("/api/v1/inspections/upload", response_model=Submission, status_code=202)
-    async def upload(request: Request, file: Annotated[UploadFile, File()]) -> Submission:
+    async def upload(
+        request: Request, principal: PrincipalDependency, file: Annotated[UploadFile, File()]
+    ) -> Submission:
         try:
             content = await file.read(settings.max_upload_bytes + 1)
         finally:
@@ -178,7 +186,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             try:
                 repository.create(
                     inspection_id,
-                    settings.local_user_id,
+                    principal.owner_id,
                     key,
                     image.width,
                     image.height,
@@ -191,50 +199,51 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         await run_in_threadpool(persist)
         return Submission(inspection_id=inspection_id)
 
-    def owned_job(inspection_id: UUID) -> Inspection:
-        job = repository.get(str(inspection_id), settings.local_user_id)
+    def owned_job(inspection_id: UUID, principal: Principal) -> Inspection:
+        job = repository.get(str(inspection_id), principal.owner_id)
         if job is None:
             raise HTTPException(404, "Inspection not found")
         return job
 
-    def completed_report(inspection_id: UUID) -> Report:
-        job = owned_job(inspection_id)
+    def completed_report(inspection_id: UUID, principal: Principal) -> Report:
+        job = owned_job(inspection_id, principal)
         if job.status != Status.COMPLETED or job.report is None:
             raise HTTPException(409, {"message": "Results are not available", "status": job.status})
         return Report.model_validate(job.report)
 
     @app.get("/api/v1/inspections", response_model=History)
     def history(
+        principal: PrincipalDependency,
         limit: Annotated[int, Query(ge=1, le=100)] = 20,
         offset: Annotated[int, Query(ge=0)] = 0,
     ) -> History:
         return History(
             items=[
                 InspectionSummary.model_validate(job)
-                for job in repository.history(settings.local_user_id, limit, offset)
+                for job in repository.history(principal.owner_id, limit, offset)
             ],
             limit=limit,
             offset=offset,
         )
 
     @app.get("/api/v1/inspections/{inspection_id}", response_model=InspectionSummary)
-    def status(inspection_id: UUID) -> InspectionSummary:
-        return InspectionSummary.model_validate(owned_job(inspection_id))
+    def status(inspection_id: UUID, principal: PrincipalDependency) -> InspectionSummary:
+        return InspectionSummary.model_validate(owned_job(inspection_id, principal))
 
     @app.get("/api/v1/inspections/{inspection_id}/results", response_model=Report)
-    def results(inspection_id: UUID) -> Report:
-        return completed_report(inspection_id)
+    def results(inspection_id: UUID, principal: PrincipalDependency) -> Report:
+        return completed_report(inspection_id, principal)
 
     @app.get("/api/v1/inspections/{inspection_id}/report")
-    def download_report(inspection_id: UUID) -> JSONResponse:
+    def download_report(inspection_id: UUID, principal: PrincipalDependency) -> JSONResponse:
         return JSONResponse(
-            completed_report(inspection_id).model_dump(mode="json"),
+            completed_report(inspection_id, principal).model_dump(mode="json"),
             headers={"Content-Disposition": f'attachment; filename="{inspection_id}.json"'},
         )
 
     @app.get("/api/v1/inspections/{inspection_id}/image")
-    def original_image(inspection_id: UUID) -> FileResponse:
-        path = storage.path(owned_job(inspection_id).image_key)
+    def original_image(inspection_id: UUID, principal: PrincipalDependency) -> FileResponse:
+        path = storage.path(owned_job(inspection_id, principal).image_key)
         if not path.is_file():
             raise HTTPException(404, "Image not found")
         return FileResponse(path, media_type="image/png")

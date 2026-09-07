@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/api/v1/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Identity */
+        get: operations["identity_api_v1_auth_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health": {
         parameters: {
             query?: never;
@@ -221,6 +238,20 @@ export interface components {
             /** Overall Result */
             overall_result: string | null;
         };
+        /** Principal */
+        Principal: {
+            /** Subject */
+            subject: string;
+            /** Owner Id */
+            owner_id: string;
+            /** Auth Mode */
+            auth_mode: string;
+            /**
+             * Scopes
+             * @default []
+             */
+            scopes: string[];
+        };
         /** Report */
         Report: {
             /**
@@ -296,6 +327,26 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    identity_api_v1_auth_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Principal"];
+                };
+            };
+        };
+    };
     health_health_get: {
         parameters: {
             query?: never;

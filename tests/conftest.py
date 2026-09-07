@@ -21,6 +21,7 @@ def settings(tmp_path, monkeypatch):
         database_url=url,
         storage_path=tmp_path / "objects",
         environment="test",
+        auth_mode="local",
         retry_delay_seconds=0,
     )
 

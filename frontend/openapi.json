@@ -6,6 +6,29 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/api/v1/auth/me": {
+      "get": {
+        "summary": "Identity",
+        "operationId": "identity_api_v1_auth_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Principal"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/health": {
       "get": {
         "summary": "Health",
@@ -83,13 +106,23 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/api/v1/inspections": {
       "get": {
         "summary": "History",
         "operationId": "history_api_v1_inspections_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "limit",
@@ -143,6 +176,11 @@
       "get": {
         "summary": "Status",
         "operationId": "status_api_v1_inspections__inspection_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "inspection_id",
@@ -183,6 +221,11 @@
       "get": {
         "summary": "Results",
         "operationId": "results_api_v1_inspections__inspection_id__results_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "inspection_id",
@@ -223,6 +266,11 @@
       "get": {
         "summary": "Download Report",
         "operationId": "download_report_api_v1_inspections__inspection_id__report_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "inspection_id",
@@ -261,6 +309,11 @@
       "get": {
         "summary": "Original Image",
         "operationId": "original_image_api_v1_inspections__inspection_id__image_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "inspection_id",
@@ -525,6 +578,37 @@
         ],
         "title": "InspectionSummary"
       },
+      "Principal": {
+        "properties": {
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "owner_id": {
+            "type": "string",
+            "title": "Owner Id"
+          },
+          "auth_mode": {
+            "type": "string",
+            "title": "Auth Mode"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scopes",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "subject",
+          "owner_id",
+          "auth_mode"
+        ],
+        "title": "Principal"
+      },
       "Report": {
         "properties": {
           "schema_version": {
@@ -677,6 +761,13 @@
           "type"
         ],
         "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "description": "Cognito user-pool access token (RS256)",
+        "scheme": "bearer"
       }
     }
   }

@@ -1,11 +1,13 @@
 # Local API contract
 
 Base URL: `http://127.0.0.1:8000`. Interactive schema: `/docs`; JSON schema: `/openapi.json`.
-No authentication is implemented yet. Every request uses the configured local developer identity.
+Local mode uses the configured developer identity. Optional Cognito mode requires verified
+access tokens on inspection endpoints; see [authentication](authentication.md).
 Do not publish this milestone. Arbitrary owner headers and image URLs are not accepted.
 
 | Method and path | Behavior |
 | --- | --- |
+| `GET /api/v1/auth/me` | Current local or verified Cognito principal |
 | `POST /api/v1/inspections/upload` | Multipart `file`; 202 with `inspection_id` UUID and `QUEUED` |
 | `GET /api/v1/inspections?limit=20&offset=0` | Newest-first local history; limit 1–100; nonnegative offset |
 | `GET /api/v1/inspections/{id}` | State, dimensions, attempts, timestamps, model/result and failure code |
