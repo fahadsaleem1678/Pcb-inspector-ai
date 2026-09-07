@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.env
+.runtime/
+build/
+dist/
+data/raw/
+data/interim/
+data/processed/
+*.pt
+*.onnx
+node_modules/
+
+# Frontend build and browser test artifacts
+*.tsbuildinfo
+frontend/test-results/
+frontend/playwright-report/
