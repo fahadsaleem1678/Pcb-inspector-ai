@@ -9,6 +9,8 @@ import sys
 import threading
 from pathlib import Path
 
+from processes import stop_process
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -16,7 +18,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--api-port", type=int, default=8000)
     parser.add_argument("--web-port", type=int, default=5173)
+    parser.add_argument("--stop", action="store_true", help="Stop this local port pair")
     args = parser.parse_args()
+    stop_file = ROOT / ".runtime" / f"dev-{args.api_port}-{args.web_port}.stop"
+    stop_file.parent.mkdir(exist_ok=True)
+    if args.stop:
+        stop_file.touch()
+        print("Stop requested for the local development services.")
+        return
+    stop_file.unlink(missing_ok=True)
     node = shutil.which("node")
     vite = ROOT / "frontend" / "node_modules" / "vite" / "bin" / "vite.js"
     if not node or not vite.is_file():
@@ -67,17 +77,14 @@ def main() -> None:
             flush=True,
         )
         while not stopped.wait(0.5):
+            if stop_file.exists():
+                break
             if any(process.poll() is not None for process in processes):
                 raise RuntimeError("A development service stopped; see its logs above.")
     finally:
         for process in processes:
-            process.terminate()
-        for process in processes:
-            try:
-                process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait(timeout=5)
+            stop_process(process)
+        stop_file.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

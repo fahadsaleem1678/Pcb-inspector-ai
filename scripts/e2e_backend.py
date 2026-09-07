@@ -9,6 +9,7 @@ import threading
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+from processes import stop_process
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -38,6 +39,7 @@ def main() -> None:
                 "PCB_STORAGE_PATH": str(temporary / "objects"),
                 "PCB_ENVIRONMENT": "test",
                 "PCB_DETECTOR": "demo",
+                "PCB_AUTH_MODE": "local",
                 "PCB_WORKER_POLL_SECONDS": "0.3",
             }
         )
@@ -70,13 +72,7 @@ def main() -> None:
                     raise RuntimeError("A browser-test backend process stopped")
         finally:
             for process in processes:
-                process.terminate()
-            for process in processes:
-                try:
-                    process.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    process.kill()
-                    process.wait(timeout=5)
+                stop_process(process)
 
 
 if __name__ == "__main__":

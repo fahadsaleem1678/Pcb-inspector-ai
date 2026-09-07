@@ -12,6 +12,7 @@ from pathlib import Path
 
 import httpx
 from PIL import Image
+from processes import stop_process
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -27,6 +28,7 @@ def run() -> None:
             {
                 "PCB_ENVIRONMENT": "test",
                 "PCB_DETECTOR": "demo",
+                "PCB_AUTH_MODE": "local",
                 "PCB_DATABASE_URL": env.get(
                     "PCB_SMOKE_DATABASE_URL", f"sqlite:///{temporary / 'db.sqlite'}"
                 ),
@@ -69,14 +71,6 @@ def run() -> None:
                 **kwargs,
             )
 
-        def stop(process):
-            process.terminate()
-            try:
-                process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait(timeout=5)
-
         def ready(client, process):
             deadline = time.monotonic() + 15
             while time.monotonic() < deadline:
@@ -115,7 +109,13 @@ def run() -> None:
                     assert client.get(path).json()["status"] == "COMPLETED"
                     report = client.get(path + "/report").json()
                     assert report["is_demo"] and report["overall_result"] == "NOT_EVALUATED"
-                    stop(process)
+                    stop_process(process)
+                    try:
+                        httpx.get(f"http://127.0.0.1:{port}/health", timeout=1)
+                    except httpx.HTTPError:
+                        pass
+                    else:
+                        raise AssertionError("Stopped API still accepts connections")
                     process = start(log)
                     ready(client, process)
                     assert client.get(path + "/results").json() == report
@@ -138,7 +138,7 @@ def run() -> None:
                 print((temporary / "api.log").read_text(encoding="utf-8"))
                 raise
             finally:
-                stop(process)
+                stop_process(process)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ An asynchronous platform for AI-assisted visual PCB inspection, being implemente
 **Current milestone: local web application and dataset preparation tools.** React provides
 image upload/preview, automatic progress, zoomable images, history and JSON reports. The
 detector remains explicitly a demo: processed images return `is_demo: true`,
-`overall_result: NOT_EVALUATED`, and no detections. Authentication, a trained detector,
+`overall_result: NOT_EVALUATED`, and no detections. Managed browser login, a trained detector,
 PCB/quality classifiers, S3/SQS and cloud deployment remain later milestones.
 
 Read the [implementation plan](docs/implementation-plan.md) for milestones, acceptance gates,
@@ -110,3 +110,5 @@ builds both containers, and runs frontend/browser checks with API-type drift det
 | `tests/` | API, image handling and worker lifecycle regression coverage |
 
 See [API contract](docs/api.md) and [architecture decisions](docs/architecture.md).
+
+Optional backend Cognito token verification is implemented; see [authentication configuration](docs/authentication.md). Browser login remains a subsequent step.
