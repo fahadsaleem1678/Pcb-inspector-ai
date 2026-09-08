@@ -50,3 +50,33 @@ def test_tracking_failure_blocks_evaluation_even_after_training_finished(tmp_pat
         (tmp_path / filename).write_text(json.dumps(value))
     with pytest.raises(ValueError, match="incomplete or failed"):
         evaluate(SimpleNamespace(run=tmp_path, split="validation", final_test=False))
+
+
+def test_frozen_checkpoint_reloads_without_download(monkeypatch):
+    from torchvision.ops import FrozenBatchNorm2d
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Unexpected download")
+
+    monkeypatch.setattr(torch.hub, "download_url_to_file", forbidden)
+    source = make_model(6, 128, "frozen_batch")
+    restored = make_model(6, 128, "frozen_batch")
+    restored.load_state_dict(source.state_dict(), strict=True)
+    assert any(isinstance(m, FrozenBatchNorm2d) for m in source.backbone.modules())
+    assert not any(isinstance(m, torch.nn.BatchNorm2d) for m in source.backbone.modules())
+    source.train()
+    layer = next(m for m in source.backbone.modules() if isinstance(m, FrozenBatchNorm2d))
+    before = layer.running_mean.clone()
+    layer(torch.rand(1, layer.weight.numel(), 4, 4))
+    assert torch.equal(before, layer.running_mean)
+
+
+def test_unreviewed_initial_weights_rejected_before_deserialization(tmp_path, monkeypatch):
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Unverified bytes deserialized")
+
+    monkeypatch.setattr(torch, "load", forbidden)
+    weights = tmp_path / "unreviewed.pth"
+    weights.write_bytes(b"not the reviewed checkpoint")
+    with pytest.raises(ValueError, match="checksum"):
+        make_model(6, 320, "frozen_batch", weights)

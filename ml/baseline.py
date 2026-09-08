@@ -14,10 +14,12 @@ from pathlib import Path
 import numpy as np
 import torch
 from torchvision.models.detection import fasterrcnn_mobilenet_v3_large_320_fpn
-from torchvision.ops import batched_nms
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+from torchvision.ops import FrozenBatchNorm2d, batched_nms
 
 from ml.data import BoardViews, file_hash, restore_boxes, verify_release
 from ml.metrics import coco_metrics, grouped_metrics
+from ml.pretrained import verify_weights
 
 MODEL = "torchvision-fasterrcnn-mobilenet-v3-large-320-fpn"
 PACKAGES = ["torch", "torchvision", "numpy", "pycocotools", "mlflow-skinny", "pillow"]
@@ -27,17 +29,45 @@ def write_json(path, value):
     Path(path).write_text(json.dumps(value, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 
 
-def make_model(classes, input_size):
+def freeze_normalization(module):
+    """Match official pretrained MobileNet normalization without fetching weights."""
+    for name, child in module.named_children():
+        if isinstance(child, torch.nn.BatchNorm2d):
+            frozen = FrozenBatchNorm2d(child.num_features, eps=child.eps)
+            with torch.no_grad():
+                for key in ("weight", "bias", "running_mean", "running_var"):
+                    getattr(frozen, key).copy_(getattr(child, key))
+            setattr(module, name, frozen)
+        else:
+            freeze_normalization(child)
+
+
+def make_model(classes, input_size, normalization="batch", initial_weights=None):
     # Both None values are required: the factory otherwise defaults to ImageNet backbone weights.
-    return fasterrcnn_mobilenet_v3_large_320_fpn(
+    if normalization not in {"batch", "frozen_batch"}:
+        raise ValueError("Unsupported normalization")
+    if initial_weights is not None:
+        verify_weights(initial_weights)
+        if normalization != "frozen_batch":
+            raise ValueError("COCO initialization requires frozen_batch normalization")
+    model = fasterrcnn_mobilenet_v3_large_320_fpn(
         weights=None,
         weights_backbone=None,
-        num_classes=classes + 1,
+        num_classes=91 if initial_weights is not None else classes + 1,
         min_size=input_size,
         max_size=input_size * 2,
         box_score_thresh=0.001,
         box_detections_per_img=100,
     )
+    if normalization == "frozen_batch":
+        freeze_normalization(model.backbone)
+    if initial_weights is not None:
+        model.load_state_dict(
+            torch.load(initial_weights, map_location="cpu", weights_only=True), strict=True
+        )
+        features = model.roi_heads.box_predictor.cls_score.in_features
+        model.roi_heads.box_predictor = FastRCNNPredictor(features, classes + 1)
+    return model
 
 
 def configure(seed, threads, device):
@@ -131,7 +161,10 @@ def metadata(args, manifest, digest):
     return {
         "schema_version": "1.0",
         "architecture": MODEL,
-        "initialization": "random_no_download",
+        "initialization": "coco_v1_local" if args.initial_weights else "random_no_download",
+        "normalization": "frozen_batch" if args.initial_weights else "batch",
+        "initial_weights": verify_weights(args.initial_weights) if args.initial_weights else None,
+        "trainable_backbone_layers": 6,
         "classes": manifest.classes,
         "manifest_sha256": digest,
         "manifest": str(args.manifest.resolve()),
@@ -145,6 +178,7 @@ def metadata(args, manifest, digest):
                 Path(__file__),
                 Path(__file__).with_name("data.py"),
                 Path(__file__).with_name("metrics.py"),
+                Path(__file__).with_name("pretrained.py"),
             ]
         },
         "python": platform.python_version(),
@@ -164,10 +198,10 @@ def metadata(args, manifest, digest):
         "smoke": args.smoke,
         "promotion_eligible": False,
         "limitations": [
-            "Random initialization; a short run verifies plumbing, not trained inspection quality.",
+            "Research initialization and limited data do not establish inspection quality.",
             "Frozen holdouts have two conservative groups each; no reliable population-level CI.",
             "No clean-board negatives or external camera holdout; no electrical certification.",
-            "Software license review is separate from any future pretrained-weight rights review.",
+            "Pretrained provenance review is not public distribution or product approval.",
         ],
     }
 
@@ -199,7 +233,9 @@ def train(args):
         artifact_location=(args.output / "artifacts").resolve().as_uri(),
     )
     mlflow.set_experiment(experiment_id=experiment_id)
-    model = make_model(len(manifest.classes), args.input_size).to(device)
+    model = make_model(
+        len(manifest.classes), args.input_size, config["normalization"], args.initial_weights
+    ).to(device)
     optimizer = torch.optim.SGD(
         model.parameters(), lr=args.learning_rate, momentum=0.9, weight_decay=0.0005
     )
@@ -371,7 +407,9 @@ def evaluate(args):
     if output.exists():
         raise ValueError("Evaluation already exists; refusing to overwrite recorded results")
     device = configure(config["seed"], args.threads, args.device)
-    model = make_model(len(manifest.classes), config["input_size"])
+    model = make_model(
+        len(manifest.classes), config["input_size"], config.get("normalization", "batch")
+    )
     model.load_state_dict(
         torch.load(state_path, map_location="cpu", weights_only=True), strict=True
     )
@@ -423,6 +461,11 @@ def main():
     parser.add_argument("--tile-size", type=int, default=0)
     parser.add_argument("--overlap", type=int, default=256)
     parser.add_argument("--learning-rate", type=float, default=0.005)
+    parser.add_argument(
+        "--initial-weights",
+        type=Path,
+        help="Local checksum-pinned COCO_V1 file; never downloaded by training",
+    )
     parser.add_argument("--seed", type=int, default=20260908)
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--split", choices=["validation", "test"], default="validation")

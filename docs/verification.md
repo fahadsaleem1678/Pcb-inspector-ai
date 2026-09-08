@@ -131,3 +131,18 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   summary is written; all four model-contract tests passed after that fix (12 ML checks overall,
   including the four lightweight view/preflight checks also in the 65-test service suite).
 - Final lint/format checks passed. Hosted CI and GPU execution remain unverified.
+
+### Pretrained initialization support
+
+- Reviewed the official COCO_V1 artifact provenance and separate weight/data terms for local
+  research; public distribution approval remains unresolved (ml/PRETRAINED.md).
+- Initial download matched publisher prefix; full SHA-256 is pinned for every subsequent
+  acquisition and training load. Training/evaluation do not implicitly download weights.
+- All 280 transferred tensors matched an official pretrained factory model with six trainable
+  backbone stages. The predictor was replaced with six classes plus background.
+- Fourteen ML checks passed, including corrupt-weight rejection before deserialization and
+  offline frozen-normalization checkpoint reload; repository lint and formatting passed.
+- Real-data COCO smoke fine-tuning completed with finite loss. Checkpoint reload reproduced
+  all validation predictions and per-class metrics exactly; smoke AP remained zero.
+- Five-epoch full-data experiment is documented separately when complete. The web detector
+  remains demo-only; no hosted CI, CUDA execution or public-model qualification is claimed.

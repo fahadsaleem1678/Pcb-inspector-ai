@@ -113,11 +113,12 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Optional seeded Torchvision CPU/CUDA research trainer, resize/tile views, COCO per-class/group evaluation and local MLflow logging.
 - [x] Real-data CPU resize/tile smoke runs and checkpoint reload verification.
 - [x] First full-data scratch epoch and recorded validation evidence; zero AP, not promoted.
+- [x] Explicit checksum-pinned COCO initialization, normalization-preserving reload and provenance review for local research.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
-Assembly inspection is deferred to V2. Source license declarations are recorded, but no
-training-ready manifest or calibrated model has been produced. The original architecture
+Assembly inspection is deferred to V2. The six-class research manifest is frozen and passes
+integrity gates; no calibrated production model has been produced. The original architecture
 remains historical context where its taxonomy differs from the accepted V1 specification.
 
 ## M4 — Identity boundary implemented

@@ -44,7 +44,7 @@ labels 0–5. The nine-class product roadmap has a separate label ID space.
 
 Smoke mode selects the first four train images, performs at most two optimizer steps per
 epoch, and evaluates the first two validation images. These are plumbing checks only.
-The initialization is random; **weights=None and weights_backbone=None** prevent implicit
+By default initialization is random; **weights=None and weights_backbone=None** prevent implicit
 COCO/ImageNet weight downloads. A smoke checkpoint cannot evaluate the held-out test set.
 All checkpoints currently have promotion_eligible=false, including full research runs.
 
@@ -68,8 +68,7 @@ For an independently named tiling experiment:
 
 These are starting configurations, not calibrated hyperparameters or completed training runs.
 Full scratch training on 165 boards is unlikely to establish useful production quality by itself.
-Select reviewed pretrained weights and an appropriate compute budget in a later experiment.
-The current local run does not download weights or launch cloud resources.
+The explicit COCO initialization below supports local fine-tuning. No cloud resources are launched.
 
 Whole-image mode preserves aspect ratio: Torchvision scales the short side toward input-size
 and caps the long side at twice input-size. Tile mode uses the same transform for each crop.
@@ -81,6 +80,29 @@ completeness limitation. No extra augmentation is implemented yet.
 Tile inference maps boxes back by the crop offset after Torchvision restores resize coordinates,
 then applies class-aware NMS at IoU 0.5 and keeps at most 100 detections per original board.
 Evaluation always uses original full-image ground truth, not an artificially enlarged tile test set.
+
+## Explicit pretrained fine-tuning
+
+[Provenance review](PRETRAINED.md) records the official COCO_V1 artifact, full SHA-256,
+normalization contract and unresolved public distribution rights. Acquire once explicitly:
+
+```powershell
+.\.venv-ml\Scripts\python.exe -m ml.pretrained --output ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline train --output ml/runs/coco-resize-5epochs --epochs 5 --input-size 320 --learning-rate 0.005 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline evaluate --run ml/runs/coco-resize-5epochs --split validation
+```
+
+Training verifies the reviewed artifact bytes before deserialization, preserves pretrained
+FrozenBatchNorm2d statistics, transfers RPN/FPN/box-head weights, and initializes a new seven-output
+class/box predictor. All six backbone stages are trainable. Evaluation restores normalization
+from the saved configuration and needs only the fine-tuned checkpoint, with no initial-weight
+file or network access. Older scratch configurations keep BatchNorm2d.
+
+This first five-epoch experiment fixes the existing seed, 320-pixel resize, learning rate,
+optimizer and source split. It changes initialization, normalization and training duration;
+comparison with the one-epoch scratch baseline is not a controlled estimate of pretraining's
+individual effect. Best-epoch selection uses validation AP50:95 only. No test evaluation,
+public model deployment or threshold calibration is part of this experiment.
 
 ## Metrics and experiment evidence
 
