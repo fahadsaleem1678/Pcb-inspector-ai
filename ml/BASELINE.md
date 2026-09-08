@@ -141,3 +141,20 @@ comparison remains open.
 The separate ML CI workflow installs CPU dependencies and checks geometry, label handling,
 COCO edge cases, no-download model initialization and test-set protection.
 The web/backend tests continue to run without any ML package installed.
+
+
+## First full-data run: measured, not promoted
+
+[Recorded evidence](evidence/cpu-resize-epoch1.json) captures the clean c461519 training revision,
+package versions, configuration, source/checkpoint hashes and full validation metrics.
+One scratch epoch used all 165 training images (165 optimizer steps) and 32 validation images.
+It took 320.15 seconds including validation; mean training loss was 0.6585.
+AP50, AP50:95 and AR100 were all zero across all six classes. Validation inference averaged
+522.78 ms per board on this CPU with the timing scope described above. Checkpoint reload
+reproduced predictions exactly; MLflow status was FINISHED. No test images were evaluated.
+This is a failed-quality baseline and a successful workflow verification, not a usable model.
+
+The training/validation metadata-only resize check found 56/1,230 training targets with a
+short side below four pixels (three below two); validation had none below four. This motivates
+resolution experiments but does not explain away the zero AP. Review initial weights and train
+longer before selecting resolution/tiling or comparing architectures on validation.

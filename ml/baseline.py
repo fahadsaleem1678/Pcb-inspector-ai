@@ -351,10 +351,14 @@ def evaluate(args):
     config = json.loads((run_dir / "config.json").read_text(encoding="utf-8"))
     checkpoint = json.loads((run_dir / "checkpoint.json").read_text(encoding="utf-8"))
     summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
-    if summary["status"] != "complete":
-        raise ValueError("Training run is incomplete")
+    if summary["status"] != "complete" or (run_dir / "failure.json").exists():
+        raise ValueError("Training run is incomplete or failed")
     if args.split == "test" and (config["smoke"] or not args.final_test):
         raise ValueError("Test evaluation requires a full run and explicit --final-test")
+    if summary["completed_epochs"] != config["epochs"]:
+        raise ValueError("Training did not complete the configured epochs")
+    if checkpoint["architecture"] != MODEL or config["architecture"] != MODEL:
+        raise ValueError("Unsupported checkpoint architecture")
     if checkpoint["config_sha256"] != file_hash(run_dir / "config.json"):
         raise ValueError("Configuration has changed since checkpoint creation")
     state_path = run_dir / "best-state.pt"

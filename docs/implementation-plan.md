@@ -112,6 +112,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [ ] PCB-IND release acquired and conflicting label dictionaries reconciled.
 - [x] Optional seeded Torchvision CPU/CUDA research trainer, resize/tile views, COCO per-class/group evaluation and local MLflow logging.
 - [x] Real-data CPU resize/tile smoke runs and checkpoint reload verification.
+- [x] First full-data scratch epoch and recorded validation evidence; zero AP, not promoted.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 

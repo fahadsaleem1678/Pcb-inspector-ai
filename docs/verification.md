@@ -116,3 +116,18 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
 - Optional CPU CI is authored; hosted execution has not been verified in this slice.
 - Website inference remains explicitly demo-only. All research checkpoints remain ineligible
   for deployment; no clean-board negative or external camera evaluation is claimed.
+
+
+### Full-data CPU baseline and final failure guard
+
+- One clean-revision c461519 scratch epoch completed: 165 train images/steps, 32 validation
+  images, 320.15 seconds including validation. Mean training loss 0.6585; every class had
+  zero AP50/AP50:95/AR100. The checkpoint is not a usable detector and remains unpromoted.
+- Full checkpoint reload reproduced all validation predictions and per-class metrics exactly;
+  the local MLflow run is FINISHED. Held-out test data were not evaluated.
+- Compact reproducible evidence is committed in ml/evidence/cpu-resize-epoch1.json. Model
+  weights and full local logs remain ignored under ml/runs/cpu-resize-epoch1.
+- Added a regression rejecting evaluation when artifact logging fails after a completion
+  summary is written; all four model-contract tests passed after that fix (12 ML checks overall,
+  including the four lightweight view/preflight checks also in the 65-test service suite).
+- Final lint/format checks passed. Hosted CI and GPU execution remain unverified.

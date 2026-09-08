@@ -38,3 +38,15 @@ def test_smoke_checkpoint_cannot_evaluate_test_set(tmp_path):
         (tmp_path / filename).write_text(json.dumps(value))
     with pytest.raises(ValueError, match="full run"):
         evaluate(SimpleNamespace(run=tmp_path, split="test", final_test=True))
+
+
+def test_tracking_failure_blocks_evaluation_even_after_training_finished(tmp_path):
+    for filename, value in [
+        ("config.json", {"smoke": False}),
+        ("checkpoint.json", {}),
+        ("summary.json", {"status": "complete"}),
+        ("failure.json", {"status": "failed", "error_type": "TrackingError"}),
+    ]:
+        (tmp_path / filename).write_text(json.dumps(value))
+    with pytest.raises(ValueError, match="incomplete or failed"):
+        evaluate(SimpleNamespace(run=tmp_path, split="validation", final_test=False))
