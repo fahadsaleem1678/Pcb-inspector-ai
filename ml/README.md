@@ -1,8 +1,7 @@
 # Dataset preparation and model gate
 
 V1 now targets PCB surface defects; assembly inspection moves to V2. PCB-Defect has been
-acquired with six verified label names, but board grouping and a release manifest are still
-pending. PCB-IND's conflicting label dictionaries must be reconciled before use. The current
+acquired with six verified label names and a [frozen grouped research manifest](../data/releases/pcb-defect-v1/README.md). PCB-IND's conflicting label dictionaries must be reconciled before use. The current
 detector remains explicitly demo-only. See [Dataset V1 specification](../docs/dataset-v1-spec.md)
 and [acquisition audit](../data/README.md). No new ML training code is introduced by that audit.
 
@@ -46,3 +45,13 @@ and preserve the held-out test set; do not rerun splitting against a growing pro
 Before M3 training is complete, release the reviewed dataset, add DVC versioning, grouped/duplicate
 audits, a calibrated quality/compatibility gate, a detector training adapter, MLflow runs,
 per-class held-out evaluation, and an artifact/label-map promotion contract.
+
+
+## Frozen six-class baseline data
+
+Use data/manifests/pcb-defect-v1.0.json with data/processed/pcb-defect-v1 and
+--max-image-pixels 40000000 for native-resolution validation. The manifest is research-only;
+its validator passes with 165/32/33 images across train/validation/test. Preparation is
+reproducible via scripts/prepare_pcb_defect.py review and build. Existing artifacts cannot
+be overwritten with different content. Read the release notes before creating model experiments.
+The report's ready_for_training value covers recorded integrity gates, not production suitability.

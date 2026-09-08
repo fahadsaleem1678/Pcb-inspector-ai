@@ -79,6 +79,7 @@ class ValidationReport(StrictModel):
     valid: bool
     ready_for_training: bool
     sample_count: int
+    max_image_pixels: int = 20_000_000
     split_counts: dict[str, int]
     class_counts: dict[str, int]
     split_class_counts: dict[str, dict[str, int]]
@@ -117,8 +118,14 @@ def grouped_split(group_ids: list[str], seed: str = "pcb-v1") -> dict[str, Split
 
 
 def validate_dataset(
-    manifest_path: Path, root: Path, purpose: Purpose = "research"
+    manifest_path: Path,
+    root: Path,
+    purpose: Purpose = "research",
+    *,
+    max_image_pixels: int = 20_000_000,
 ) -> ValidationReport:
+    if not 1 <= max_image_pixels <= 40_000_000:
+        raise ValueError("Offline image limit must be between 1 and 40,000,000 pixels")
     raw_manifest = manifest_path.read_bytes()
     manifest = DatasetManifest.model_validate_json(raw_manifest)
     issues: list[Issue] = []
@@ -194,8 +201,10 @@ def validate_dataset(
                 with Image.open(image_path) as image:
                     if image.format not in {"JPEG", "PNG"}:
                         raise ValueError("Only JPEG and PNG dataset images are supported")
-                    if image.width * image.height > 20_000_000:
-                        raise ValueError("Image exceeds the 20-million-pixel decode limit")
+                    if image.width * image.height > max_image_pixels:
+                        raise ValueError(
+                            f"Image exceeds the {max_image_pixels:,}-pixel offline decode limit"
+                        )
                     if getattr(image, "n_frames", 1) != 1 or image.getexif().get(274, 1) != 1:
                         raise ValueError(
                             "Normalize animation/orientation and labels before validation"
@@ -270,6 +279,7 @@ def validate_dataset(
         valid=not any(item.severity == "error" for item in issues),
         ready_for_training=not issues,
         sample_count=len(manifest.samples),
+        max_image_pixels=max_image_pixels,
         split_counts=dict(split_counts),
         class_counts={name: class_counts[name] for name in manifest.classes},
         split_class_counts={
@@ -288,9 +298,17 @@ def main() -> None:
         "--purpose", choices=["research", "public_demo", "commercial"], default="research"
     )
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--max-image-pixels",
+        type=int,
+        default=20_000_000,
+        help="Offline decode bound (maximum 40,000,000); does not affect API upload limits",
+    )
     args = parser.parse_args()
     try:
-        report = validate_dataset(args.manifest, args.root, args.purpose)
+        report = validate_dataset(
+            args.manifest, args.root, args.purpose, max_image_pixels=args.max_image_pixels
+        )
         output = report.model_dump_json(indent=2)
     except (ValueError, OSError) as exc:
         print(

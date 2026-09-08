@@ -168,3 +168,17 @@ def test_cli_reports_gate_failure_with_nonzero_exit(dataset):
     assert result.returncode == 1
     assert json.loads(result.stdout)["ready_for_training"] is False
     assert json.loads((root / "validation.json").read_text())["purpose"] == "public_demo"
+
+
+def test_offline_pixel_limit_is_explicit_bounded_and_recorded(dataset):
+    root, manifest, write = dataset
+    report = validate_dataset(write(), root, max_image_pixels=4095)
+    assert not report.valid
+    assert all(issue.code == "image_unreadable" for issue in report.issues)
+    assert report.max_image_pixels == 4095
+    report = validate_dataset(write(), root, max_image_pixels=4096)
+    assert report.valid and report.max_image_pixels == 4096
+    assert validate_dataset(write(), root).max_image_pixels == 20_000_000
+    for invalid in [0, -1, 40_000_001]:
+        with pytest.raises(ValueError, match="Offline image limit"):
+            validate_dataset(write(), root, max_image_pixels=invalid)

@@ -1,0 +1,371 @@
+{
+  "schema_version": "1.0",
+  "archive_sha256": "a5fb17e7009f96ffdb833cd9309b36da775545c8cc36a6dca3a8e9b4fbcb5f2a",
+  "reviewed_on": "2026-09-08",
+  "reviewed_by": "Codex visual review",
+  "scope": "All 22 source-name families sampled at first/middle/last; all 30 cross-family candidate pairs visually inspected. Not an expert label audit.",
+  "algorithm": "300x250 thumbnail; aHash64 <= 8 or AC-only pHash63 <= 12; rotations 0/90/180/270 and reflection. pHash input is the quality-80 review JPEG.",
+  "base_group_rule": "Preserve the entire first original-name numeric prefix; unknown physical identity is not inferred from filenames.",
+  "decisions": [
+    {
+      "candidate": {
+        "a": "pcb_defect_028.jpg",
+        "b": "pcb_defect_029.jpg",
+        "family_a": "51",
+        "family_b": "52",
+        "phash_distance": 12,
+        "ahash_distance": 18
+      },
+      "decision": "different_layout",
+      "reason": "Different internal trace topology and terminal positions despite similar outer shape."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_028.jpg",
+        "b": "pcb_defect_184.jpg",
+        "family_a": "51",
+        "family_b": "65",
+        "phash_distance": 12,
+        "ahash_distance": 22
+      },
+      "decision": "different_layout",
+      "reason": "Different pad counts, branching and central routing; hash false positive."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_064.jpg",
+        "b": "pcb_defect_221.jpg",
+        "family_a": "54",
+        "family_b": "80",
+        "phash_distance": 12,
+        "ahash_distance": 20
+      },
+      "decision": "different_layout",
+      "reason": "Dense chip-pad array versus sparse broad loops; different visible layouts."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_081.jpg",
+        "b": "pcb_defect_181.jpg",
+        "family_a": "55",
+        "family_b": "65",
+        "phash_distance": 12,
+        "ahash_distance": 23
+      },
+      "decision": "different_layout",
+      "reason": "Different central branching and terminal organization."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_095.jpg",
+        "b": "pcb_defect_230.jpg",
+        "family_a": "57",
+        "family_b": "82",
+        "phash_distance": 12,
+        "ahash_distance": 6
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_099.jpg",
+        "b": "pcb_defect_172.jpg",
+        "family_a": "58",
+        "family_b": "64",
+        "phash_distance": 12,
+        "ahash_distance": 9
+      },
+      "decision": "different_layout",
+      "reason": "Different connector and central routing topology."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_100.jpg",
+        "b": "pcb_defect_108.jpg",
+        "family_a": "59",
+        "family_b": "60",
+        "phash_distance": 12,
+        "ahash_distance": 13
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_100.jpg",
+        "b": "pcb_defect_109.jpg",
+        "family_a": "59",
+        "family_b": "60",
+        "phash_distance": 12,
+        "ahash_distance": 10
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_100.jpg",
+        "b": "pcb_defect_110.jpg",
+        "family_a": "59",
+        "family_b": "60",
+        "phash_distance": 10,
+        "ahash_distance": 13
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_100.jpg",
+        "b": "pcb_defect_111.jpg",
+        "family_a": "59",
+        "family_b": "60",
+        "phash_distance": 8,
+        "ahash_distance": 10
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_100.jpg",
+        "b": "pcb_defect_223.jpg",
+        "family_a": "59",
+        "family_b": "81",
+        "phash_distance": 12,
+        "ahash_distance": 9
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_100.jpg",
+        "b": "pcb_defect_225.jpg",
+        "family_a": "59",
+        "family_b": "81",
+        "phash_distance": 8,
+        "ahash_distance": 7
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_101.jpg",
+        "b": "pcb_defect_225.jpg",
+        "family_a": "59",
+        "family_b": "81",
+        "phash_distance": 12,
+        "ahash_distance": 6
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_108.jpg",
+        "b": "pcb_defect_224.jpg",
+        "family_a": "60",
+        "family_b": "81",
+        "phash_distance": 14,
+        "ahash_distance": 8
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_108.jpg",
+        "b": "pcb_defect_225.jpg",
+        "family_a": "60",
+        "family_b": "81",
+        "phash_distance": 12,
+        "ahash_distance": 14
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_108.jpg",
+        "b": "pcb_defect_226.jpg",
+        "family_a": "60",
+        "family_b": "81",
+        "phash_distance": 10,
+        "ahash_distance": 11
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_109.jpg",
+        "b": "pcb_defect_223.jpg",
+        "family_a": "60",
+        "family_b": "81",
+        "phash_distance": 12,
+        "ahash_distance": 11
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_109.jpg",
+        "b": "pcb_defect_225.jpg",
+        "family_a": "60",
+        "family_b": "81",
+        "phash_distance": 8,
+        "ahash_distance": 11
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_110.jpg",
+        "b": "pcb_defect_224.jpg",
+        "family_a": "60",
+        "family_b": "81",
+        "phash_distance": 12,
+        "ahash_distance": 10
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_110.jpg",
+        "b": "pcb_defect_226.jpg",
+        "family_a": "60",
+        "family_b": "81",
+        "phash_distance": 12,
+        "ahash_distance": 17
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_116.jpg",
+        "b": "pcb_defect_119.jpg",
+        "family_a": "60",
+        "family_b": "61",
+        "phash_distance": 10,
+        "ahash_distance": 16
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_116.jpg",
+        "b": "pcb_defect_121.jpg",
+        "family_a": "60",
+        "family_b": "61",
+        "phash_distance": 8,
+        "ahash_distance": 9
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_126.jpg",
+        "b": "pcb_defect_131.jpg",
+        "family_a": "61",
+        "family_b": "62",
+        "phash_distance": 12,
+        "ahash_distance": 16
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_142.jpg",
+        "b": "pcb_defect_147.jpg",
+        "family_a": "62",
+        "family_b": "63",
+        "phash_distance": 12,
+        "ahash_distance": 9
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_142.jpg",
+        "b": "pcb_defect_149.jpg",
+        "family_a": "62",
+        "family_b": "63",
+        "phash_distance": 12,
+        "ahash_distance": 11
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_144.jpg",
+        "b": "pcb_defect_147.jpg",
+        "family_a": "62",
+        "family_b": "63",
+        "phash_distance": 10,
+        "ahash_distance": 9
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_166.jpg",
+        "b": "pcb_defect_177.jpg",
+        "family_a": "64",
+        "family_b": "65",
+        "phash_distance": 8,
+        "ahash_distance": 10
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_166.jpg",
+        "b": "pcb_defect_179.jpg",
+        "family_a": "64",
+        "family_b": "65",
+        "phash_distance": 12,
+        "ahash_distance": 15
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_206.jpg",
+        "b": "pcb_defect_227.jpg",
+        "family_a": "68",
+        "family_b": "81",
+        "phash_distance": 12,
+        "ahash_distance": 26
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    },
+    {
+      "candidate": {
+        "a": "pcb_defect_218.jpg",
+        "b": "pcb_defect_222.jpg",
+        "family_a": "80",
+        "family_b": "81",
+        "phash_distance": 10,
+        "ahash_distance": 11
+      },
+      "decision": "merge_conservatively",
+      "reason": "Same or sufficiently related layout structures to keep both source families in one split; conservative grouping, not a claim of identical physical boards."
+    }
+  ]
+}

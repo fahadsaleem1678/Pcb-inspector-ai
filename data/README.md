@@ -42,5 +42,8 @@ source checksums and modification notices when creating derived releases.
 CC BY 4.0 attribution requirements are described by [Creative Commons](https://creativecommons.org/licenses/by/4.0/).
 
 The strict manifest validator remains available; see [ml/README.md](../ml/README.md).
-No training-ready manifest has been created. The template intentionally lacks approved usage
-and samples. Do not use a download or an audit report as a substitute for its release gates.
+The [PCB-Defect research release](releases/pcb-defect-v1/README.md) now has a frozen
+six-class manifest: 165 train / 32 validation / 33 test images in 13 conservative groups.
+All integrity gates pass with the explicit 40 MP offline decode limit. Annotation completeness,
+clean-board negatives and external-domain evaluation remain production gates. The generic
+template intentionally lacks usage review and samples.

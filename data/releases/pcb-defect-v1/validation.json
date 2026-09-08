@@ -1,0 +1,50 @@
+{
+  "dataset": "pcb-defect-surface",
+  "version": "1.0.0",
+  "purpose": "research",
+  "manifest_sha256": "31bc9c3df24a42dae1b577ea7082a4c0906fd26a5fb4ecf095af2853d43b26b4",
+  "valid": true,
+  "ready_for_training": true,
+  "sample_count": 230,
+  "max_image_pixels": 40000000,
+  "split_counts": {
+    "train": 165,
+    "validation": 32,
+    "test": 33
+  },
+  "class_counts": {
+    "missing_pad": 276,
+    "mouse_bite": 356,
+    "open_circuit": 276,
+    "short_circuit": 254,
+    "spur": 296,
+    "spurious_copper": 246
+  },
+  "split_class_counts": {
+    "train": {
+      "missing_pad": 199,
+      "mouse_bite": 266,
+      "open_circuit": 200,
+      "short_circuit": 174,
+      "spur": 215,
+      "spurious_copper": 176
+    },
+    "validation": {
+      "missing_pad": 37,
+      "mouse_bite": 43,
+      "open_circuit": 38,
+      "short_circuit": 38,
+      "spur": 39,
+      "spurious_copper": 37
+    },
+    "test": {
+      "missing_pad": 40,
+      "mouse_bite": 47,
+      "open_circuit": 38,
+      "short_circuit": 42,
+      "spur": 42,
+      "spurious_copper": 33
+    }
+  },
+  "issues": []
+}

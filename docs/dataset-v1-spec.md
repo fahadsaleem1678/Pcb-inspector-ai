@@ -1,7 +1,8 @@
 # Dataset V1 specification
 
 Decision date: 2026-09-08. Acquisition began 2026-09-07.
-Status: **surface-defect scope accepted; data release not yet training-ready**.
+Status: **surface-defect scope accepted; PCB-Defect research release 1.0.0 frozen**.
+See the [release record](../data/releases/pcb-defect-v1/README.md) for measured splits and limits.
 
 ## Product scope
 
@@ -24,7 +25,7 @@ integrating the surface model. Do not reuse old component labels for surface det
 
 | Source | Role and revision | Decision |
 | --- | --- | --- |
-| PCB-Defect | Initial six-class baseline; Mendeley vdj74sngvn V1 | Acquired and structurally audited; group review and training manifest next |
+| PCB-Defect | Initial six-class baseline; Mendeley vdj74sngvn V1 | Frozen six-class research manifest; independent expert annotation review remains pending |
 | PCB-IND | Intended primary industrial source; paper cites Zenodo 19723114, archive v4 | Pending acquisition and class-map reconciliation; do not train from GitHub IDs |
 | MIXED PCB DEFECT | Optional training-only augmentation; Mendeley fj4krvmrr5 V4 | Acquired but excluded from V1.0: missing class-name map and unresolved source/derivative lineage |
 | PCB-AoI | Separate V2 solder-paste track | Excluded from surface training and benchmarks |
@@ -142,7 +143,8 @@ A mirror's CC0 declaration does not establish rights to its upstream content.
    source-level annotation coverage and held-out external domains. Do not collapse all rights
    into one artificial license record.
 
-No training manifest or approval fields were fabricated by this audit.
+The subsequent research release records a source-declaration license review, conservative
+grouping decisions and an integrity-validated manifest. No expert approval was fabricated.
 
 ## Splits and leakage prevention
 
@@ -201,7 +203,8 @@ do not present the demo thresholds as calibrated. Store runs and promotion evide
 
 ## Next executable slices
 
-1. Review PCB-Defect board/template groups and completeness; create the six-class grouped manifest.
+1. Completed: conservative PCB-Defect grouping and six-class research manifest (165/32/33).
+   Independent expert annotation-completeness review remains a production gate.
 2. Obtain PCB-IND v4 through the cited original deposit and reconcile classes.json with samples.
 3. Add provenance/coverage support to composite manifests and implement tested COCO normalization.
 4. Freeze independent evaluation sets; run the six-class baseline, then controlled multi-source

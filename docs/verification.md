@@ -78,3 +78,23 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   IDs/names; no PCB-IND archive, weights, training-ready manifest or trained model was produced.
 - Compact measured reports are in data/audits/2026-09-08; raw data and visual artifacts remain
   ignored by Git. Dataset V1 specification records the accepted surface scope and remaining gates.
+
+
+## Frozen PCB-Defect research manifest — 2026-09-08
+
+- Reviewed first/middle/last images from all 22 original-name families and all 30 cross-family
+  aHash/pHash candidates. Recorded five different-layout decisions and 25 conservative merges,
+  yielding 13 transitive provenance/layout groups. Physical board IDs remain author-unverified.
+- Built the immutable six-class release from unchanged source image bytes: 165/32/33 images,
+  1,230/232/242 annotations and 9/2/2 groups across train/validation/test.
+- All six classes are present in every split. Full 230-image manifest validation at the explicit
+  40 MP offline limit passes with no errors/review findings. API/default limits remain 20 MP.
+- Rebuilt the release with identical bytes. Manifest SHA-256:
+  31bc9c3df24a42dae1b577ea7082a4c0906fd26a5fb4ecf095af2853d43b26b4.
+- All 61 Python tests passed, including five new preparation/boundary regressions; Python lint,
+  formatting and strict source typing passed. Frontend behavior did not change.
+- Release provenance, review decisions and validation are committed under data/releases/pcb-defect-v1.
+  Native images, license evidence copy and review thumbnails remain ignored by Git.
+- This is research-baseline readiness, not production suitability: holdouts contain only two
+  conservative groups each; no clean-board negatives, external camera set, expert annotation
+  completeness certification or trained model is included.

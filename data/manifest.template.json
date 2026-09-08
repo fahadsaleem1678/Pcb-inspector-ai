@@ -12,13 +12,12 @@
     "reviewed_on": null
   },
   "classes": [
-    "missing_component",
-    "misaligned_component",
-    "solder_bridge",
-    "damaged_component",
-    "board_damage",
-    "foreign_object",
-    "contamination"
+    "missing_pad",
+    "mouse_bite",
+    "open_circuit",
+    "short_circuit",
+    "spur",
+    "spurious_copper"
   ],
   "samples": []
 }

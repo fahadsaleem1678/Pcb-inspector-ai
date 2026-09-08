@@ -107,7 +107,8 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] CLI/report exit codes and regression tests.
 - [x] Surface-defect V1 scope and explicit six-class baseline mapping.
 - [x] Two original archives acquired, checksums verified and structural/image audit recorded.
-- [ ] Reviewed physical groups and training-ready dataset manifest.
+- [x] Conservative family/layout groups and frozen six-class research manifest, with passing integrity validation.
+- [ ] Independent annotation-completeness review, clean-board negatives and external camera holdout.
 - [ ] PCB-IND release acquired and conflicting label dictionaries reconciled.
 - [ ] Data acquisition/versioning, quality classifier, real training/evaluation and MLflow.
 - [ ] Calibrated thresholds and approved real detector artifact.
@@ -128,11 +129,13 @@ remains historical context where its taxonomy differs from the accepted V1 speci
 
 ## Next implementation slice
 
-Review PCB-Defect board/template groups and annotation completeness; produce its six-class
-grouped manifest. Obtain PCB-IND's original release and reconcile classes.json before adding
-industrial data. Extend mixed-source provenance/coverage contracts, freeze evaluation sets,
-then implement reproducible training and the surface-model API contract. The accepted user
-request puts dataset inspection and specification before new ML code.
+PCB-Defect research release 1.0.0 is frozen: 165 train / 32 validation / 33 test images;
+13 conservative groups, all six classes in every split, no validator findings. See
+[data release notes](../data/releases/pcb-defect-v1/README.md). Next implement reproducible
+baseline training/evaluation and the surface-model API contract after framework/weight license
+review. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
+Annotation-completeness review, negative examples and an external camera holdout are still
+required before making broad product claims.
 
 Managed browser login, S3/SQS/outbox and Docker/PostgreSQL verification remain the next service
 integration work. No cloud deployment is needed for the dataset audit.
