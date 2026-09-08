@@ -1,0 +1,6 @@
+# Install torch/torchvision from the official CPU or appropriate CUDA index first.
+torch==2.13.0
+torchvision==0.28.0
+numpy==2.5.3
+pycocotools==2.0.11
+mlflow-skinny==3.16.0

@@ -4,7 +4,7 @@ An asynchronous platform for AI-assisted PCB surface defect inspection, being im
 [the production architecture](PCB_Inspector_AI_Production_Architecture.md) with the accepted
 [V1 dataset and scope revision](docs/dataset-v1-spec.md). Assembly inspection is deferred to V2.
 
-**Current milestone: local web application and dataset preparation tools.** React provides
+**Current milestone: local web application, frozen research data and offline ML baseline tools.** React provides
 image upload/preview, automatic progress, zoomable images, history and JSON reports. The
 detector remains explicitly a demo: processed images return `is_demo: true`,
 `overall_result: NOT_EVALUATED`, and no detections. Managed browser login, a trained detector,
@@ -12,7 +12,8 @@ PCB/quality classifiers, S3/SQS and cloud deployment remain later milestones.
 
 Read the [implementation plan](docs/implementation-plan.md) for milestones, acceptance gates,
 decisions and remaining work. [Dataset notes](data/README.md) record the class/usage issues to
-resolve before selecting training data.
+resolve before selecting training data. The [offline baseline guide](ml/BASELINE.md) covers
+reproducible CPU training, tiled views, validation metrics and local MLflow tracking.
 
 ## Start the complete application
 

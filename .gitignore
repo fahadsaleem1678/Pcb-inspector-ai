@@ -22,3 +22,8 @@ node_modules/
 *.tsbuildinfo
 frontend/test-results/
 frontend/playwright-report/
+
+# Optional offline ML environment and experiment outputs
+.venv-ml/
+ml/runs/
+*.pth

@@ -110,7 +110,9 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Conservative family/layout groups and frozen six-class research manifest, with passing integrity validation.
 - [ ] Independent annotation-completeness review, clean-board negatives and external camera holdout.
 - [ ] PCB-IND release acquired and conflicting label dictionaries reconciled.
-- [ ] Data acquisition/versioning, quality classifier, real training/evaluation and MLflow.
+- [x] Optional seeded Torchvision CPU/CUDA research trainer, resize/tile views, COCO per-class/group evaluation and local MLflow logging.
+- [x] Real-data CPU resize/tile smoke runs and checkpoint reload verification.
+- [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
 Assembly inspection is deferred to V2. Source license declarations are recorded, but no
@@ -131,9 +133,9 @@ remains historical context where its taxonomy differs from the accepted V1 speci
 
 PCB-Defect research release 1.0.0 is frozen: 165 train / 32 validation / 33 test images;
 13 conservative groups, all six classes in every split, no validator findings. See
-[data release notes](../data/releases/pcb-defect-v1/README.md). Next implement reproducible
-baseline training/evaluation and the surface-model API contract after framework/weight license
-review. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
+[data release notes](../data/releases/pcb-defect-v1/README.md). The offline [baseline pipeline](../ml/BASELINE.md) now provides reproducible training/evaluation.
+Next run useful-length training with reviewed initial weights and compare models/transforms on
+validation, then integrate an approved surface-model API contract. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
 Annotation-completeness review, negative examples and an external camera holdout are still
 required before making broad product claims.
 

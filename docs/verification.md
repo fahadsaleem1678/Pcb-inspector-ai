@@ -98,3 +98,21 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
 - This is research-baseline readiness, not production suitability: holdouts contain only two
   conservative groups each; no clean-board negatives, external camera set, expert annotation
   completeness certification or trained model is included.
+
+
+## Offline ML baseline workflow — 2026-09-08
+
+- Installed matched torch 2.13.0+cpu / torchvision 0.28.0+cpu in separate .venv-ml, with
+  pycocotools 2.0.11, numpy 2.5.3 and mlflow-skinny 3.16.0. Resolved ML pins are recorded.
+- CPU resize and 1024-pixel/256-overlap tile smoke training completed with finite losses,
+  checkpoint artifacts and local SQLite MLflow tracking. Each used two optimizer steps and
+  two validation boards; AP was zero, not evidence of useful inspection accuracy.
+- Resize checkpoint reload reproduced predictions and per-class metrics exactly; MLflow
+  run status was FINISHED. No held-out test evaluation or pretrained weight download occurred.
+- 65 service/data tests passed without ML dependencies. Eleven optional ML contract tests
+  passed for geometry, split isolation, source/evidence integrity, COCO edge cases, model
+  initialization and smoke/test-set protection. Dependency consistency checks passed.
+- Lint, formatting and strict source typing passed before final documentation updates.
+- Optional CPU CI is authored; hosted execution has not been verified in this slice.
+- Website inference remains explicitly demo-only. All research checkpoints remain ineligible
+  for deployment; no clean-board negative or external camera evaluation is claimed.

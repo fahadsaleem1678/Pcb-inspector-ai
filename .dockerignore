@@ -13,3 +13,8 @@ data
 frontend/dist
 frontend/test-results
 frontend/playwright-report
+.venv-ml
+ml/runs
+*.pt
+*.pth
+*.onnx

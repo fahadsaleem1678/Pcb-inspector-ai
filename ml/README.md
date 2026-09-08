@@ -3,7 +3,8 @@
 V1 now targets PCB surface defects; assembly inspection moves to V2. PCB-Defect has been
 acquired with six verified label names and a [frozen grouped research manifest](../data/releases/pcb-defect-v1/README.md). PCB-IND's conflicting label dictionaries must be reconciled before use. The current
 detector remains explicitly demo-only. See [Dataset V1 specification](../docs/dataset-v1-spec.md)
-and [acquisition audit](../data/README.md). No new ML training code is introduced by that audit.
+and [acquisition audit](../data/README.md). The optional [baseline workflow](BASELINE.md)
+now provides seeded CPU/CUDA training, full-board COCO metrics and local MLflow evidence.
 
 The first preparation tool is `python -m pcb_inspector.datasets`. It validates a manifest and
 local images without downloading data, changing annotations or training a model.
@@ -55,3 +56,6 @@ its validator passes with 165/32/33 images across train/validation/test. Prepara
 reproducible via scripts/prepare_pcb_defect.py review and build. Existing artifacts cannot
 be overwritten with different content. Read the release notes before creating model experiments.
 The report's ready_for_training value covers recorded integrity gates, not production suitability.
+
+Run commands, dependency setup, tiling policy and test-set controls are in [BASELINE.md](BASELINE.md).
+Pretrained weights and model deployment are not enabled by the baseline pipeline.
