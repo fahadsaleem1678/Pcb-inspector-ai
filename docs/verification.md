@@ -146,3 +146,18 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   all validation predictions and per-class metrics exactly; smoke AP remained zero.
 - Five-epoch full-data experiment is documented separately when complete. The web detector
   remains demo-only; no hosted CI, CUDA execution or public-model qualification is claimed.
+
+### Five-epoch pretrained experiment and evidence export
+
+- Full clean-revision e1cb54e run completed five epochs / 825 optimizer steps on 165 training
+  images, with 32 validation images each epoch, in 43.02 minutes including validation.
+- Best epoch four: AP50 1.7526%, AP50:95 0.7614%, AR100 3.1077%; the fifth epoch regressed.
+  Poor detection quality remains explicit. No test evaluation or public model promotion.
+- Reload reproduced every selected validation prediction and aggregate/per-class/per-group
+  metric exactly. Local SQLite MLflow status was FINISHED.
+- New evidence exporter checks completion, config/state hashes, validation source order,
+  predictions/metrics and best-epoch history before writing an immutable compact export.
+- All 21 ML checks passed (including four lightweight checks shared with the service suite),
+  plus repository lint/formatting. The seven export checks also ran in the base environment.
+- Report and provenance are in ml/evidence/coco-resize-5epochs.md and .json; binary artifacts
+  remain ignored. Previous dc142ea hosted application and ML workflows were verified successful.

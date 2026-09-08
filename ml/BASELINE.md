@@ -137,6 +137,22 @@ It refuses smoke runs and refuses to overwrite an existing evaluation. Do not us
 to choose another model. Test evaluation is not performed by training or by the smoke workflow.
 Changing a run folder is not a replacement for a new versioned evaluation protocol.
 
+## Export auditable results
+
+After a full run and validation reload, export compact evidence without model weights or
+full prediction lists:
+
+```powershell
+.\.venv-ml\Scripts\python.exe -m ml.summarize --run ml/runs/coco-resize-5epochs --output ml/evidence/coco-resize-5epochs.json
+```
+
+This refuses failed/incomplete/smoke runs, changed configuration or checkpoint bytes,
+validation ordering/prediction/metric mismatches, missing epoch records, and a checkpoint
+that disagrees with best-epoch selection. Existing evidence files are not overwritten.
+The export records per-epoch/per-class/per-group metrics, package/code/data/weight hashes,
+actual training steps, latency and whether a test-evaluation artifact exists locally.
+It does not grant deployment approval or prove that no evaluation occurred elsewhere.
+
 ## Software and weight provenance
 
 - [Torchvision 0.28 license](https://raw.githubusercontent.com/pytorch/vision/v0.28.0/LICENSE):
@@ -180,3 +196,11 @@ The training/validation metadata-only resize check found 56/1,230 training targe
 short side below four pixels (three below two); validation had none below four. This motivates
 resolution experiments but does not explain away the zero AP. Review initial weights and train
 longer before selecting resolution/tiling or comparing architectures on validation.
+
+## Five-epoch pretrained result
+
+The [completed experiment report](evidence/coco-resize-5epochs.md) records 825 training steps
+and all five validation passes. Epoch four was best: AP50 1.7526%, AP50:95 0.7614%,
+AR100 3.1077%. Epoch five regressed. Selected-checkpoint reload reproduced predictions and
+metrics exactly. The model remains research-only; no test evaluation was performed.
+The next experiment should prioritize resolution, tiles or finer feature maps for small defects.
