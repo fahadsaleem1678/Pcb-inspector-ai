@@ -1,22 +1,46 @@
-# Dataset inventory and acquisition gate
+# Dataset inventory and acquisition audit
 
-No datasets or model weights have been downloaded. Checked 2026-09-07.
+V1 now targets **surface defects**. Read the [Dataset V1 specification](../docs/dataset-v1-spec.md)
+for source decisions, verified class mappings, splits, quality gates and training exclusions.
 
-| Candidate | Coverage | Usage evidence | Disposition |
-| --- | --- | --- | --- |
-| [DeepPCB](https://github.com/tangsanli5201/DeepPCB) | 1,500 aligned template/test pairs; open, short, mousebite, spur, copper and pin-hole labels | [MIT repository license](https://github.com/tangsanli5201/DeepPCB/blob/master/LICENSE), but README explicitly restricts the dataset to research | Research candidate only; public/commercial model use unresolved; classes do not cover proposed assembled-board taxonomy |
-| Assembled-board AOI data | Missing/misaligned/damaged components, solder bridges, debris, board damage and contamination | Source, rights and coverage not established | Identify suitable sources or collect owned/authorized images before training |
+Two original Mendeley archives were downloaded and checksum-verified on 2026-09-07.
+PCB-Defect contains 230 images / 1,704 boxes. MIXED V4 contains 1,741 images / 3,936 rows.
+PCB-IND's archive remains unavailable here (Zenodo HTTP 403); its paper and GitHub class maps
+conflict. PCB-AoI belongs to V2. DeepPCB and PKU remain separate excluded reference sources.
 
-DeepPCB also describes synthetic defect augmentation. Its paired/template-oriented images and
-evaluation protocol need separate consideration from unrestricted user photos. Preserve original
-labels; do not describe bare-board shorts as validated solder-bridge detection. These observations
-come from the project's [dataset description](https://github.com/tangsanli5201/DeepPCB#dataset-description).
+## Reproduce the audit
 
-Every acquired dataset manifest must include source URL and revision, checksum, license evidence,
-permitted uses, acquisition date, label map, image/board grouping, provenance of augmentations,
-class counts, split assignment and annotation validation results. Keep physical board/template
-groups and their derivatives in one split to prevent leakage. Keep a held-out test set unchanged.
+Install the project's Python dependencies. Download each original file using the preview link
+in [source-lock.json](source-lock.json); the downloaded-file endpoints returned 403 during this
+audit while the supplied preview endpoints served the complete ZIP files.
 
-Store acquisitions under `raw/`, intermediate data under `interim/`, normalized data under
-`processed/`, and versioned manifests/labels/splits under source control or DVC. Large data and
-weights are gitignored. Do not choose an application software license on behalf of dataset owners.
+Save PCB-Defect as data/raw/source-audit/defect.zip and MIXED as
+data/raw/source-audit/mixed.zip. Do not unzip or execute upstream scripts.
+
+```powershell
+.\.venv\Scripts\python.exe scripts/audit_dataset_archives.py
+```
+
+The script requires the exact pinned archive hashes, reads images and annotations inside the
+archives, checks dimensions/box bounds/references, records exact duplicates and cross-split
+filename-family candidates, and creates deterministic annotated contact sheets.
+Outputs go to ignored data/interim/source-audit. It is an acquisition audit, not a training gate:
+successful execution means a report was generated; inspect issues and ready_for_training
+(which deliberately remains false). Exceptions indicate an unreadable or unexpected archive.
+It does not download files, assign physical board IDs, certify labels or train a model.
+
+Compact measured reports are committed in audits/2026-09-08. Full per-image reports, source
+snapshots, archives and contact sheets remain locally available in ignored directories.
+The reports record review limitations, not just successful integrity checks.
+
+## Storage and rights
+
+Keep immutable acquisitions under raw/, intermediates under interim/, normalized data under
+processed/. Commit small provenance records, mappings and frozen split manifests; use DVC
+for large datasets and weights. Retain author attribution, original DOI/version, license URL,
+source checksums and modification notices when creating derived releases.
+CC BY 4.0 attribution requirements are described by [Creative Commons](https://creativecommons.org/licenses/by/4.0/).
+
+The strict manifest validator remains available; see [ml/README.md](../ml/README.md).
+No training-ready manifest has been created. The template intentionally lacks approved usage
+and samples. Do not use a download or an audit report as a substitute for its release gates.

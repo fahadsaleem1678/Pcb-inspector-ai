@@ -56,3 +56,25 @@ scopes, resource audience, identity-service outage and cross-user isolation are 
 Local development remains the default. No real Cognito pool or browser login has been exercised.
 
 Windows launcher cleanup now stops owned process trees; the smoke test also verifies the old API no longer accepts connections before restart.
+
+
+## Dataset acquisition and scope revision — 2026-09-08
+
+- Acquired the original PCB-Defect V1 and MIXED V4 archives; both SHA-256 values match
+  Mendeley metadata. URLs, versions and hashes are recorded in data/source-lock.json.
+- Re-ran scripts/audit_dataset_archives.py against all 1,971 images and 5,640 annotation rows.
+  Reproduced counts, geometry statistics, issues and filename-family leakage candidates.
+- PCB-Defect: 230 images / 1,704 boxes; no structural issues or exact duplicates; ten images
+  exceed the API's 20 MP limit. Group independence and annotation completeness are not proven.
+- MIXED: 1,741 images / 3,936 rows; class-name mapping absent; four filename families span
+  splits. No exact duplicates found. Training eligibility remains false for both sources.
+- Visually reviewed 12 annotated images from each archive and PCB-IND's manuscript class table.
+  These are exploratory reviews, not expert relabeling or statistically representative sampling.
+- Checksum mismatch probe rejected an unexpected archive before ZIP processing.
+- Python lint and formatting passed across the repository. Specification links, JSON parsing
+  and six-class source-to-canonical mapping checks passed; git diff --check passed.
+- No runtime/API/frontend behavior changed; service tests were not rerun for this data/docs slice.
+- PCB-IND's Zenodo page/API returned HTTP 403. Its repository and manuscript disagree on label
+  IDs/names; no PCB-IND archive, weights, training-ready manifest or trained model was produced.
+- Compact measured reports are in data/audits/2026-09-08; raw data and visual artifacts remain
+  ignored by Git. Dataset V1 specification records the accepted surface scope and remaining gates.

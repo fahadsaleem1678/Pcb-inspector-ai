@@ -1,6 +1,7 @@
 # Implementation plan
 
-Source of scope: `PCB_Inspector_AI_Production_Architecture.md` (unchanged).
+Source of scope: `PCB_Inspector_AI_Production_Architecture.md`, with the accepted V1
+surface-defect revision in [Dataset V1 specification](dataset-v1-spec.md).
 Started: 2026-09-07. The workspace initially contained only that document.
 
 ## Delivery approach
@@ -61,10 +62,12 @@ features. Audit events are already separate and transactional with state changes
 
 ## Data/model gate
 
-The initial seven-class assembled-board taxonomy remains provisional. DeepPCB's six trace-defect
-labels cannot be silently mapped onto missing components, solder bridges or corrosion. Choose
-either an explicitly narrower bare-board product or acquire appropriately labeled assembled-board
-data. See `data/README.md` for sources and the unresolved usage restriction.
+The user selected surface-defect inspection for V1 on 2026-09-07/08; assembly inspection
+moves to V2. PCB-Defect is acquired with six verified classes. PCB-IND remains the intended
+industrial source, but its paper and repository disagree on class IDs/names and its Zenodo
+archive could not be accessed here. MIXED is acquired but excluded pending label-map and
+lineage review. See [Dataset V1 specification](dataset-v1-spec.md) for measured findings,
+the nine-class roadmap, the six-class baseline and the frozen-split release gates.
 
 Before training: approve intended usage, retain license evidence and source revision, inspect
 annotations, group splits by physical board/template/acquisition, check near duplicates across
@@ -102,12 +105,16 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Exact byte/pixel duplicates and coarse visual similarity review findings.
 - [x] Deterministic group splitting utility and frozen-test-set guidance.
 - [x] CLI/report exit codes and regression tests.
-- [ ] Authorized dataset with agreed class coverage.
+- [x] Surface-defect V1 scope and explicit six-class baseline mapping.
+- [x] Two original archives acquired, checksums verified and structural/image audit recorded.
+- [ ] Reviewed physical groups and training-ready dataset manifest.
+- [ ] PCB-IND release acquired and conflicting label dictionaries reconciled.
 - [ ] Data acquisition/versioning, quality classifier, real training/evaluation and MLflow.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
-The original assembled-board scope is retained while the model-scope preference is unresolved.
-No data rights or training approval is inferred from the template or validator.
+Assembly inspection is deferred to V2. Source license declarations are recorded, but no
+training-ready manifest or calibrated model has been produced. The original architecture
+remains historical context where its taxonomy differs from the accepted V1 specification.
 
 ## M4 — Identity boundary implemented
 
@@ -121,7 +128,11 @@ No data rights or training approval is inferred from the template or validator.
 
 ## Next implementation slice
 
-Resolve the first dataset/model scope, acquire permitted data with recorded evidence and produce
-a validated grouped manifest. Then implement reproducible training/evaluation and the real
-detector adapter. Complete the managed login/session path, then implement S3/SQS/outbox adapters with the existing demo contract.
-Container and PostgreSQL execution still need verification with an available Docker engine.
+Review PCB-Defect board/template groups and annotation completeness; produce its six-class
+grouped manifest. Obtain PCB-IND's original release and reconcile classes.json before adding
+industrial data. Extend mixed-source provenance/coverage contracts, freeze evaluation sets,
+then implement reproducible training and the surface-model API contract. The accepted user
+request puts dataset inspection and specification before new ML code.
+
+Managed browser login, S3/SQS/outbox and Docker/PostgreSQL verification remain the next service
+integration work. No cloud deployment is needed for the dataset audit.

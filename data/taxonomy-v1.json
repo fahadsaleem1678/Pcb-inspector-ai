@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "taxonomy_version": "surface-v1-roadmap-1",
+  "status": "planned_identifiers_not_deployed_model_capabilities",
+  "classes": [
+    {
+      "id": 0,
+      "name": "open_circuit"
+    },
+    {
+      "id": 1,
+      "name": "short_circuit"
+    },
+    {
+      "id": 2,
+      "name": "mouse_bite"
+    },
+    {
+      "id": 3,
+      "name": "spur"
+    },
+    {
+      "id": 4,
+      "name": "spurious_copper"
+    },
+    {
+      "id": 5,
+      "name": "missing_hole"
+    },
+    {
+      "id": 6,
+      "name": "missing_pad"
+    },
+    {
+      "id": 7,
+      "name": "pin_hole"
+    },
+    {
+      "id": 8,
+      "name": "scratch"
+    }
+  ],
+  "baseline_model_labels": [
+    "missing_pad",
+    "mouse_bite",
+    "open_circuit",
+    "short_circuit",
+    "spur",
+    "spurious_copper"
+  ],
+  "source_mappings": {
+    "pcb-defect-v1": {
+      "verified_against": "archive COCO categories and annotation references",
+      "source_category_to_canonical": {
+        "1": 6,
+        "2": 2,
+        "3": 0,
+        "4": 1,
+        "5": 3,
+        "6": 4
+      },
+      "excluded_source_categories": {
+        "0": "Unused parent category detecting-pcb-defects"
+      }
+    }
+  },
+  "blocked_sources": {
+    "pcb-ind": "Paper and repository disagree; release classes.json and image audit required.",
+    "mixed-v4": "Numeric YOLO IDs have no class-name map in archive."
+  },
+  "unmapped_ind_paper_classes": [
+    "missing_copper",
+    "copper_burr",
+    "stain"
+  ],
+  "deferred_product_classes": [
+    "missing_hole",
+    "pin_hole",
+    "scratch"
+  ]
+}

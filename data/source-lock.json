@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "id": "defect",
+      "dataset_id": "vdj74sngvn",
+      "version": 1,
+      "source_url": "https://data.mendeley.com/datasets/vdj74sngvn/1",
+      "acquired_on": "2026-09-07",
+      "filename": "PCB_Defect.zip",
+      "local_archive": "data/raw/source-audit/defect.zip",
+      "download_url": "https://data.mendeley.com/public-files/datasets/vdj74sngvn/files/9a62af5d-f3ea-4b3d-a99b-e48115d51c2f/file_downloaded",
+      "preview_url": "https://data.mendeley.com/public-files/datasets/vdj74sngvn/files/9a62af5d-f3ea-4b3d-a99b-e48115d51c2f/file_viewed",
+      "bytes": 158048862,
+      "sha256": "a5fb17e7009f96ffdb833cd9309b36da775545c8cc36a6dca3a8e9b4fbcb5f2a",
+      "license_declared": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "role": "baseline_pending_group_review"
+    },
+    {
+      "id": "mixed",
+      "dataset_id": "fj4krvmrr5",
+      "version": 4,
+      "source_url": "https://data.mendeley.com/datasets/fj4krvmrr5/4",
+      "acquired_on": "2026-09-07",
+      "filename": "MIXED PCB DEFECT DETECTION.zip",
+      "local_archive": "data/raw/source-audit/mixed.zip",
+      "download_url": "https://data.mendeley.com/public-files/datasets/fj4krvmrr5/files/12ef7077-fda6-4553-a29f-4d3880c8b589/file_downloaded",
+      "preview_url": "https://data.mendeley.com/public-files/datasets/fj4krvmrr5/files/12ef7077-fda6-4553-a29f-4d3880c8b589/file_viewed",
+      "bytes": 76060112,
+      "sha256": "e8a92347fccc3eed28c6a3d9df8455499a96619d6a1cbfea141af834e04c2ae7",
+      "license_declared": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "role": "excluded_pending_label_map_and_lineage"
+    }
+  ],
+  "pcb_ind": {
+    "repository_revision": "3b0db4f9ab63a98f79a72f4feca267d85cfd9a1d",
+    "repository_url": "https://github.com/gnmtdt/PCB-IND",
+    "dataset_doi": "10.5281/zenodo.19723114",
+    "paper_url": "https://www.nature.com/articles/s41597-026-07684-4_reference.pdf",
+    "acquired": false,
+    "blockers": [
+      "Zenodo page/API returned HTTP 403",
+      "Paper/repository class dictionaries conflict"
+    ]
+  },
+  "local_evidence_sha256": {
+    "ind_reference.pdf": "24e3fe39844fca5033e74c7d30720126ab31833e838e1980f6db68a2a6c71264",
+    "ind_labels.txt": "d391da7295c0780b2db0da837d4142ffeb675a4fe4cbefff079f8e534a633248",
+    "ind_license.txt": "ee8f86d09264ec0f04c896fcba3ee7f38e6aa4481e8ba1a33e8cf4b91f4f4ef5",
+    "defect_page.txt": "f66f6651f80379fbc82a8516d7c92b1eb1cfb5ece1174c185ad5f3369a534130",
+    "mixed_page.txt": "b626741597165c5ae6e14a0afa4b5d322292b112e7c580da0bb3cad990816585"
+  }
+}

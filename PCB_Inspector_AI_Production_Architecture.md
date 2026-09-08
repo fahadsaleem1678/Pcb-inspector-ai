@@ -1,5 +1,10 @@
 # PCB Inspector AI — Production Architecture & Implementation Plan
 
+> V1 scope amendment (2026-09-08): surface-defect inspection replaces the initial assembly
+> taxonomy for V1. See [Dataset V1 specification](docs/dataset-v1-spec.md) for source evidence,
+> supported-class gates and the revised ML plan. Assembly inspection is deferred to V2;
+> the original design below is retained as historical context where it differs.
+
 ## 1. Product Overview
 
 **PCB Inspector AI** is a production-grade, web-accessible computer-vision platform for AI-assisted visual inspection of printed circuit boards.

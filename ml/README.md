@@ -1,7 +1,10 @@
 # Dataset preparation and model gate
 
-No real detector or dataset has been selected. Keep the original assembled-board taxonomy
-provisional until authorized data is found. The current detector remains explicitly demo-only.
+V1 now targets PCB surface defects; assembly inspection moves to V2. PCB-Defect has been
+acquired with six verified label names, but board grouping and a release manifest are still
+pending. PCB-IND's conflicting label dictionaries must be reconciled before use. The current
+detector remains explicitly demo-only. See [Dataset V1 specification](../docs/dataset-v1-spec.md)
+and [acquisition audit](../data/README.md). No new ML training code is introduced by that audit.
 
 The first preparation tool is `python -m pcb_inspector.datasets`. It validates a manifest and
 local images without downloading data, changing annotations or training a model.
@@ -40,6 +43,6 @@ manifest. It requires at least three independent groups. Assignment is not class
 check the resulting coverage. Adding groups can change assignments, so freeze the manifest
 and preserve the held-out test set; do not rerun splitting against a growing production dataset.
 
-Before M3 training is complete, add an authorized dataset, DVC versioning, grouped/duplicate
+Before M3 training is complete, release the reviewed dataset, add DVC versioning, grouped/duplicate
 audits, a calibrated quality/compatibility gate, a detector training adapter, MLflow runs,
 per-class held-out evaluation, and an artifact/label-map promotion contract.

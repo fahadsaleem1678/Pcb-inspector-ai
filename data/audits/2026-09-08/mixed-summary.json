@@ -1,0 +1,156 @@
+{
+  "audit_version": 1,
+  "source": "mixed",
+  "archive_sha256": "e8a92347fccc3eed28c6a3d9df8455499a96619d6a1cbfea141af834e04c2ae7",
+  "image_count": 1741,
+  "annotation_count": 3936,
+  "categories": {},
+  "embedded_licenses": [],
+  "class_counts_by_source_id": {
+    "4": 463,
+    "0": 621,
+    "5": 773,
+    "2": 886,
+    "3": 483,
+    "1": 710
+  },
+  "split_counts": {
+    "test": 11,
+    "train": 1720,
+    "valid": 10
+  },
+  "split_class_counts_by_source_id": {
+    "test": {
+      "4": 6,
+      "0": 6,
+      "5": 7,
+      "2": 2,
+      "3": 2,
+      "1": 5
+    },
+    "train": {
+      "1": 703,
+      "0": 610,
+      "2": 879,
+      "3": 478,
+      "5": 762,
+      "4": 454
+    },
+    "valid": {
+      "3": 3,
+      "1": 2,
+      "0": 5,
+      "2": 5,
+      "4": 3,
+      "5": 4
+    }
+  },
+  "dimension_counts": {
+    "640x640": 1741
+  },
+  "megapixels": {
+    "min": 0.4096,
+    "max": 0.4096,
+    "mean": 0.4096
+  },
+  "mean_image_luminance": 90.77592188397473,
+  "mean_box_area_fraction": 0.011079434685111468,
+  "negative_images": 0,
+  "over_upload_pixel_limit": 0,
+  "duplicates": {
+    "bytes": [],
+    "pixels": []
+  },
+  "cross_split_pixel_duplicates": [],
+  "cross_split_filename_family_candidates": [
+    [
+      "MIXED PCB DEFECT DETECTION/test/images/Spur_SPC_jpg.rf.9fa994051500e26a9b268aecc6c57acf.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.072c52e668cad13620caa17fb5f667ec.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.07fa235b1c2d983b8f9602d4e9c24073.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.23e05caaa23606e95b06812da5377f0a.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.26c672a681ef388299308335f1e90288.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.61ecaf42b370a3964e357f4cd436cabb.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.6f9cfa7c36c141417eaf0f12a9aa0031.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.7d66ef5fc73979043a15a6a9e0dc7299.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.82b6b4a8e912822886712072b4b7fb97.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.999d0d6690d7189bb861edfaf0032573.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.a4dde6bcb5eb33ceb5272de44c958397.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.a9fc54d928309be2d0cb293455d43050.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.d9b93d903c3cec845470cc6d16314479.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.e5f3b57009c53b56835cffd6c59c0ada.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.e9276efd6734d10df9aea891e8ff7a14.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/Spur_SPC_jpg.rf.fbcf0afbc36ad22f224bb13edf6d0210.jpg"
+    ],
+    [
+      "MIXED PCB DEFECT DETECTION/test/images/missing-hole-and-mouse-byte_jpg.rf.1920178c6f08568e29e1299b2bd78e97.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.0080382dfadb48050b4aa86ea2c28185.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.136b0535784ebd29e6e3fc20dcec51ba.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.25ffd4dc4279c556c459ce589cb89139.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.2e407dab545f2047a9a58b14f0c7e24c.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.37e85d1623fb5d09158ce60871d009c5.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.399c6285a5ffd8d6dccf8e1d16d13d25.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.3f4d2e007258396c6675e63cf78ae18d.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.7b3454ce5df34274c6089e9aeb86dc7f.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.852bb30b721e10dbaeeb1d8b3dff27d2.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.99f3e813ab9318871b558587f54cc800.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.9f2c639b73f646fb91cf361bdab89f7b.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.b96720e6c36416d77318d5ceb5312ad2.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.c633110838a437aa961b14fa26744ee3.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.e13b8e501e98fb9b1193be113bbe16e9.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/missing-hole-and-mouse-byte_jpg.rf.e376c8ec64719c98b311258de133a59b.jpg"
+    ],
+    [
+      "MIXED PCB DEFECT DETECTION/test/images/mouse_bite-s_jpg.rf.2b7f07b97450e7592c87abd956f3fdb1.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.0ce843057b27c0b46d5103054f51cbef.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.11fa4cfeb81ffb29b00445ecf275c9f0.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.1c0335ddd2f59e31852f94fa0d55a85a.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.1fdad2a7211f547982b52476fd9b54b0.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.258dab11feb144de64283666267b5c36.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.2ddf8d394ef04e05da91a35952b42f98.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.3a62cc124ae6a917af793f46c3e0a5b3.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.60a7c39e344f1f7957cf3d3b648e1e5d.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.6ac509b215e5a126315e706a5ff184bc.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.6fff8fa34b8f00951ad20db6bd140723.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.8d7e1dad0f451295df8a7a2a77fecc72.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.cd684b0aa8657fadc459e9f541fc569e.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.de7a568928c367950e5bf7c3abd94b1b.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.f0c5262ecf191216764ffa06f224688b.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/mouse_bite-s_jpg.rf.fb6ed83bfebdfa1f5ac31d75d7ef1f48.jpg"
+    ],
+    [
+      "MIXED PCB DEFECT DETECTION/test/images/spur-and-mh_jpg.rf.e7da22f0255f34e49a96d5ad9d263f7e.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.075ca3c2ffcc138f169efb3c9910d941.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.10e8b2852e80f1216df0cdcc0dacea94.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.27c068fc8022cffa5fc351b3b1afbb83.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.30bdc542ba9df281c83335dcd1302b9e.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.36773ac9f1ef72b35c73e5a039e2dc0d.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.5c71453b6160e1d54ffa347d336e0cdf.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.711211dc588257993a612e70e9727671.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.77072ab56ef45fc53a9cdf84d84a4fed.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.83426d4e1f84a150a2bc2b4c8707b191.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.965c660336df357ebf847da8251ad741.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.a1882f8ffb3020b0e5248c4162ad4d7e.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.b33fed422d4228e953d520967feedfb6.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.c87e836105f9acc1d7508dee96d304b7.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.f619d84ac4d0bb62c136f3be63cdf0f5.jpg",
+      "MIXED PCB DEFECT DETECTION/train/images/spur-and-mh_jpg.rf.fc094eed3011b0c0355db73343a31e93.jpg"
+    ]
+  ],
+  "issues": [
+    {
+      "code": "missing_class_map",
+      "detail": "Do not infer class IDs from filenames."
+    }
+  ],
+  "ready_for_training": false,
+  "limitations": [
+    "Filename families are review candidates, not verified physical board IDs.",
+    "No transformed near-duplicate, provenance, or annotation-completeness audit.",
+    "Luminance and box size are descriptive statistics, not calibrated quality scores.",
+    "No training splits or license approval created."
+  ],
+  "audited_on": "2026-09-08",
+  "acquired_on": "2026-09-07",
+  "full_report_sha256": "ab9e6ca1e55a254b11c321cc553f4d0bce01ca48bc87ec8257bc532c81893174",
+  "audit_script_lf_utf8_sha256": "0937a520d35d07bba1f81f9ff56470142f432b66a6d901aad458ab9499820a0f"
+}

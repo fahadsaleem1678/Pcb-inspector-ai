@@ -1,7 +1,8 @@
 # PCB Inspector AI
 
-An asynchronous platform for AI-assisted visual PCB inspection, being implemented from
-[the production architecture](PCB_Inspector_AI_Production_Architecture.md).
+An asynchronous platform for AI-assisted PCB surface defect inspection, being implemented from
+[the production architecture](PCB_Inspector_AI_Production_Architecture.md) with the accepted
+[V1 dataset and scope revision](docs/dataset-v1-spec.md). Assembly inspection is deferred to V2.
 
 **Current milestone: local web application and dataset preparation tools.** React provides
 image upload/preview, automatic progress, zoomable images, history and JSON reports. The
