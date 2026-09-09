@@ -217,3 +217,21 @@ AP50:95 1.7542% and AR100 8.3799% after 165 training steps. Checkpoint reload wa
 Higher-resolution training improved the equal-step comparison, but detection quality is still
 inadequate. Next evaluate a separately named multi-epoch 640-pixel run; retain validation-only
 selection and the unchanged test holdout.
+
+## Validation error diagnostics
+
+After a full run and verified validation reload, inspect errors at fixed score thresholds
+0.05, 0.25 and 0.5. These thresholds are diagnostic examples, not product calibration.
+
+```powershell
+.\.venv-ml\Scripts\python.exe -m ml.error_analysis --run ml/runs/coco-resize640-5epochs --output ml/evidence/coco-resize640-5epochs-errors.json
+```
+
+The report uses descending-score one-to-one matching with the same class and IoU >= 0.5.
+Duplicate predictions count as false positives; wrong-class predictions also leave the target
+missed. Per-class and per-board TP/FP/FN counts include missed annotation boxes for review.
+Aggregate precision/recall are micro averages at this single IoU, not COCO AP or AR100.
+An empty denominator returns null. False positives are relative to available labels, whose
+completeness still requires review. Separate class-agnostic overlap coverage may reuse boxes
+and must not be interpreted as matched recall. No test split or automatic threshold selection
+is exposed; output files are never overwritten.
