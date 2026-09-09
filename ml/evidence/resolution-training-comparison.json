@@ -1,0 +1,529 @@
+{
+  "source_history_sha256": "1263d58bafaec09c1e536e7f943c1293d93602c2aa08fe9e839667cb9cf20704",
+  "source_config_sha256": "58ac562858fe1c99a05250a945b3a90d50c8b4854a7ab3f9803a936a9e170659",
+  "matching_configuration_fields": [
+    "architecture",
+    "initialization",
+    "normalization",
+    "trainable_backbone_layers",
+    "classes",
+    "manifest_sha256",
+    "seed",
+    "threads",
+    "device",
+    "tile_size",
+    "overlap",
+    "learning_rate",
+    "packages",
+    "code_hashes"
+  ],
+  "matching_epoch1_source_order": true,
+  "baseline_epoch1": {
+    "ap50_95": 1.8082055360516302e-05,
+    "ap50": 7.201846460505423e-05,
+    "ar100": 0.0017325017325017327,
+    "per_class": {
+      "missing_pad": {
+        "ap50_95": 1.0570452062999895e-05,
+        "ap50": 0.00010570452062999894,
+        "ar100": 0.002702702702702703,
+        "instances": 37,
+        "positive_images": 30
+      },
+      "mouse_bite": {
+        "ap50_95": 0.0,
+        "ap50": 0.0,
+        "ar100": 0.0,
+        "instances": 43,
+        "positive_images": 32
+      },
+      "open_circuit": {
+        "ap50_95": 0.0,
+        "ap50": 0.0,
+        "ar100": 0.0,
+        "instances": 38,
+        "positive_images": 32
+      },
+      "short_circuit": {
+        "ap50_95": 0.0,
+        "ap50": 0.0,
+        "ar100": 0.0,
+        "instances": 38,
+        "positive_images": 32
+      },
+      "spur": {
+        "ap50_95": 9.792188010009793e-05,
+        "ap50": 0.0003264062670003264,
+        "ar100": 0.007692307692307693,
+        "instances": 39,
+        "positive_images": 32
+      },
+      "spurious_copper": {
+        "ap50_95": 0.0,
+        "ap50": 0.0,
+        "ar100": 0.0,
+        "instances": 37,
+        "positive_images": 32
+      }
+    },
+    "images": 32,
+    "groups": 2,
+    "max_detections_per_image": 100,
+    "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points",
+    "by_group": {
+      "pcb-defect-family-51": {
+        "ap50_95": 7.28013977868375e-05,
+        "ap50": 0.000242671325956125,
+        "ar100": 0.0022727272727272726,
+        "per_class": {
+          "missing_pad": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 18,
+            "positive_images": 15
+          },
+          "mouse_bite": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 26,
+            "positive_images": 16
+          },
+          "open_circuit": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "short_circuit": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "spur": {
+            "ap50_95": 0.00043680838672102495,
+            "ap50": 0.00145602795573675,
+            "ar100": 0.013636363636363636,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "spurious_copper": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 21,
+            "positive_images": 16
+          }
+        },
+        "images": 16,
+        "groups": 1,
+        "max_detections_per_image": 100,
+        "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points"
+      },
+      "pcb-defect-family-52": {
+        "ap50_95": 6.111722283339445e-06,
+        "ap50": 6.111722283339444e-05,
+        "ar100": 0.0008771929824561403,
+        "per_class": {
+          "missing_pad": {
+            "ap50_95": 3.667033370003667e-05,
+            "ap50": 0.0003667033370003667,
+            "ar100": 0.005263157894736842,
+            "instances": 19,
+            "positive_images": 15
+          },
+          "mouse_bite": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 17,
+            "positive_images": 16
+          },
+          "open_circuit": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 16,
+            "positive_images": 16
+          },
+          "short_circuit": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 16,
+            "positive_images": 16
+          },
+          "spur": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 17,
+            "positive_images": 16
+          },
+          "spurious_copper": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 16,
+            "positive_images": 16
+          }
+        },
+        "images": 16,
+        "groups": 1,
+        "max_detections_per_image": 100,
+        "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points"
+      }
+    },
+    "latency_ms": {
+      "mean": 1062.1599062501446,
+      "p50": 984.780150001825,
+      "p95": 1490.6728649988509,
+      "scope": "decode, crops, inference, transfer and NMS",
+      "warmup_excluded": false,
+      "device": "cpu"
+    }
+  },
+  "baseline_best_of_five": {
+    "ap50_95": 0.007614068710441269,
+    "ap50": 0.01752603989343248,
+    "ar100": 0.031077129761340288,
+    "per_class": {
+      "missing_pad": {
+        "ap50_95": 0.0019773819221138174,
+        "ap50": 0.009275019754870531,
+        "ar100": 0.02972972972972973,
+        "instances": 37,
+        "positive_images": 30
+      },
+      "mouse_bite": {
+        "ap50_95": 0.0,
+        "ap50": 0.0,
+        "ar100": 0.0,
+        "instances": 43,
+        "positive_images": 32
+      },
+      "open_circuit": {
+        "ap50_95": 0.00021676406991611938,
+        "ap50": 0.0007765482430596001,
+        "ar100": 0.018421052631578946,
+        "instances": 38,
+        "positive_images": 32
+      },
+      "short_circuit": {
+        "ap50_95": 0.00021207740521951354,
+        "ap50": 0.002037572454724464,
+        "ar100": 0.015789473684210527,
+        "instances": 38,
+        "positive_images": 32
+      },
+      "spur": {
+        "ap50_95": 0.0010116872152331514,
+        "ap50": 0.0032842819165637494,
+        "ar100": 0.03333333333333333,
+        "instances": 39,
+        "positive_images": 32
+      },
+      "spurious_copper": {
+        "ap50_95": 0.04226650165016501,
+        "ap50": 0.08978281699137654,
+        "ar100": 0.0891891891891892,
+        "instances": 37,
+        "positive_images": 32
+      }
+    },
+    "images": 32,
+    "groups": 2,
+    "max_detections_per_image": 100,
+    "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points",
+    "by_group": {
+      "pcb-defect-family-51": {
+        "ap50_95": 0.0020927708298455125,
+        "ap50": 0.0053683062082900005,
+        "ar100": 0.01835016835016835,
+        "per_class": {
+          "missing_pad": {
+            "ap50_95": 0.00139778683750728,
+            "ap50": 0.0034944670937682,
+            "ar100": 0.02222222222222222,
+            "instances": 18,
+            "positive_images": 15
+          },
+          "mouse_bite": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 26,
+            "positive_images": 16
+          },
+          "open_circuit": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "short_circuit": {
+            "ap50_95": 6.513809275664408e-05,
+            "ap50": 0.0003256904637832204,
+            "ar100": 0.00909090909090909,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "spur": {
+            "ap50_95": 0.0003899269687984481,
+            "ap50": 0.0009612611746611553,
+            "ar100": 0.045454545454545456,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "spurious_copper": {
+            "ap50_95": 0.010703773080010703,
+            "ap50": 0.027428418517527427,
+            "ar100": 0.03333333333333333,
+            "instances": 21,
+            "positive_images": 16
+          }
+        },
+        "images": 16,
+        "groups": 1,
+        "max_detections_per_image": 100,
+        "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points"
+      },
+      "pcb-defect-family-52": {
+        "ap50_95": 0.015888668048274705,
+        "ap50": 0.03576034008570344,
+        "ar100": 0.04762319401444789,
+        "per_class": {
+          "missing_pad": {
+            "ap50_95": 0.00387341537892107,
+            "ap50": 0.019922272601091882,
+            "ar100": 0.03684210526315789,
+            "instances": 19,
+            "positive_images": 15
+          },
+          "mouse_bite": {
+            "ap50_95": 0.0,
+            "ap50": 0.0,
+            "ar100": 0.0,
+            "instances": 17,
+            "positive_images": 16
+          },
+          "open_circuit": {
+            "ap50_95": 0.0008688985056361185,
+            "ap50": 0.0030285381479324405,
+            "ar100": 0.04375,
+            "instances": 16,
+            "positive_images": 16
+          },
+          "short_circuit": {
+            "ap50_95": 0.0006321272198011041,
+            "ap50": 0.006321272198011041,
+            "ar100": 0.025,
+            "instances": 16,
+            "positive_images": 16
+          },
+          "spur": {
+            "ap50_95": 0.0025459688826025458,
+            "ap50": 0.008486562942008486,
+            "ar100": 0.01764705882352941,
+            "instances": 17,
+            "positive_images": 16
+          },
+          "spurious_copper": {
+            "ap50_95": 0.08741159830268741,
+            "ap50": 0.17680339462517677,
+            "ar100": 0.1625,
+            "instances": 16,
+            "positive_images": 16
+          }
+        },
+        "images": 16,
+        "groups": 1,
+        "max_detections_per_image": 100,
+        "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points"
+      }
+    },
+    "latency_ms": {
+      "mean": 636.2312843743894,
+      "p50": 586.5984500014747,
+      "p95": 933.1708449983125,
+      "scope": "decode, crops, inference, transfer and NMS",
+      "warmup_excluded": false,
+      "device": "cpu"
+    }
+  },
+  "pilot": {
+    "ap50_95": 0.017541767982492306,
+    "ap50": 0.082583544289348,
+    "ar100": 0.08379948303448916,
+    "per_class": {
+      "missing_pad": {
+        "ap50_95": 0.004569311812215023,
+        "ap50": 0.011650667329176356,
+        "ar100": 0.05405405405405406,
+        "instances": 37,
+        "positive_images": 30
+      },
+      "mouse_bite": {
+        "ap50_95": 0.004331352462258026,
+        "ap50": 0.036464006127775825,
+        "ar100": 0.06279069767441861,
+        "instances": 43,
+        "positive_images": 32
+      },
+      "open_circuit": {
+        "ap50_95": 0.03216416624387709,
+        "ap50": 0.20617442073973105,
+        "ar100": 0.11315789473684212,
+        "instances": 38,
+        "positive_images": 32
+      },
+      "short_circuit": {
+        "ap50_95": 0.008906380457050231,
+        "ap50": 0.028062036972928056,
+        "ar100": 0.057894736842105256,
+        "instances": 38,
+        "positive_images": 32
+      },
+      "spur": {
+        "ap50_95": 0.003021050110230449,
+        "ap50": 0.006670256370809112,
+        "ar100": 0.07435897435897436,
+        "instances": 39,
+        "positive_images": 32
+      },
+      "spurious_copper": {
+        "ap50_95": 0.052258346809323016,
+        "ap50": 0.20647987819566763,
+        "ar100": 0.14054054054054055,
+        "instances": 37,
+        "positive_images": 32
+      }
+    },
+    "images": 32,
+    "groups": 2,
+    "max_detections_per_image": 100,
+    "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points",
+    "by_group": {
+      "pcb-defect-family-51": {
+        "ap50_95": 0.013124394329697146,
+        "ap50": 0.05127786301949528,
+        "ar100": 0.0696044696044696,
+        "per_class": {
+          "missing_pad": {
+            "ap50_95": 0.010208678563398813,
+            "ap50": 0.02185462448683893,
+            "ar100": 0.05555555555555556,
+            "instances": 18,
+            "positive_images": 15
+          },
+          "mouse_bite": {
+            "ap50_95": 0.005672242709055681,
+            "ap50": 0.047103988223531276,
+            "ar100": 0.05384615384615384,
+            "instances": 26,
+            "positive_images": 16
+          },
+          "open_circuit": {
+            "ap50_95": 0.0333384588785096,
+            "ap50": 0.16276844553811817,
+            "ar100": 0.1318181818181818,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "short_circuit": {
+            "ap50_95": 0.0037856726849155495,
+            "ap50": 0.011648223645893999,
+            "ar100": 0.031818181818181815,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "spur": {
+            "ap50_95": 0.003966742828128967,
+            "ap50": 0.010662604722010664,
+            "ar100": 0.06363636363636363,
+            "instances": 22,
+            "positive_images": 16
+          },
+          "spurious_copper": {
+            "ap50_95": 0.02177457031417427,
+            "ap50": 0.05362929150057863,
+            "ar100": 0.08095238095238096,
+            "instances": 21,
+            "positive_images": 16
+          }
+        },
+        "images": 16,
+        "groups": 1,
+        "max_detections_per_image": 100,
+        "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points"
+      },
+      "pcb-defect-family-52": {
+        "ap50_95": 0.029130443404021555,
+        "ap50": 0.14014936580072362,
+        "ar100": 0.10288957688338493,
+        "per_class": {
+          "missing_pad": {
+            "ap50_95": 0.003615553863078615,
+            "ap50": 0.012608953203012608,
+            "ar100": 0.05263157894736842,
+            "instances": 19,
+            "positive_images": 15
+          },
+          "mouse_bite": {
+            "ap50_95": 0.0014209480388399664,
+            "ap50": 0.008062432446082568,
+            "ar100": 0.07647058823529411,
+            "instances": 17,
+            "positive_images": 16
+          },
+          "open_circuit": {
+            "ap50_95": 0.04747711497749457,
+            "ap50": 0.3492521462616912,
+            "ar100": 0.0875,
+            "instances": 16,
+            "positive_images": 16
+          },
+          "short_circuit": {
+            "ap50_95": 0.0181989627534182,
+            "ap50": 0.05954738330975955,
+            "ar100": 0.09375,
+            "instances": 16,
+            "positive_images": 16
+          },
+          "spur": {
+            "ap50_95": 0.0029736476185689632,
+            "ap50": 0.005109648020639628,
+            "ar100": 0.08823529411764705,
+            "instances": 17,
+            "positive_images": 16
+          },
+          "spurious_copper": {
+            "ap50_95": 0.10109643317272905,
+            "ap50": 0.4063156315631563,
+            "ar100": 0.21875,
+            "instances": 16,
+            "positive_images": 16
+          }
+        },
+        "images": 16,
+        "groups": 1,
+        "max_detections_per_image": 100,
+        "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points"
+      }
+    },
+    "latency_ms": {
+      "mean": 1607.1669437499595,
+      "p50": 1506.8539500000497,
+      "p95": 2078.455704999942,
+      "scope": "decode, crops, inference, transfer and NMS",
+      "warmup_excluded": false,
+      "device": "cpu"
+    }
+  },
+  "scope": "Single-seed equal-step pilot for primary comparison; best-of-five is unequal-duration context; no test evaluation or promotion"
+}

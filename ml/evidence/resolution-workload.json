@@ -1,0 +1,80 @@
+{
+  "scope": "Train/validation manifest geometry only; ideal floating-point resize approximation; best visible crop per original target, not detector coverage",
+  "profiles": [
+    {
+      "profile": "control-320",
+      "splits": {
+        "train": {
+          "images": 165,
+          "views": 165,
+          "empty_views": 0,
+          "annotation_fragments": 1230,
+          "original_targets": 1230,
+          "targets_below_16px_in_best_view": 1146,
+          "targets_below_8px_in_best_view": 485,
+          "median_best_visible_short_side_pixels": 8.853987730061359
+        },
+        "validation": {
+          "images": 32,
+          "views": 32,
+          "empty_views": 0,
+          "annotation_fragments": 232,
+          "original_targets": 232,
+          "targets_below_16px_in_best_view": 203,
+          "targets_below_8px_in_best_view": 58,
+          "median_best_visible_short_side_pixels": 10.254726368159199
+        }
+      }
+    },
+    {
+      "profile": "resize-640",
+      "splits": {
+        "train": {
+          "images": 165,
+          "views": 165,
+          "empty_views": 0,
+          "annotation_fragments": 1230,
+          "original_targets": 1230,
+          "targets_below_16px_in_best_view": 485,
+          "targets_below_8px_in_best_view": 56,
+          "median_best_visible_short_side_pixels": 17.707975460122718
+        },
+        "validation": {
+          "images": 32,
+          "views": 32,
+          "empty_views": 0,
+          "annotation_fragments": 232,
+          "original_targets": 232,
+          "targets_below_16px_in_best_view": 58,
+          "targets_below_8px_in_best_view": 0,
+          "median_best_visible_short_side_pixels": 20.509452736318398
+        }
+      }
+    },
+    {
+      "profile": "tiles-1536-at-640",
+      "splits": {
+        "train": {
+          "images": 165,
+          "views": 1053,
+          "empty_views": 111,
+          "annotation_fragments": 2774,
+          "original_targets": 1230,
+          "targets_below_16px_in_best_view": 90,
+          "targets_below_8px_in_best_view": 3,
+          "median_best_visible_short_side_pixels": 26.583333333333314
+        },
+        "validation": {
+          "images": 32,
+          "views": 160,
+          "empty_views": 3,
+          "annotation_fragments": 537,
+          "original_targets": 232,
+          "targets_below_16px_in_best_view": 8,
+          "targets_below_8px_in_best_view": 0,
+          "median_best_visible_short_side_pixels": 29.137500000000028
+        }
+      }
+    }
+  ]
+}

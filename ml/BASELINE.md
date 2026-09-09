@@ -204,3 +204,16 @@ and all five validation passes. Epoch four was best: AP50 1.7526%, AP50:95 0.761
 AR100 3.1077%. Epoch five regressed. Selected-checkpoint reload reproduced predictions and
 metrics exactly. The model remains research-only; no test evaluation was performed.
 The next experiment should prioritize resolution, tiles or finer feature maps for small defects.
+
+## Resolution and tiling experiments
+
+The [resolution protocol](RESOLUTION.md) compares fixed-checkpoint inference transforms before
+spending more CPU time on training. The [completed probe](evidence/resolution-probe-001.md)
+reproduced the original predictions exactly; both changed transforms reduced AP50:95.
+A separately defined one-epoch 640-pixel training pilot measures learning at the larger scale.
+
+The [completed 640-pixel training pilot](evidence/coco-resize640-epoch1.md) reached AP50 8.2584%,
+AP50:95 1.7542% and AR100 8.3799% after 165 training steps. Checkpoint reload was exact.
+Higher-resolution training improved the equal-step comparison, but detection quality is still
+inadequate. Next evaluate a separately named multi-epoch 640-pixel run; retain validation-only
+selection and the unchanged test holdout.

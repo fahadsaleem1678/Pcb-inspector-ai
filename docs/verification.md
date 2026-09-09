@@ -161,3 +161,21 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   plus repository lint/formatting. The seven export checks also ran in the base environment.
 - Report and provenance are in ml/evidence/coco-resize-5epochs.md and .json; binary artifacts
   remain ignored. Previous dc142ea hosted application and ML workflows were verified successful.
+
+### Resolution comparison and 640-pixel training pilot (2026-09-09)
+
+- Added a prespecified, validation-only fixed-checkpoint probe. Original 320-pixel predictions
+  and detection metrics reproduced exactly before running 640-pixel and 1536-pixel tile profiles.
+- Neither changed inference transform improved AP50:95. Full-image 640 AP50 was 3.1264%, but
+  AP50:95 fell to 0.3870%; tiles had AP50 1.5970%, AP50:95 0.4333%. All three profiles completed.
+- Separate clean-revision 074c1d2 one-epoch 640-pixel training completed 165 steps / 32 validation
+  boards in 16.85 minutes including validation. AP50 8.2584%, AP50:95 1.7542%, AR100 8.3799%.
+- Initial weights, code, package versions, architecture, seed, optimizer settings, source list
+  and actual first-epoch training order matched the earlier 320 run. One seed is not a convergence
+  or significance study. Different-run timing is not an isolated benchmark.
+- Checkpoint reload reproduced every pilot validation prediction and detection metric. MLflow
+  status FINISHED; no held-out test evaluation or model promotion occurred.
+- All 25 ML checks passed, including control mismatch and existing-output preservation tests;
+  repository lint and formatting passed. No service code or dependency changes in this slice.
+- Protocol, compact metrics, hashes and interpretations are recorded in ml/RESOLUTION.md and
+  ml/evidence/resolution-probe-001.*, coco-resize640-epoch1.*, resolution-training-comparison.json.

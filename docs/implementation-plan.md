@@ -115,6 +115,8 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] First full-data scratch epoch and recorded validation evidence; zero AP, not promoted.
 - [x] Explicit checksum-pinned COCO initialization, normalization-preserving reload and provenance review for local research.
 - [x] Five-epoch pretrained experiment, best-epoch reload and auditable evidence export; quality remains inadequate.
+- [x] Fixed-checkpoint validation comparison of 320/640 resolution and 1536-pixel tiles; changed transforms reduced AP50:95.
+- [x] One-epoch 640-pixel training pilot and exact checkpoint reload; AP50 8.2584%, AP50:95 1.7542%, still research-only.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -137,9 +139,10 @@ remains historical context where its taxonomy differs from the accepted V1 speci
 PCB-Defect research release 1.0.0 is frozen: 165 train / 32 validation / 33 test images;
 13 conservative groups, all six classes in every split, no validator findings. See
 [data release notes](../data/releases/pcb-defect-v1/README.md). The offline [baseline pipeline](../ml/BASELINE.md) now provides reproducible training/evaluation.
-The five-epoch pretrained run is complete; best AP50 is 1.7526%, so no real model is approved.
-Next compare higher resolution, tiles and finer feature maps on validation to address small-defect
-localization, then integrate an approved surface-model API contract. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
+The 640-pixel one-epoch pilot improves AP50 to 8.2584%, but recall remains low and no real model
+is approved. Next run a separately named multi-epoch 640-pixel experiment with validation-only
+selection, inspect missed defects, and compare finer feature maps if localization stalls.
+An approved surface-model API contract follows model qualification. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
 Annotation-completeness review, negative examples and an external camera holdout are still
 required before making broad product claims.
 
