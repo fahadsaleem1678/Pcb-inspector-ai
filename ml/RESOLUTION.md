@@ -45,3 +45,24 @@ Metrics use full original-image annotations, including partially visible defects
 
 Full predictions remain under ignored ml/runs. Commit the compact summary and interpretation
 after all three profiles complete. No checkpoint binary or source image is redistributed.
+
+## Follow-up: one-epoch higher-resolution training pilot
+
+The fixed-checkpoint comparison changes only inference. To measure training at the larger
+resolution, run one full epoch initialized from the same original COCO_V1 artifact at 640
+pixels (long-side cap 1280), without tiles. Keep seed 20260908, SGD learning rate 0.005,
+momentum 0.9, weight decay 0.0005, fixed normalization and all backbone stages trainable.
+Use all 165 training boards and the same 32 validation boards, with two CPU threads.
+
+```powershell
+.\.venv-ml\Scripts\python.exe -m ml.baseline train --output ml/runs/coco-resize640-epoch1 --epochs 1 --input-size 640 --learning-rate 0.005 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline evaluate --run ml/runs/coco-resize640-epoch1 --split validation
+.\.venv-ml\Scripts\python.exe -m ml.summarize --run ml/runs/coco-resize640-epoch1 --output ml/evidence/coco-resize640-epoch1.json
+```
+
+Compare primarily with epoch one of the earlier 320-pixel COCO training run: equal source
+images and optimizer steps, different resolution and runtime. Architecture, initialization,
+seed, optimizer and data split stay fixed; varying resolution can still change stochastic
+proposal sampling. This is a single-seed pilot, not evidence of convergence. The five-epoch
+selected checkpoint is contextual only, since it received more training. Retain every measured
+result and do not evaluate test images or automatically launch a longer run based on this pilot.
