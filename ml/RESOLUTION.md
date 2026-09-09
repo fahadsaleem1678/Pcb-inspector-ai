@@ -66,3 +66,29 @@ seed, optimizer and data split stay fixed; varying resolution can still change s
 proposal sampling. This is a single-seed pilot, not evidence of convergence. The five-epoch
 selected checkpoint is contextual only, since it received more training. Retain every measured
 result and do not evaluate test images or automatically launch a longer run based on this pilot.
+
+## Authorized five-epoch 640-pixel experiment
+
+Following the completed pilot and the user's instruction to proceed, train a new run for
+five epochs at 640 pixels. Fix all other settings to the one-epoch pilot: original COCO_V1
+initialization, all six backbone stages trainable, frozen normalization, seed 20260908,
+two CPU threads, whole images, SGD learning rate 0.005 with momentum 0.9 and weight decay
+0.0005, no scheduler or extra augmentation. Use all 165 training images every epoch and the
+same 32 validation images for selection. No test evaluation or automatic model promotion.
+
+```powershell
+.\.venv-ml\Scripts\python.exe -m ml.baseline train --output ml/runs/coco-resize640-5epochs --epochs 5 --input-size 640 --learning-rate 0.005 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline evaluate --run ml/runs/coco-resize640-5epochs --split validation
+.\.venv-ml\Scripts\python.exe -m ml.summarize --run ml/runs/coco-resize640-5epochs --output ml/evidence/coco-resize640-5epochs.json
+```
+
+This restarts from the original COCO weights. It does not resume the pilot, whose saved
+checkpoint lacks optimizer/RNG state. Confirm the first epoch reproduces pilot training
+order and validation metrics, then compare all five epochs with the earlier 320-pixel run.
+Select the greatest validation AP50:95, retaining the first epoch on ties. Checkpoint reload
+must reproduce predictions and detection metrics before exporting the final evidence.
+
+The pilot took about 17 minutes on this CPU, so five epochs may take around 85 minutes.
+Keep measured per-epoch runtime; do not infer an isolated performance benchmark from it.
+Even a better validation score does not satisfy annotation, negative-example, external-camera,
+threshold-calibration or weight-distribution gates. Inspect missed detections after selection.
