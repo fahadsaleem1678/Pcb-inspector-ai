@@ -1,0 +1,38 @@
+{
+  "manifest_sha256": "31bc9c3df24a42dae1b577ea7082a4c0906fd26a5fb4ecf095af2853d43b26b4",
+  "native_tile_size": 1536,
+  "overlap": 256,
+  "input_size": 640,
+  "splits": {
+    "train": {
+      "source_boards": 165,
+      "views": 1053,
+      "empty_views": 111,
+      "annotation_appearances_by_class": {
+        "missing_pad": 441,
+        "mouse_bite": 594,
+        "open_circuit": 430,
+        "short_circuit": 383,
+        "spur": 511,
+        "spurious_copper": 415
+      },
+      "partially_clipped_annotation_appearances": 416,
+      "original_annotation_count": 1230
+    },
+    "validation": {
+      "source_boards": 32,
+      "views": 160,
+      "empty_views": 3,
+      "annotation_appearances_by_class": {
+        "missing_pad": 89,
+        "mouse_bite": 107,
+        "open_circuit": 91,
+        "short_circuit": 77,
+        "spur": 87,
+        "spurious_copper": 86
+      },
+      "partially_clipped_annotation_appearances": 82,
+      "original_annotation_count": 232
+    }
+  }
+}
