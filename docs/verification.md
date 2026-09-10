@@ -197,3 +197,29 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   empty denominators and malformed prediction rejection. Repository lint and formatting passed.
 - Reports and compact evidence are in ml/evidence/coco-resize640-5epochs*. No test evaluation,
   model promotion, product inference change, or dependency change was made.
+
+
+### Local validation review (verified 2026-09-10)
+
+- Added a validation-only static review generator with full-run/release/source-order checks,
+  byte-verified local image copies, original-coordinate SVG overlays, three fixed diagnostic
+  thresholds, class/miss filters, focus/zoom/pan, board navigation and JSON note export.
+- Notes remain in page memory until export; changing the score filter preserves the threshold
+  under which a draft was written. Notes never change the frozen manifest or labels.
+- Generated and served the final 32-board package at loopback port 8766, under ignored
+  ml/runs/review-640-002. Source images and screenshots were not added to Git.
+- All 38 ML checks passed; repository Ruff lint/formatting passed. Five new data-free review
+  tests cover original-coordinate matching, stable asset mapping when sorting, validation
+  isolation, embedded-script escaping and refusal to overwrite an existing output.
+- Headless Chromium acceptance checks passed for overlays, focus/zoom, filters, layer switches,
+  next/previous navigation, note export and original note-threshold retention. Desktop axe
+  WCAG 2 A/AA and 2.1 AA reported zero violations; 390px mobile had no horizontal overflow,
+  and no page script errors occurred. The reusable manual harness is ml/tests/review_browser.cjs.
+- In-app browser setup and the native image helper were unavailable; used a separate headless
+  Chromium session and viewed its local JPEG screenshots. Six selected mouse-bite regions were
+  visually inspected across families 51 and 52, then compared with saved detection overlaps.
+- Findings include absent retained boxes, low-score class confusion, a threshold-suppressed
+  correct detection and partial localization. Observations are not expert label approval.
+  Hash-bound evidence and the prespecified next tile-training pilot are recorded in ml/.
+- No additional training, held-out test inference, model promotion, service/dependency change
+  or dataset correction was performed in this slice. Hosted CI is verified after pushing.

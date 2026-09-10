@@ -118,6 +118,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Fixed-checkpoint validation comparison of 320/640 resolution and 1536-pixel tiles; changed transforms reduced AP50:95.
 - [x] One-epoch 640-pixel training pilot and exact checkpoint reload; AP50 8.2584%, AP50:95 1.7542%, still research-only.
 - [x] Five-epoch 640-pixel run, exact pilot/reload parity and fixed-threshold error diagnostics; AP50 38.1599%, AP50:95 13.5267%, still research-only.
+- [x] Local validation review with original-coordinate overlays, exported notes and six-case mouse-bite inspection.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -141,8 +142,12 @@ PCB-Defect research release 1.0.0 is frozen: 165 train / 32 validation / 33 test
 13 conservative groups, all six classes in every split, no validator findings. See
 [data release notes](../data/releases/pcb-defect-v1/README.md). The offline [baseline pipeline](../ml/BASELINE.md) now provides reproducible training/evaluation.
 The five-epoch 640-pixel run reaches AP50 38.1599% / AP50:95 13.5267%, but AR100 is only
-23.8448% and no real model is approved. Next build local visual review for missed mouse bites
-and family-51 boards, then define a targeted finer-feature, anchor or trained-tiling experiment.
+23.8448% and no real model is approved. Local visual review now covers all 32 validation boards.
+The [six inspected mouse-bite cases](../ml/evidence/coco-resize640-5epochs-visual-review.md) show
+missing boxes, low-confidence class confusion and partial localization. Next execute the
+[prespecified tile-training pilot](../ml/RESOLUTION.md#follow-up-trained-tiling-pilot): a bounded
+smoke/reload check, then one full epoch at 1536-pixel tiles / 640 input, retaining all results.
+This has 1,053 optimizer steps and is not an equal-step comparison with whole-board training.
 Keep the existing frozen release intact until expert label review establishes any correction.
 An approved surface-model API contract follows model qualification. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
 Annotation-completeness review, negative examples and an external camera holdout are still

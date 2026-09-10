@@ -244,3 +244,42 @@ was exact, and the selected checkpoint reload reproduced every prediction and de
 At diagnostic score 0.25 / IoU 0.5, 131 of 232 validation labels remain missed, including 39 of
 43 mouse bites. The next slice is local visual error review followed by a targeted spatial-feature
 or tiling experiment; the model remains research-only and the test split remains unevaluated.
+
+
+## Local visual review
+
+Build a standalone review package after full-run evidence and selected-checkpoint validation
+reload pass. The generator verifies the frozen release, prediction source order and copied
+image hashes, includes only the 32 validation boards, and refuses an existing output directory.
+It runs in the base service environment without Torch. Choose a fresh output name each time.
+
+```powershell
+.\.venv\Scripts\python.exe -m ml.review --run ml/runs/coco-resize640-5epochs --output ml/runs/review-640-002
+.\.venv\Scripts\python.exe -m http.server 8766 --bind 127.0.0.1 --directory ml/runs/review-640-002
+```
+
+Open http://127.0.0.1:8766/. The server exposes only the generated review directory.
+Boards are ordered by missed labels at score 0.25. Select a class and annotation to focus
+its source-image region; pan, zoom and toggle labels/predictions to inspect underneath.
+Prediction filtering follows the selected class. Switch to all classes to inspect confusion.
+Missed labels use the same score-ordered, one-to-one IoU 0.5 matching as error diagnostics.
+The fixed score options are 0.05, 0.25 and 0.5; they do not configure product thresholds.
+
+Notes are held in browser memory and exported as JSON, with source annotation, zero-based
+annotation index, threshold at the time of writing, checkpoint/manifest/prediction hashes.
+Export before closing or reloading. Notes are not uploaded or applied to frozen labels.
+Generated images, HTML and screenshots stay in ignored local directories; `provenance.json`
+records template/generator/source/HTML hashes. Do not use a package containing `INCOMPLETE.txt`.
+
+With frontend dependencies and its Playwright Chromium installed, run the manual acceptance
+check from repository root against the generated five-epoch review:
+
+```powershell
+node ml/tests/review_browser.cjs http://127.0.0.1:8766/
+```
+
+This frozen-data check covers coordinates, focus/zoom, filters, layers, board navigation,
+note export and original-threshold retention, desktop accessibility and mobile overflow.
+It writes screenshots and results into `.runtime/`; it is separate from data-free ML CI.
+The [completed visual review](evidence/coco-resize640-5epochs-visual-review.md) records six
+selected mouse-bite failures and the next training hypothesis.

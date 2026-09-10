@@ -92,3 +92,44 @@ The pilot took about 17 minutes on this CPU, so five epochs may take around 85 m
 Keep measured per-epoch runtime; do not infer an isolated performance benchmark from it.
 Even a better validation score does not satisfy annotation, negative-example, external-camera,
 threshold-calibration or weight-distribution gates. Inspect missed detections after selection.
+
+
+## Follow-up: trained tiling pilot
+
+The [six-case visual review](evidence/coco-resize640-5epochs-visual-review.md) found a mixture
+of absent retained boxes, low-confidence class confusion and partial localization. Test the
+spatial-detail hypothesis with a separately named, one-epoch tiled run. This protocol is
+specified before training; the visual-review work did not launch the experiment.
+
+Use original COCO_V1 weights, input size 640 / cap 1280, native tiles 1536 with overlap 256,
+seed 20260908, two CPU threads, all six backbone stages trainable, frozen normalization,
+SGD learning rate 0.005 / momentum 0.9 / weight decay 0.0005, no scheduler or new augmentation.
+Retain every tile, including empty tiles and clipped edge annotations, using the existing
+source-preserving view implementation. The 165 training boards yield 1,053 optimizer steps
+per epoch; 32 validation boards yield 160 views. The test split remains reserved.
+
+First run the existing bounded tile smoke test in its own output directory to verify finite
+loss, timing and validation reload. Then train one full epoch in a fresh directory. Do not
+infer runtime by multiplying the earlier whole-board epoch, which used far fewer views.
+
+```powershell
+.\.venv-ml\Scripts\python.exe -m ml.baseline train --output ml/runs/coco-tiles1536-smoke --smoke --epochs 1 --input-size 640 --tile-size 1536 --overlap 256 --learning-rate 0.005 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline evaluate --run ml/runs/coco-tiles1536-smoke --split validation
+.\.venv-ml\Scripts\python.exe -m ml.baseline train --output ml/runs/coco-tiles1536-epoch1 --epochs 1 --input-size 640 --tile-size 1536 --overlap 256 --learning-rate 0.005 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline evaluate --run ml/runs/coco-tiles1536-epoch1 --split validation
+.\.venv-ml\Scripts\python.exe -m ml.summarize --run ml/runs/coco-tiles1536-epoch1 --output ml/evidence/coco-tiles1536-epoch1.json
+```
+
+Merge predictions in original coordinates using existing class-aware IoU 0.5 NMS and the
+100-detection cap per board; evaluate against full-image labels. Record all six classes,
+both validation groups, AP50:95 (primary), AP50, AR100, fixed-threshold errors and measured
+training/inference times. Require exact selected-checkpoint prediction/metric reload.
+Compare with both whole-image 640 runs: one epoch (165 steps) and five epochs (825 steps).
+This pilot uses more steps (1,053), repeats source boards across tiles and clips boundary
+labels, so neither comparison isolates resolution or establishes equal-compute superiority.
+An equal-step experiment is needed before attributing a gain to tiling alone.
+
+Stop after the one full epoch and retain the result even if quality falls. Do not silently
+change anchors, overlap, thresholds or architecture, launch longer training, evaluate the
+held-out test split, or promote the model as part of this pilot. Expert label/completeness,
+clean-negative and external-camera review remain independent qualification work.
