@@ -133,3 +133,41 @@ Stop after the one full epoch and retain the result even if quality falls. Do no
 change anchors, overlap, thresholds or architecture, launch longer training, evaluate the
 held-out test split, or promote the model as part of this pilot. Expert label/completeness,
 clean-negative and external-camera review remain independent qualification work.
+
+
+## Empty-tile failure and corrected pilot
+
+The original `coco-tiles1536-epoch1` attempt stopped with nonfinite loss after the last
+reported successful step 591, before completing an epoch or saving a selected checkpoint.
+MLflow marked it FAILED. The old trainer did not record the exact failed step; it is unknown.
+The [failure evidence](evidence/coco-tiles1536-epoch1-failure.json) preserves this limitation.
+
+A bounded reproduction using original COCO weights on candidate step 594 (view 1043,
+an empty tile from pcb_defect_228) showed zero proposals after the default RPN score filter
+0.05. With no annotations to add as proposals, classifier loss and box loss were NaN.
+Setting the **training-only** RPN threshold to 0 retained 2,000 proposals and gave finite
+losses. This establishes a reproducible failure path, not the exact original failure state.
+A data-free regression forces this condition and verifies finite backward gradients after
+the fix. Inference always resets to the historical RPN filter 0.05, including old checkpoints.
+
+The new CLI option defaults to 0.05 for historical reproducibility. The corrected tile pilot
+explicitly uses `--training-rpn-score-threshold 0`. Both training and inference thresholds
+are recorded in config/MLflow; future failures include epoch, step, source/view/window,
+target count and individual loss values. Nonfinite values still abort; no tiles are skipped.
+
+After corrected smoke and exact reload verification, run **one** fresh full epoch from the
+original COCO weights in `coco-tiles1536-rpn0-epoch1`. Keep every other pilot setting fixed.
+This is an explicit protocol amendment: more training proposals may affect every tile, so
+comparisons now vary proposal filtering as well as tiling and optimizer-step count. Do not
+attribute any gain solely to tile resolution. Retain the failed attempt and the retry result.
+
+```powershell
+.\.venv-ml\Scripts\python.exe -m ml.baseline train --output ml/runs/coco-tiles1536-rpn0-smoke --smoke --epochs 1 --input-size 640 --tile-size 1536 --overlap 256 --learning-rate 0.005 --training-rpn-score-threshold 0 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline evaluate --run ml/runs/coco-tiles1536-rpn0-smoke --split validation
+.\.venv-ml\Scripts\python.exe -m ml.baseline train --output ml/runs/coco-tiles1536-rpn0-epoch1 --epochs 1 --input-size 640 --tile-size 1536 --overlap 256 --learning-rate 0.005 --training-rpn-score-threshold 0 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.\.venv-ml\Scripts\python.exe -m ml.baseline evaluate --run ml/runs/coco-tiles1536-rpn0-epoch1 --split validation
+.\.venv-ml\Scripts\python.exe -m ml.summarize --run ml/runs/coco-tiles1536-rpn0-epoch1 --output ml/evidence/coco-tiles1536-rpn0-epoch1.json
+```
+
+A second numerical failure stops this retry for diagnosis; do not repeatedly restart or tune
+learning rate/labels until loss appears acceptable. No test evaluation or automatic promotion.

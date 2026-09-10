@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "run": "coco-tiles1536-epoch1",
+  "status": "failed",
+  "training_git_revision": "6562ca9badf47b0c314c795b5682258871d7be0a",
+  "training_git_dirty": false,
+  "manifest_sha256": "31bc9c3df24a42dae1b577ea7082a4c0906fd26a5fb4ecf095af2853d43b26b4",
+  "last_observed_successful_step": 591,
+  "exact_failed_step": "not recorded by original trainer",
+  "completed_epochs": 0,
+  "failure": {
+    "status": "failed",
+    "completed_epochs": 0,
+    "error_type": "ValueError",
+    "message": "Nonfinite training loss",
+    "promotion_eligible": false
+  },
+  "mlflow_run_id": "056a36402725493193ad0d661b4ed42f",
+  "mlflow_status": "FAILED",
+  "checkpoint_exists": false,
+  "validation_evaluated": false,
+  "test_evaluated": false,
+  "promotion_eligible": false,
+  "artifact_sha256": {
+    "config.json": "c1ad9a83fb027df7a245bb30d45ce9f90cec5b022cdf9c6575072356af0a664a",
+    "failure.json": "2aef8c2b114e74b4d8e9d9ebcd60223a218c8e43aaed91711654b90c3499dd8a"
+  },
+  "reproduction": {
+    "scope": "Fresh original COCO weights on candidate empty training tiles, without replaying the failed model trajectory. This establishes an empty-proposal failure path, not the exact original failing step.",
+    "results": [
+      {
+        "candidate_step": 594,
+        "view_index": 1043,
+        "target_count": 0,
+        "rpn_score_thresh": 0.05,
+        "proposal_counts": [
+          0
+        ],
+        "losses": {
+          "loss_classifier": "nan",
+          "loss_box_reg": "nan",
+          "loss_objectness": 3.077089786529541e-05,
+          "loss_rpn_box_reg": 0.0
+        }
+      },
+      {
+        "candidate_step": 594,
+        "view_index": 1043,
+        "target_count": 0,
+        "rpn_score_thresh": 0.0,
+        "proposal_counts": [
+          2000
+        ],
+        "losses": {
+          "loss_classifier": 1.6339316368103027,
+          "loss_box_reg": 0.0,
+          "loss_objectness": 4.034116864204407e-05,
+          "loss_rpn_box_reg": 0.0
+        }
+      },
+      {
+        "candidate_step": 602,
+        "view_index": 932,
+        "target_count": 0,
+        "rpn_score_thresh": 0.05,
+        "proposal_counts": [
+          91
+        ],
+        "losses": {
+          "loss_classifier": 1.8565802574157715,
+          "loss_box_reg": 0.0,
+          "loss_objectness": 0.004779001697897911,
+          "loss_rpn_box_reg": 0.0
+        }
+      },
+      {
+        "candidate_step": 602,
+        "view_index": 932,
+        "target_count": 0,
+        "rpn_score_thresh": 0.0,
+        "proposal_counts": [
+          2000
+        ],
+        "losses": {
+          "loss_classifier": 1.6840893030166626,
+          "loss_box_reg": 0.0,
+          "loss_objectness": 0.023475682362914085,
+          "loss_rpn_box_reg": 0.0
+        }
+      }
+    ]
+  },
+  "correction": "Explicit training RPN score threshold 0.0; inference remains 0.05. Labels, empty-tile retention and optimizer remain unchanged. Separately named retry is not an identical-policy comparison with the old controls."
+}

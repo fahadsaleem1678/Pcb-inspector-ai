@@ -283,3 +283,19 @@ note export and original-threshold retention, desktop accessibility and mobile o
 It writes screenshots and results into `.runtime/`; it is separate from data-free ML CI.
 The [completed visual review](evidence/coco-resize640-5epochs-visual-review.md) records six
 selected mouse-bite failures and the next training hypothesis.
+
+
+## Empty-tile training proposal policy
+
+Some empty tiles have no RPN proposals above the historical 0.05 filter. With no ground-truth
+boxes to append, the detector's ROI classification/box losses become nonfinite. The trainer
+continues to fail closed. Use explicit `--training-rpn-score-threshold 0` for the corrected
+tile experiment; this keeps low-confidence background proposals during training. The option
+is recorded in config and MLflow and defaults to the historical 0.05. Inference always uses
+0.05 and resets this value when transitioning from training, preserving old checkpoint output.
+This is an RPN proposal setting, separate from final detection scores or product calibration.
+
+Nonfinite loss/gradient failures now record source image, tile window, epoch/step, target count
+and individual loss components in `failure.json`. Losses are represented as strings there to
+preserve NaN/Inf diagnostics in valid JSON. Failed runs cannot be evaluated/promoted.
+See the [failed attempt and amended protocol](RESOLUTION.md#empty-tile-failure-and-corrected-pilot).

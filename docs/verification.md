@@ -223,3 +223,27 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   Hash-bound evidence and the prespecified next tile-training pilot are recorded in ml/.
 - No additional training, held-out test inference, model promotion, service/dependency change
   or dataset correction was performed in this slice. Hosted CI is verified after pushing.
+
+
+### Empty-tile failure diagnosis and training correction (2026-09-10)
+
+- Original tile smoke passed exact reload; the full tile pilot later aborted with nonfinite
+  loss after last reported successful step 591, zero completed epochs and no checkpoint.
+  MLflow marked it FAILED. Exact failed step was not recorded by the previous trainer.
+- Fresh-COCO reproduction on candidate step 594's empty tile yielded zero RPN proposals at
+  filter 0.05 and NaN ROI classifier/box losses. Training filter 0 retained proposals and
+  produced finite losses. This establishes a failure path, not the original failing state.
+- Added explicit --training-rpn-score-threshold (historical default 0.05; corrected pilot
+  opts into 0). Inference always restores 0.05. Config/MLflow record both thresholds, and
+  failure.json now includes step/source/window/target count and individual loss strings.
+- All 43 ML tests passed, including forced-empty-proposal forward/backward regression,
+  inference filter restoration and invalid-threshold rejection. Ruff lint/formatting passed.
+- Corrected two-step tile smoke completed with finite mean loss 1.67621, then exact validation
+  prediction/metric reload and MLflow FINISHED. It used the working fix before commit;
+  dirty revision and source hashes are retained in its smoke evidence.
+- Existing five-epoch 640 checkpoint rerun with the changed inference code reproduced all
+  3,200 predictions and detection metrics on 32 validation boards exactly.
+- Failed attempt, both smoke checks, tile-view audit and legacy-control parity are committed
+  as compact metadata. No images/weights, held-out test inference or model promotion.
+- The amended full pilot is a fresh single epoch, with explicit comparison limitations:
+  training proposal filtering differs in addition to tiling, step count and label appearances.

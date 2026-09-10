@@ -22,6 +22,7 @@ from ml.metrics import coco_metrics, grouped_metrics
 from ml.pretrained import verify_weights
 
 MODEL = "torchvision-fasterrcnn-mobilenet-v3-large-320-fpn"
+INFERENCE_RPN_SCORE_THRESHOLD = 0.05
 PACKAGES = ["torch", "torchvision", "numpy", "pycocotools", "mlflow-skinny", "pillow"]
 
 
@@ -56,6 +57,7 @@ def make_model(classes, input_size, normalization="batch", initial_weights=None)
         num_classes=91 if initial_weights is not None else classes + 1,
         min_size=input_size,
         max_size=input_size * 2,
+        rpn_score_thresh=INFERENCE_RPN_SCORE_THRESHOLD,
         box_score_thresh=0.001,
         box_detections_per_img=100,
     )
@@ -88,8 +90,18 @@ def synchronize(device):
         torch.cuda.synchronize()
 
 
+def training_mode(model, proposal_score_threshold):
+    if not math.isfinite(proposal_score_threshold) or not 0 <= proposal_score_threshold <= 1:
+        raise ValueError("Training proposal score threshold must be finite and between 0 and 1")
+    model.train()
+    model.rpn.score_thresh = proposal_score_threshold
+
+
 def infer(model, dataset, labels, device):
     model.eval()
+    # Training may retain low-confidence background proposals. Evaluation keeps the
+    # original MobileNet detector filter, including when reloading older checkpoints.
+    model.rpn.score_thresh = INFERENCE_RPN_SCORE_THRESHOLD
     predictions, timings = [], []
     with torch.inference_mode():
         for source_index, sample in enumerate(dataset.samples):
@@ -191,6 +203,8 @@ def metadata(args, manifest, digest):
         "threads": args.threads,
         "device": args.device,
         "input_size": args.input_size,
+        "training_rpn_score_threshold": args.training_rpn_score_threshold,
+        "inference_rpn_score_threshold": INFERENCE_RPN_SCORE_THRESHOLD,
         "tile_size": args.tile_size,
         "overlap": args.overlap,
         "epochs": args.epochs,
@@ -241,6 +255,7 @@ def train(args):
     )
     completed_epochs, best_ap = 0, -1.0
     checkpoint = args.output / "best-state.pt"
+    training_context = None
     try:
         with mlflow.start_run(run_name=args.output.name) as run:
             mlflow.log_params(
@@ -258,6 +273,8 @@ def train(args):
                         "overlap",
                         "epochs",
                         "learning_rate",
+                        "training_rpn_score_threshold",
+                        "inference_rpn_score_threshold",
                         "smoke",
                     ]
                 }
@@ -265,16 +282,28 @@ def train(args):
             mlflow.set_tags({"promotion_eligible": "false", "git_revision": config["git_revision"]})
             history = []
             for epoch in range(args.epochs):
-                model.train()
+                training_mode(model, args.training_rpn_score_threshold)
                 indices = list(range(len(train_data)))
                 random.Random(args.seed + epoch).shuffle(indices)
                 if args.smoke:
                     indices = indices[:2]
                 losses, start = [], time.perf_counter()
                 for step, index in enumerate(indices):
+                    source_index, window = train_data.views[index]
+                    training_context = {
+                        "epoch": epoch + 1,
+                        "step": step + 1,
+                        "view_index": index,
+                        "source_image": train_data.samples[source_index].image,
+                        "window": list(window),
+                    }
                     tensor, target = train_data[index]
                     target = {key: value.to(device) for key, value in target.items()}
                     loss_dict = model([tensor.to(device)], [target])
+                    training_context["target_count"] = len(target["boxes"])
+                    training_context["loss_components"] = {
+                        key: str(float(value.detach())) for key, value in loss_dict.items()
+                    }
                     loss = sum(loss_dict.values())
                     if not torch.isfinite(loss):
                         raise ValueError("Nonfinite training loss")
@@ -297,6 +326,7 @@ def train(args):
                             ),
                             flush=True,
                         )
+                training_context = None
                 metrics, predictions = infer(model, validation_data, manifest.classes, device)
                 completed_epochs += 1
                 record = {
@@ -375,6 +405,7 @@ def train(args):
                 "completed_epochs": completed_epochs,
                 "error_type": type(exc).__name__,
                 "message": str(exc),
+                "training_context": training_context,
                 "promotion_eligible": False,
             },
         )
@@ -462,6 +493,12 @@ def main():
     parser.add_argument("--overlap", type=int, default=256)
     parser.add_argument("--learning-rate", type=float, default=0.005)
     parser.add_argument(
+        "--training-rpn-score-threshold",
+        type=float,
+        default=0.05,
+        help="Training-only proposal filter; use 0 for empty-tile training. Inference stays 0.05",
+    )
+    parser.add_argument(
         "--initial-weights",
         type=Path,
         help="Local checksum-pinned COCO_V1 file; never downloaded by training",
@@ -479,6 +516,11 @@ def main():
         or args.learning_rate <= 0
     ):
         parser.error("Input size must be 128–2048 and learning rate finite and positive")
+    if (
+        not math.isfinite(args.training_rpn_score_threshold)
+        or not 0 <= args.training_rpn_score_threshold <= 1
+    ):
+        parser.error("Training proposal score threshold must be finite and between 0 and 1")
     if args.tile_size and not 0 <= args.overlap < args.tile_size:
         parser.error("Tile overlap must be nonnegative and smaller than tile size")
     if args.action == "train":

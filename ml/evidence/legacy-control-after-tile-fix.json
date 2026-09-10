@@ -1,0 +1,9 @@
+{
+  "source_run": "coco-resize640-5epochs",
+  "checkpoint_sha256": "13bb737a93252cf0535520bc774c3d6b434dc656a971ed7473ab458c880772f4",
+  "images": 32,
+  "predictions": 3200,
+  "predictions_and_detection_metrics_equal": true,
+  "inference_rpn_score_threshold": 0.05,
+  "inference_code_sha256": "15e68a754d4da60b4bdddc13a7319da8eca3b0fbc8b8a408d8e8f7b14126e530"
+}

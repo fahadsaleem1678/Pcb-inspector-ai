@@ -80,3 +80,46 @@ def test_unreviewed_initial_weights_rejected_before_deserialization(tmp_path, mo
     weights.write_bytes(b"not the reviewed checkpoint")
     with pytest.raises(ValueError, match="checksum"):
         make_model(6, 320, "frozen_batch", weights)
+
+
+def test_empty_tile_keeps_background_training_proposals_and_restores_inference_filter():
+    from ml.baseline import infer, training_mode
+
+    torch.set_num_threads(2)
+    torch.manual_seed(17)
+    model = make_model(6, 128, "frozen_batch")
+    # Simulate a blank tile for which every RPN objectness score is below 0.05.
+    with torch.no_grad():
+        model.rpn.head.cls_logits.weight.zero_()
+        model.rpn.head.cls_logits.bias.fill_(-20)
+    image = torch.zeros(3, 128, 128)
+    target = {"boxes": torch.empty(0, 4), "labels": torch.empty(0, dtype=torch.int64)}
+    training_mode(model, 0.05)
+    broken = model([image], [target])
+    assert not torch.isfinite(broken["loss_classifier"])
+    training_mode(model, 0.0)
+    losses = model([image], [target])
+    assert all(torch.isfinite(value) for value in losses.values())
+    sum(losses.values()).backward()
+    assert all(torch.isfinite(p.grad).all() for p in model.parameters() if p.grad is not None)
+
+    class EmptyBoard:
+        samples = [SimpleNamespace(width=128, height=128, annotations=[], group_id="empty")]
+        by_image = {0: [0]}
+        views = [(0, (0, 0, 128, 128))]
+
+        def __getitem__(self, index):
+            return image, target
+
+    _, predictions = infer(model, EmptyBoard(), ["defect"], torch.device("cpu"))
+    assert model.rpn.score_thresh == 0.05
+    assert not model.training
+    assert predictions == []
+
+
+@pytest.mark.parametrize("threshold", [float("nan"), float("inf"), -0.1, 1.1])
+def test_training_proposal_threshold_rejects_invalid_values(threshold):
+    from ml.baseline import training_mode
+
+    with pytest.raises(ValueError, match="finite and between"):
+        training_mode(None, threshold)
