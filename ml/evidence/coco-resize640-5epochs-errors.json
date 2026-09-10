@@ -1,0 +1,4869 @@
+{
+  "schema_version": "1.0",
+  "split": "validation",
+  "iou_threshold": 0.5,
+  "matching": "descending score, same class, one-to-one; ties use stable input order",
+  "source_run": "coco-resize640-5epochs",
+  "checkpoint_sha256": "13bb737a93252cf0535520bc774c3d6b434dc656a971ed7473ab458c880772f4",
+  "manifest_sha256": "31bc9c3df24a42dae1b577ea7082a4c0906fd26a5fb4ecf095af2853d43b26b4",
+  "source_predictions_sha256": "aa517452d94b5dcde37182170473f60b540852ec67f5aee31ac253fcc18fa505",
+  "analysis_code_sha256": "dddd7c0fbfb81223555f739b204b84c0b263e2c88559e350f385e09e4b87dd8b",
+  "profiles": [
+    {
+      "score_threshold": 0.05,
+      "micro": {
+        "tp": 130,
+        "fp": 774,
+        "fn": 102,
+        "precision": 0.14380530973451328,
+        "recall": 0.5603448275862069
+      },
+      "per_class": {
+        "missing_pad": {
+          "tp": 24,
+          "fp": 187,
+          "fn": 13,
+          "precision": 0.11374407582938388,
+          "recall": 0.6486486486486487
+        },
+        "mouse_bite": {
+          "tp": 12,
+          "fp": 161,
+          "fn": 31,
+          "precision": 0.06936416184971098,
+          "recall": 0.27906976744186046
+        },
+        "open_circuit": {
+          "tp": 23,
+          "fp": 82,
+          "fn": 15,
+          "precision": 0.21904761904761905,
+          "recall": 0.6052631578947368
+        },
+        "short_circuit": {
+          "tp": 24,
+          "fp": 80,
+          "fn": 14,
+          "precision": 0.23076923076923078,
+          "recall": 0.631578947368421
+        },
+        "spur": {
+          "tp": 20,
+          "fp": 156,
+          "fn": 19,
+          "precision": 0.11363636363636363,
+          "recall": 0.5128205128205128
+        },
+        "spurious_copper": {
+          "tp": 27,
+          "fp": 108,
+          "fn": 10,
+          "precision": 0.2,
+          "recall": 0.7297297297297297
+        }
+      },
+      "boards": [
+        {
+          "image": "images/pcb_defect_013.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 35,
+          "fn": 9,
+          "precision": 0.07894736842105263,
+          "recall": 0.25,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                509.0,
+                3220.0,
+                104.26999999999998,
+                94.51999999999998
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                433.0,
+                2620.0,
+                122.60000000000002,
+                151.57999999999993
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1291.0,
+                2318.0,
+                85.34999999999991,
+                83.98000000000002
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1303.0,
+                1722.0,
+                42.3599999999999,
+                200.01
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1411.0,
+                1224.0,
+                57.07999999999993,
+                272.8499999999999
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1912.0,
+                1093.0,
+                107.20000000000005,
+                120.19000000000005
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1813.0,
+                875.0,
+                97.17000000000007,
+                85.88
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2598.0,
+                722.0,
+                85.23000000000002,
+                75.02999999999997
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                310.0,
+                1509.0,
+                88.88999999999999,
+                95.81999999999994
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_014.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 33,
+          "fn": 9,
+          "precision": 0.08333333333333333,
+          "recall": 0.25,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1446.0,
+                1838.0,
+                62.08999999999992,
+                106.90000000000009
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1861.0,
+                1003.0,
+                113.53999999999996,
+                130.0999999999999
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1677.0,
+                1022.0,
+                87.0,
+                68.13000000000011
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                443.0,
+                3126.0,
+                113.76999999999998,
+                110.75
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                398.0,
+                2551.0,
+                109.20999999999998,
+                126.73000000000002
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1241.0,
+                2209.0,
+                98.79999999999995,
+                106.15000000000009
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2554.0,
+                625.0,
+                66.59999999999991,
+                97.25999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1769.0,
+                789.0,
+                89.75,
+                72.75999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                250.0,
+                1418.0,
+                99.63999999999999,
+                106.81999999999994
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_015.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 7,
+          "fp": 43,
+          "fn": 4,
+          "precision": 0.14,
+          "recall": 0.6363636363636364,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                310.0,
+                3004.0,
+                61.68000000000001,
+                294.07000000000016
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                534.0,
+                2293.0,
+                87.47000000000003,
+                100.65999999999985
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1871.0,
+                3255.0,
+                98.96000000000004,
+                104.0
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1205.0,
+                1382.0,
+                63.76999999999998,
+                60.61999999999989
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 7
+        },
+        {
+          "image": "images/pcb_defect_016.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 39,
+          "fn": 8,
+          "precision": 0.07142857142857142,
+          "recall": 0.2727272727272727,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                1836.0,
+                1785.0,
+                55.569999999999936,
+                257.28
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2539.0,
+                2171.0,
+                58.48999999999978,
+                111.65999999999985
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                998.0,
+                2193.0,
+                97.83999999999992,
+                107.94000000000005
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                113.0,
+                770.0,
+                51.34,
+                240.83000000000004
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                929.0,
+                570.0,
+                92.11000000000001,
+                61.99000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                468.0,
+                152.0,
+                163.90999999999997,
+                130.82
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                866.0,
+                1182.0,
+                124.89999999999998,
+                85.80999999999995
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1547.0,
+                1363.0,
+                114.1400000000001,
+                100.67000000000007
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_017.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 4,
+          "fp": 42,
+          "fn": 6,
+          "precision": 0.08695652173913043,
+          "recall": 0.4,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                223.0,
+                1120.0,
+                61.23000000000002,
+                314.20000000000005
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                672.0,
+                2196.0,
+                103.36000000000001,
+                80.48999999999978
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1322.0,
+                2467.0,
+                75.84999999999991,
+                70.42000000000007
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                853.0,
+                3051.0,
+                99.49000000000001,
+                65.67999999999984
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                2393.0,
+                166.0,
+                83.86999999999989,
+                81.55000000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1239.0,
+                1980.0,
+                121.19000000000005,
+                144.46000000000004
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_018.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 4,
+          "fp": 48,
+          "fn": 6,
+          "precision": 0.07692307692307693,
+          "recall": 0.4,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1515.0,
+                3518.0,
+                93.17000000000007,
+                160.57000000000016
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1767.0,
+                2632.0,
+                53.23000000000002,
+                255.46000000000004
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1397.0,
+                977.0,
+                96.30999999999995,
+                110.50999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1522.0,
+                478.0,
+                98.78999999999996,
+                69.93000000000006
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                713.0,
+                543.0,
+                82.81999999999994,
+                104.83000000000004
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1302.0,
+                2647.0,
+                59.5,
+                67.9699999999998
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_019.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 23,
+          "fn": 5,
+          "precision": 0.08,
+          "recall": 0.2857142857142857,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1162.0,
+                1408.0,
+                68.45000000000005,
+                60.24000000000001
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1494.0,
+                1918.0,
+                33.57999999999993,
+                224.1500000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1451.0,
+                641.0,
+                58.16000000000008,
+                56.360000000000014
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                974.0,
+                1794.0,
+                64.6400000000001,
+                62.73000000000002
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1274.0,
+                1233.0,
+                66.36999999999989,
+                165.0
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_020.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 5,
+          "fp": 25,
+          "fn": 2,
+          "precision": 0.16666666666666666,
+          "recall": 0.7142857142857143,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1653.0,
+                928.0,
+                86.25,
+                46.460000000000036
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2225.0,
+                1983.0,
+                57.7199999999998,
+                30.299999999999955
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_021.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 27,
+          "fn": 3,
+          "precision": 0.1,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                710.0,
+                1088.0,
+                38.15999999999997,
+                61.059999999999945
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                235.0,
+                1035.0,
+                42.94999999999999,
+                96.26999999999998
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                795.0,
+                1681.0,
+                157.72000000000003,
+                109.02999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_022.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 4,
+          "fp": 27,
+          "fn": 3,
+          "precision": 0.12903225806451613,
+          "recall": 0.5714285714285714,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                271.0,
+                898.0,
+                37.29000000000002,
+                275.9000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                192.0,
+                959.0,
+                73.40999999999997,
+                94.54999999999995
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1185.0,
+                218.0,
+                35.319999999999936,
+                85.11000000000001
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_023.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 5,
+          "fp": 28,
+          "fn": 1,
+          "precision": 0.15151515151515152,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                661.0,
+                1808.0,
+                227.66999999999996,
+                49.50999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_024.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 11,
+          "fn": 3,
+          "precision": 0.21428571428571427,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                917.0,
+                544.0,
+                69.44000000000005,
+                44.549999999999955
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                627.0,
+                934.0,
+                66.85000000000002,
+                58.25
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                409.0,
+                332.0,
+                141.95000000000005,
+                60.31999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_025.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 16,
+          "fn": 3,
+          "precision": 0.15789473684210525,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1234.0,
+                1118.0,
+                68.70000000000005,
+                160.1300000000001
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                732.0,
+                165.0,
+                87.79999999999995,
+                40.400000000000006
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1126.0,
+                1300.0,
+                42.069999999999936,
+                61.17000000000007
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_026.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 5,
+          "fp": 25,
+          "fn": 3,
+          "precision": 0.16666666666666666,
+          "recall": 0.625,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                1673.0,
+                494.0,
+                72.43000000000006,
+                68.24000000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1395.0,
+                1626.0,
+                126.25,
+                45.950000000000045
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                583.0,
+                304.0,
+                63.09000000000003,
+                97.90999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_027.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 27,
+          "fn": 4,
+          "precision": 0.06896551724137931,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                751.0,
+                514.0,
+                54.33000000000004,
+                56.17999999999995
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2279.0,
+                844.0,
+                107.63000000000011,
+                38.58000000000004
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                2082.0,
+                1177.0,
+                74.03999999999996,
+                75.18000000000006
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                203.0,
+                1231.0,
+                234.86,
+                95.6400000000001
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_028.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 4,
+          "fp": 14,
+          "fn": 2,
+          "precision": 0.2222222222222222,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                396.0,
+                887.0,
+                205.73000000000002,
+                88.38999999999999
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1635.0,
+                353.0,
+                133.70000000000005,
+                44.47000000000003
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_029.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 14,
+          "fn": 1,
+          "precision": 0.2631578947368421,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1256.0,
+                913.0,
+                70.55999999999995,
+                80.64999999999998
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_030.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 14,
+          "fn": 2,
+          "precision": 0.2631578947368421,
+          "recall": 0.7142857142857143,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1391.0,
+                598.0,
+                114.28999999999996,
+                64.13
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                317.0,
+                1081.0,
+                114.47000000000003,
+                63.819999999999936
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_031.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 13,
+          "fn": 1,
+          "precision": 0.2777777777777778,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                861.0,
+                197.0,
+                106.38,
+                116.98000000000002
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_032.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 21,
+          "fn": 3,
+          "precision": 0.125,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                1609.0,
+                1019.0,
+                157.94000000000005,
+                92.42000000000007
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1144.0,
+                2137.0,
+                123.28999999999996,
+                68.55000000000018
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1245.0,
+                1948.0,
+                94.09999999999991,
+                90.66000000000008
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_033.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 21,
+          "fn": 2,
+          "precision": 0.16,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                605.0,
+                1463.0,
+                124.65999999999997,
+                108.11999999999989
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2682.0,
+                1888.0,
+                58.48000000000002,
+                91.71000000000004
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_034.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 8,
+          "fp": 22,
+          "fn": 2,
+          "precision": 0.26666666666666666,
+          "recall": 0.8,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                490.0,
+                1376.0,
+                89.25,
+                66.93000000000006
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1766.0,
+                204.0,
+                156.01,
+                51.05000000000001
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 8
+        },
+        {
+          "image": "images/pcb_defect_035.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 32,
+          "fn": 3,
+          "precision": 0.08571428571428572,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                248.0,
+                586.0,
+                53.69,
+                190.62
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                675.0,
+                1430.0,
+                85.81999999999994,
+                143.49
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2891.0,
+                1969.0,
+                116.5300000000002,
+                55.27999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_036.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 16,
+          "fn": 2,
+          "precision": 0.2,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                953.0,
+                559.0,
+                121.59999999999991,
+                72.97000000000003
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                162.0,
+                561.0,
+                65.80000000000001,
+                61.66999999999996
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_037.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 13,
+          "fn": 1,
+          "precision": 0.2777777777777778,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                837.0,
+                192.0,
+                228.55999999999995,
+                47.110000000000014
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_038.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 19,
+          "fn": 3,
+          "precision": 0.13636363636363635,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                923.0,
+                1092.0,
+                148.30999999999995,
+                83.79999999999995
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                758.0,
+                84.0,
+                51.039999999999964,
+                124.76999999999998
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1689.0,
+                652.0,
+                42.17000000000007,
+                127.54999999999995
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_039.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 13,
+          "fn": 1,
+          "precision": 0.2777777777777778,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1446.0,
+                747.0,
+                44.950000000000045,
+                149.78999999999996
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_040.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 23,
+          "fn": 2,
+          "precision": 0.17857142857142858,
+          "recall": 0.7142857142857143,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                633.0,
+                1308.0,
+                94.96000000000004,
+                65.79999999999995
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1616.0,
+                553.0,
+                33.83999999999992,
+                63.370000000000005
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_041.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 24,
+          "fn": 1,
+          "precision": 0.14285714285714285,
+          "recall": 0.8,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                2346.0,
+                621.0,
+                83.32000000000016,
+                134.20000000000005
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_042.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 24,
+          "fn": 2,
+          "precision": 0.14285714285714285,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                923.0,
+                1375.0,
+                105.72000000000003,
+                112.0
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                440.0,
+                1847.0,
+                115.25999999999999,
+                99.75
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_043.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 15,
+          "fn": 1,
+          "precision": 0.25,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1453.0,
+                982.0,
+                98.95000000000005,
+                124.25
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_044.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 27,
+          "fn": 4,
+          "precision": 0.06896551724137931,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1152.0,
+                508.0,
+                195.6300000000001,
+                108.81999999999994
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1271.0,
+                1281.0,
+                84.29999999999995,
+                109.00999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1607.0,
+                1531.0,
+                100.24000000000001,
+                96.19000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                184.0,
+                1141.0,
+                78.47000000000003,
+                102.43000000000006
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        }
+      ]
+    },
+    {
+      "score_threshold": 0.25,
+      "micro": {
+        "tp": 101,
+        "fp": 162,
+        "fn": 131,
+        "precision": 0.3840304182509506,
+        "recall": 0.4353448275862069
+      },
+      "per_class": {
+        "missing_pad": {
+          "tp": 22,
+          "fp": 42,
+          "fn": 15,
+          "precision": 0.34375,
+          "recall": 0.5945945945945946
+        },
+        "mouse_bite": {
+          "tp": 4,
+          "fp": 14,
+          "fn": 39,
+          "precision": 0.2222222222222222,
+          "recall": 0.09302325581395349
+        },
+        "open_circuit": {
+          "tp": 16,
+          "fp": 21,
+          "fn": 22,
+          "precision": 0.43243243243243246,
+          "recall": 0.42105263157894735
+        },
+        "short_circuit": {
+          "tp": 18,
+          "fp": 19,
+          "fn": 20,
+          "precision": 0.4864864864864865,
+          "recall": 0.47368421052631576
+        },
+        "spur": {
+          "tp": 16,
+          "fp": 38,
+          "fn": 23,
+          "precision": 0.2962962962962963,
+          "recall": 0.41025641025641024
+        },
+        "spurious_copper": {
+          "tp": 25,
+          "fp": 28,
+          "fn": 12,
+          "precision": 0.4716981132075472,
+          "recall": 0.6756756756756757
+        }
+      },
+      "boards": [
+        {
+          "image": "images/pcb_defect_013.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 11,
+          "fn": 10,
+          "precision": 0.15384615384615385,
+          "recall": 0.16666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                509.0,
+                3220.0,
+                104.26999999999998,
+                94.51999999999998
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                433.0,
+                2620.0,
+                122.60000000000002,
+                151.57999999999993
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1291.0,
+                2318.0,
+                85.34999999999991,
+                83.98000000000002
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1303.0,
+                1722.0,
+                42.3599999999999,
+                200.01
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1411.0,
+                1224.0,
+                57.07999999999993,
+                272.8499999999999
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1912.0,
+                1093.0,
+                107.20000000000005,
+                120.19000000000005
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2472.0,
+                1203.0,
+                195.92000000000007,
+                112.57999999999993
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1813.0,
+                875.0,
+                97.17000000000007,
+                85.88
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2598.0,
+                722.0,
+                85.23000000000002,
+                75.02999999999997
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                310.0,
+                1509.0,
+                88.88999999999999,
+                95.81999999999994
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_014.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 8,
+          "fn": 11,
+          "precision": 0.1111111111111111,
+          "recall": 0.08333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1446.0,
+                1838.0,
+                62.08999999999992,
+                106.90000000000009
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1352.0,
+                1140.0,
+                64.57999999999993,
+                269.04999999999995
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1861.0,
+                1003.0,
+                113.53999999999996,
+                130.0999999999999
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1677.0,
+                1022.0,
+                87.0,
+                68.13000000000011
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                443.0,
+                3126.0,
+                113.76999999999998,
+                110.75
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                398.0,
+                2551.0,
+                109.20999999999998,
+                126.73000000000002
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1241.0,
+                2209.0,
+                98.79999999999995,
+                106.15000000000009
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2427.0,
+                1116.0,
+                171.9000000000001,
+                120.94000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2554.0,
+                625.0,
+                66.59999999999991,
+                97.25999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1769.0,
+                789.0,
+                89.75,
+                72.75999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                250.0,
+                1418.0,
+                99.63999999999999,
+                106.81999999999994
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_015.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 5,
+          "fp": 12,
+          "fn": 6,
+          "precision": 0.29411764705882354,
+          "recall": 0.45454545454545453,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                310.0,
+                3004.0,
+                61.68000000000001,
+                294.07000000000016
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                534.0,
+                2293.0,
+                87.47000000000003,
+                100.65999999999985
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1450.0,
+                1588.0,
+                94.8599999999999,
+                93.66000000000008
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                767.0,
+                3240.0,
+                85.00999999999999,
+                70.01999999999998
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1871.0,
+                3255.0,
+                98.96000000000004,
+                104.0
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1205.0,
+                1382.0,
+                63.76999999999998,
+                60.61999999999989
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_016.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 10,
+          "fn": 10,
+          "precision": 0.09090909090909091,
+          "recall": 0.09090909090909091,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                1836.0,
+                1785.0,
+                55.569999999999936,
+                257.28
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2539.0,
+                2171.0,
+                58.48999999999978,
+                111.65999999999985
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1459.0,
+                2901.0,
+                110.59999999999991,
+                130.38999999999987
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                142.0,
+                1557.0,
+                121.22000000000003,
+                109.32999999999993
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                998.0,
+                2193.0,
+                97.83999999999992,
+                107.94000000000005
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                113.0,
+                770.0,
+                51.34,
+                240.83000000000004
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                929.0,
+                570.0,
+                92.11000000000001,
+                61.99000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                468.0,
+                152.0,
+                163.90999999999997,
+                130.82
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                866.0,
+                1182.0,
+                124.89999999999998,
+                85.80999999999995
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1547.0,
+                1363.0,
+                114.1400000000001,
+                100.67000000000007
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_017.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 6,
+          "fn": 9,
+          "precision": 0.14285714285714285,
+          "recall": 0.1,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                223.0,
+                1120.0,
+                61.23000000000002,
+                314.20000000000005
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                672.0,
+                2196.0,
+                103.36000000000001,
+                80.48999999999978
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1322.0,
+                2467.0,
+                75.84999999999991,
+                70.42000000000007
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                853.0,
+                3051.0,
+                99.49000000000001,
+                65.67999999999984
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                272.0,
+                3034.0,
+                156.59000000000003,
+                112.5300000000002
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2434.0,
+                2382.0,
+                158.1199999999999,
+                104.0
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                2393.0,
+                166.0,
+                83.86999999999989,
+                81.55000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1583.0,
+                1495.0,
+                87.38000000000011,
+                86.30999999999995
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1239.0,
+                1980.0,
+                121.19000000000005,
+                144.46000000000004
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_018.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 7,
+          "fn": 7,
+          "precision": 0.3,
+          "recall": 0.3,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1515.0,
+                3518.0,
+                93.17000000000007,
+                160.57000000000016
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1767.0,
+                2632.0,
+                53.23000000000002,
+                255.46000000000004
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1251.0,
+                1279.0,
+                53.319999999999936,
+                74.99000000000001
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1397.0,
+                977.0,
+                96.30999999999995,
+                110.50999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1522.0,
+                478.0,
+                98.78999999999996,
+                69.93000000000006
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                713.0,
+                543.0,
+                82.81999999999994,
+                104.83000000000004
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1302.0,
+                2647.0,
+                59.5,
+                67.9699999999998
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_019.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 2,
+          "fn": 5,
+          "precision": 0.5,
+          "recall": 0.2857142857142857,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1162.0,
+                1408.0,
+                68.45000000000005,
+                60.24000000000001
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1494.0,
+                1918.0,
+                33.57999999999993,
+                224.1500000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1451.0,
+                641.0,
+                58.16000000000008,
+                56.360000000000014
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                974.0,
+                1794.0,
+                64.6400000000001,
+                62.73000000000002
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1274.0,
+                1233.0,
+                66.36999999999989,
+                165.0
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_020.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 5,
+          "fp": 3,
+          "fn": 2,
+          "precision": 0.625,
+          "recall": 0.7142857142857143,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1653.0,
+                928.0,
+                86.25,
+                46.460000000000036
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2225.0,
+                1983.0,
+                57.7199999999998,
+                30.299999999999955
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_021.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                710.0,
+                1088.0,
+                38.15999999999997,
+                61.059999999999945
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                235.0,
+                1035.0,
+                42.94999999999999,
+                96.26999999999998
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                795.0,
+                1681.0,
+                157.72000000000003,
+                109.02999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_022.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 5,
+          "fn": 5,
+          "precision": 0.2857142857142857,
+          "recall": 0.2857142857142857,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1007.0,
+                755.0,
+                108.76999999999998,
+                51.52999999999997
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                271.0,
+                898.0,
+                37.29000000000002,
+                275.9000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                192.0,
+                959.0,
+                73.40999999999997,
+                94.54999999999995
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                542.0,
+                991.0,
+                46.960000000000036,
+                79.19000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1185.0,
+                218.0,
+                35.319999999999936,
+                85.11000000000001
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_023.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 4,
+          "fn": 3,
+          "precision": 0.42857142857142855,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1011.0,
+                1045.0,
+                94.25,
+                40.460000000000036
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                892.0,
+                1904.0,
+                36.539999999999964,
+                148.07000000000016
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                661.0,
+                1808.0,
+                227.66999999999996,
+                49.50999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_024.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                917.0,
+                544.0,
+                69.44000000000005,
+                44.549999999999955
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                627.0,
+                934.0,
+                66.85000000000002,
+                58.25
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                409.0,
+                332.0,
+                141.95000000000005,
+                60.31999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_025.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 5,
+          "fn": 3,
+          "precision": 0.375,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1234.0,
+                1118.0,
+                68.70000000000005,
+                160.1300000000001
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                732.0,
+                165.0,
+                87.79999999999995,
+                40.400000000000006
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1126.0,
+                1300.0,
+                42.069999999999936,
+                61.17000000000007
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_026.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 5,
+          "fp": 4,
+          "fn": 3,
+          "precision": 0.5555555555555556,
+          "recall": 0.625,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                1673.0,
+                494.0,
+                72.43000000000006,
+                68.24000000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1395.0,
+                1626.0,
+                126.25,
+                45.950000000000045
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                583.0,
+                304.0,
+                63.09000000000003,
+                97.90999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_027.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 8,
+          "fn": 5,
+          "precision": 0.1111111111111111,
+          "recall": 0.16666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                751.0,
+                514.0,
+                54.33000000000004,
+                56.17999999999995
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2279.0,
+                844.0,
+                107.63000000000011,
+                38.58000000000004
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                2082.0,
+                1177.0,
+                74.03999999999996,
+                75.18000000000006
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                203.0,
+                1231.0,
+                234.86,
+                95.6400000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1588.0,
+                1619.0,
+                82.01999999999998,
+                42.75999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_028.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 3,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                396.0,
+                887.0,
+                205.73000000000002,
+                88.38999999999999
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2221.0,
+                1340.0,
+                48.01000000000022,
+                85.91000000000008
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1635.0,
+                353.0,
+                133.70000000000005,
+                44.47000000000003
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_029.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 3,
+          "fn": 2,
+          "precision": 0.5714285714285714,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1256.0,
+                913.0,
+                70.55999999999995,
+                80.64999999999998
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1385.0,
+                178.0,
+                83.15000000000009,
+                69.32999999999998
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_030.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 2,
+          "fn": 4,
+          "precision": 0.6,
+          "recall": 0.42857142857142855,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1707.0,
+                981.0,
+                83.57999999999993,
+                86.52999999999997
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1391.0,
+                598.0,
+                114.28999999999996,
+                64.13
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                317.0,
+                1081.0,
+                114.47000000000003,
+                63.819999999999936
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1906.0,
+                414.0,
+                123.08999999999992,
+                121.28999999999996
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_031.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 4,
+          "fn": 2,
+          "precision": 0.5,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                861.0,
+                197.0,
+                106.38,
+                116.98000000000002
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                704.0,
+                837.0,
+                103.08000000000004,
+                63.299999999999955
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_032.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 8,
+          "fn": 3,
+          "precision": 0.2727272727272727,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                1609.0,
+                1019.0,
+                157.94000000000005,
+                92.42000000000007
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1144.0,
+                2137.0,
+                123.28999999999996,
+                68.55000000000018
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1245.0,
+                1948.0,
+                94.09999999999991,
+                90.66000000000008
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_033.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 6,
+          "fn": 3,
+          "precision": 0.3333333333333333,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                605.0,
+                1463.0,
+                124.65999999999997,
+                108.11999999999989
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2564.0,
+                862.0,
+                53.2199999999998,
+                144.84000000000003
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2682.0,
+                1888.0,
+                58.48000000000002,
+                91.71000000000004
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_034.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 7,
+          "fp": 10,
+          "fn": 3,
+          "precision": 0.4117647058823529,
+          "recall": 0.7,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                490.0,
+                1376.0,
+                89.25,
+                66.93000000000006
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1766.0,
+                204.0,
+                156.01,
+                51.05000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                611.0,
+                2933.0,
+                145.47000000000003,
+                93.59000000000015
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 8
+        },
+        {
+          "image": "images/pcb_defect_035.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 6,
+          "fn": 4,
+          "precision": 0.25,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                248.0,
+                586.0,
+                53.69,
+                190.62
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                675.0,
+                1430.0,
+                85.81999999999994,
+                143.49
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                726.0,
+                1886.0,
+                53.059999999999945,
+                79.34999999999991
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2891.0,
+                1969.0,
+                116.5300000000002,
+                55.27999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_036.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                953.0,
+                559.0,
+                121.59999999999991,
+                72.97000000000003
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1070.0,
+                674.0,
+                68.27999999999997,
+                72.56999999999994
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                162.0,
+                561.0,
+                65.80000000000001,
+                61.66999999999996
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_037.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.75,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                837.0,
+                192.0,
+                228.55999999999995,
+                47.110000000000014
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                409.0,
+                661.0,
+                122.30999999999995,
+                101.52999999999997
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                286.0,
+                1115.0,
+                53.70999999999998,
+                68.25
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_038.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 4,
+          "fn": 3,
+          "precision": 0.42857142857142855,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                923.0,
+                1092.0,
+                148.30999999999995,
+                83.79999999999995
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                758.0,
+                84.0,
+                51.039999999999964,
+                124.76999999999998
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1689.0,
+                652.0,
+                42.17000000000007,
+                127.54999999999995
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_039.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 2,
+          "fn": 1,
+          "precision": 0.7142857142857143,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1446.0,
+                747.0,
+                44.950000000000045,
+                149.78999999999996
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_040.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 2,
+          "fn": 2,
+          "precision": 0.7142857142857143,
+          "recall": 0.7142857142857143,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                633.0,
+                1308.0,
+                94.96000000000004,
+                65.79999999999995
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1616.0,
+                553.0,
+                33.83999999999992,
+                63.370000000000005
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_041.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 3,
+          "fn": 2,
+          "precision": 0.5,
+          "recall": 0.6,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                2346.0,
+                621.0,
+                83.32000000000016,
+                134.20000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                648.0,
+                1110.0,
+                101.96000000000004,
+                61.09999999999991
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_042.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 9,
+          "fn": 3,
+          "precision": 0.25,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                923.0,
+                1375.0,
+                105.72000000000003,
+                112.0
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                440.0,
+                1847.0,
+                115.25999999999999,
+                99.75
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                83.0,
+                2021.0,
+                131.53,
+                82.98999999999978
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_043.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 5,
+          "fn": 1,
+          "precision": 0.5,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1453.0,
+                982.0,
+                98.95000000000005,
+                124.25
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_044.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 2,
+          "fn": 4,
+          "precision": 0.5,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1152.0,
+                508.0,
+                195.6300000000001,
+                108.81999999999994
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1271.0,
+                1281.0,
+                84.29999999999995,
+                109.00999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1607.0,
+                1531.0,
+                100.24000000000001,
+                96.19000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                184.0,
+                1141.0,
+                78.47000000000003,
+                102.43000000000006
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        }
+      ]
+    },
+    {
+      "score_threshold": 0.5,
+      "micro": {
+        "tp": 73,
+        "fp": 48,
+        "fn": 159,
+        "precision": 0.6033057851239669,
+        "recall": 0.3146551724137931
+      },
+      "per_class": {
+        "missing_pad": {
+          "tp": 17,
+          "fp": 6,
+          "fn": 20,
+          "precision": 0.7391304347826086,
+          "recall": 0.4594594594594595
+        },
+        "mouse_bite": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 43,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "open_circuit": {
+          "tp": 6,
+          "fp": 10,
+          "fn": 32,
+          "precision": 0.375,
+          "recall": 0.15789473684210525
+        },
+        "short_circuit": {
+          "tp": 14,
+          "fp": 5,
+          "fn": 24,
+          "precision": 0.7368421052631579,
+          "recall": 0.3684210526315789
+        },
+        "spur": {
+          "tp": 13,
+          "fp": 12,
+          "fn": 26,
+          "precision": 0.52,
+          "recall": 0.3333333333333333
+        },
+        "spurious_copper": {
+          "tp": 23,
+          "fp": 14,
+          "fn": 14,
+          "precision": 0.6216216216216216,
+          "recall": 0.6216216216216216
+        }
+      },
+      "boards": [
+        {
+          "image": "images/pcb_defect_013.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 2,
+          "fn": 11,
+          "precision": 0.3333333333333333,
+          "recall": 0.08333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                509.0,
+                3220.0,
+                104.26999999999998,
+                94.51999999999998
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                433.0,
+                2620.0,
+                122.60000000000002,
+                151.57999999999993
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1291.0,
+                2318.0,
+                85.34999999999991,
+                83.98000000000002
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1495.0,
+                1943.0,
+                81.32999999999993,
+                91.6099999999999
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1303.0,
+                1722.0,
+                42.3599999999999,
+                200.01
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1411.0,
+                1224.0,
+                57.07999999999993,
+                272.8499999999999
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1912.0,
+                1093.0,
+                107.20000000000005,
+                120.19000000000005
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2472.0,
+                1203.0,
+                195.92000000000007,
+                112.57999999999993
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1813.0,
+                875.0,
+                97.17000000000007,
+                85.88
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2598.0,
+                722.0,
+                85.23000000000002,
+                75.02999999999997
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                310.0,
+                1509.0,
+                88.88999999999999,
+                95.81999999999994
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_014.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 0,
+          "fp": 2,
+          "fn": 12,
+          "precision": 0.0,
+          "recall": 0.0,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1446.0,
+                1838.0,
+                62.08999999999992,
+                106.90000000000009
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1352.0,
+                1140.0,
+                64.57999999999993,
+                269.04999999999995
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1244.0,
+                1626.0,
+                49.25,
+                206.1300000000001
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1861.0,
+                1003.0,
+                113.53999999999996,
+                130.0999999999999
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1677.0,
+                1022.0,
+                87.0,
+                68.13000000000011
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                443.0,
+                3126.0,
+                113.76999999999998,
+                110.75
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                398.0,
+                2551.0,
+                109.20999999999998,
+                126.73000000000002
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1241.0,
+                2209.0,
+                98.79999999999995,
+                106.15000000000009
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2427.0,
+                1116.0,
+                171.9000000000001,
+                120.94000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2554.0,
+                625.0,
+                66.59999999999991,
+                97.25999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1769.0,
+                789.0,
+                89.75,
+                72.75999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                250.0,
+                1418.0,
+                99.63999999999999,
+                106.81999999999994
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 0
+        },
+        {
+          "image": "images/pcb_defect_015.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 3,
+          "fn": 8,
+          "precision": 0.5,
+          "recall": 0.2727272727272727,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                310.0,
+                3004.0,
+                61.68000000000001,
+                294.07000000000016
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                534.0,
+                2293.0,
+                87.47000000000003,
+                100.65999999999985
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1450.0,
+                1588.0,
+                94.8599999999999,
+                93.66000000000008
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                767.0,
+                3240.0,
+                85.00999999999999,
+                70.01999999999998
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1871.0,
+                3255.0,
+                98.96000000000004,
+                104.0
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2438.0,
+                1167.0,
+                56.159999999999854,
+                144.1199999999999
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1205.0,
+                1382.0,
+                63.76999999999998,
+                60.61999999999989
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1685.0,
+                218.0,
+                82.74000000000001,
+                139.45
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_016.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 0,
+          "fp": 4,
+          "fn": 11,
+          "precision": 0.0,
+          "recall": 0.0,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                1836.0,
+                1785.0,
+                55.569999999999936,
+                257.28
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2539.0,
+                2171.0,
+                58.48999999999978,
+                111.65999999999985
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1459.0,
+                2901.0,
+                110.59999999999991,
+                130.38999999999987
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                142.0,
+                1557.0,
+                121.22000000000003,
+                109.32999999999993
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                998.0,
+                2193.0,
+                97.83999999999992,
+                107.94000000000005
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                113.0,
+                770.0,
+                51.34,
+                240.83000000000004
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                929.0,
+                570.0,
+                92.11000000000001,
+                61.99000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                468.0,
+                152.0,
+                163.90999999999997,
+                130.82
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2193.0,
+                500.0,
+                74.36999999999989,
+                122.53999999999996
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                866.0,
+                1182.0,
+                124.89999999999998,
+                85.80999999999995
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1547.0,
+                1363.0,
+                114.1400000000001,
+                100.67000000000007
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_017.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 1,
+          "fn": 9,
+          "precision": 0.5,
+          "recall": 0.1,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                223.0,
+                1120.0,
+                61.23000000000002,
+                314.20000000000005
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                672.0,
+                2196.0,
+                103.36000000000001,
+                80.48999999999978
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1322.0,
+                2467.0,
+                75.84999999999991,
+                70.42000000000007
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                853.0,
+                3051.0,
+                99.49000000000001,
+                65.67999999999984
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                272.0,
+                3034.0,
+                156.59000000000003,
+                112.5300000000002
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2434.0,
+                2382.0,
+                158.1199999999999,
+                104.0
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                2393.0,
+                166.0,
+                83.86999999999989,
+                81.55000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1583.0,
+                1495.0,
+                87.38000000000011,
+                86.30999999999995
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1239.0,
+                1980.0,
+                121.19000000000005,
+                144.46000000000004
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_018.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 3,
+          "fn": 9,
+          "precision": 0.25,
+          "recall": 0.1,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1515.0,
+                3518.0,
+                93.17000000000007,
+                160.57000000000016
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1767.0,
+                2632.0,
+                53.23000000000002,
+                255.46000000000004
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2130.0,
+                2065.0,
+                119.26000000000022,
+                119.94000000000005
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1195.0,
+                1828.0,
+                59.559999999999945,
+                219.19000000000005
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1251.0,
+                1279.0,
+                53.319999999999936,
+                74.99000000000001
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1397.0,
+                977.0,
+                96.30999999999995,
+                110.50999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1522.0,
+                478.0,
+                98.78999999999996,
+                69.93000000000006
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                713.0,
+                543.0,
+                82.81999999999994,
+                104.83000000000004
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1302.0,
+                2647.0,
+                59.5,
+                67.9699999999998
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_019.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 0,
+          "fn": 6,
+          "precision": 1.0,
+          "recall": 0.14285714285714285,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1204.0,
+                2394.0,
+                88.02999999999997,
+                46.0
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1162.0,
+                1408.0,
+                68.45000000000005,
+                60.24000000000001
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                1494.0,
+                1918.0,
+                33.57999999999993,
+                224.1500000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1451.0,
+                641.0,
+                58.16000000000008,
+                56.360000000000014
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                974.0,
+                1794.0,
+                64.6400000000001,
+                62.73000000000002
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1274.0,
+                1233.0,
+                66.36999999999989,
+                165.0
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_020.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 4,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6666666666666666,
+          "recall": 0.5714285714285714,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1227.0,
+                192.0,
+                95.23000000000002,
+                46.620000000000005
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1653.0,
+                928.0,
+                86.25,
+                46.460000000000036
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2225.0,
+                1983.0,
+                57.7199999999998,
+                30.299999999999955
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_021.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.75,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                710.0,
+                1088.0,
+                38.15999999999997,
+                61.059999999999945
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                235.0,
+                1035.0,
+                42.94999999999999,
+                96.26999999999998
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                795.0,
+                1681.0,
+                157.72000000000003,
+                109.02999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_022.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 0,
+          "fn": 5,
+          "precision": 1.0,
+          "recall": 0.2857142857142857,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1007.0,
+                755.0,
+                108.76999999999998,
+                51.52999999999997
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                271.0,
+                898.0,
+                37.29000000000002,
+                275.9000000000001
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                192.0,
+                959.0,
+                73.40999999999997,
+                94.54999999999995
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                542.0,
+                991.0,
+                46.960000000000036,
+                79.19000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1185.0,
+                218.0,
+                35.319999999999936,
+                85.11000000000001
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_023.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 1,
+          "fn": 4,
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1011.0,
+                1045.0,
+                94.25,
+                40.460000000000036
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1540.0,
+                467.0,
+                39.690000000000055,
+                62.17999999999995
+              ]
+            },
+            {
+              "category_id": 6,
+              "bbox": [
+                892.0,
+                1904.0,
+                36.539999999999964,
+                148.07000000000016
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                661.0,
+                1808.0,
+                227.66999999999996,
+                49.50999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_024.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 2,
+          "fp": 1,
+          "fn": 4,
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                917.0,
+                544.0,
+                69.44000000000005,
+                44.549999999999955
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                548.0,
+                665.0,
+                38.65999999999997,
+                55.450000000000045
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                627.0,
+                934.0,
+                66.85000000000002,
+                58.25
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                409.0,
+                332.0,
+                141.95000000000005,
+                60.31999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_025.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1234.0,
+                1118.0,
+                68.70000000000005,
+                160.1300000000001
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                732.0,
+                165.0,
+                87.79999999999995,
+                40.400000000000006
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1126.0,
+                1300.0,
+                42.069999999999936,
+                61.17000000000007
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_026.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 3,
+          "fn": 7,
+          "precision": 0.25,
+          "recall": 0.125,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                1673.0,
+                494.0,
+                72.43000000000006,
+                68.24000000000001
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                658.0,
+                298.0,
+                62.799999999999955,
+                111.75
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1395.0,
+                1626.0,
+                126.25,
+                45.950000000000045
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2494.0,
+                1609.0,
+                91.15999999999985,
+                87.6400000000001
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                1429.0,
+                2294.0,
+                75.52999999999997,
+                104.7800000000002
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                843.0,
+                2007.0,
+                59.440000000000055,
+                67.13999999999987
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                583.0,
+                304.0,
+                63.09000000000003,
+                97.90999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_027.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 1,
+          "fp": 1,
+          "fn": 5,
+          "precision": 0.5,
+          "recall": 0.16666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                751.0,
+                514.0,
+                54.33000000000004,
+                56.17999999999995
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2279.0,
+                844.0,
+                107.63000000000011,
+                38.58000000000004
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                2082.0,
+                1177.0,
+                74.03999999999996,
+                75.18000000000006
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                203.0,
+                1231.0,
+                234.86,
+                95.6400000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1588.0,
+                1619.0,
+                82.01999999999998,
+                42.75999999999999
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_028.jpg",
+          "group": "pcb-defect-family-51",
+          "tp": 3,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.6,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                396.0,
+                887.0,
+                205.73000000000002,
+                88.38999999999999
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2221.0,
+                1340.0,
+                48.01000000000022,
+                85.91000000000008
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1635.0,
+                353.0,
+                133.70000000000005,
+                44.47000000000003
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_029.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 3,
+          "fn": 2,
+          "precision": 0.5714285714285714,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                1256.0,
+                913.0,
+                70.55999999999995,
+                80.64999999999998
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1385.0,
+                178.0,
+                83.15000000000009,
+                69.32999999999998
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_030.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 0,
+          "fn": 5,
+          "precision": 1.0,
+          "recall": 0.2857142857142857,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1707.0,
+                981.0,
+                83.57999999999993,
+                86.52999999999997
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1685.0,
+                684.0,
+                137.57999999999993,
+                127.36000000000001
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1391.0,
+                598.0,
+                114.28999999999996,
+                64.13
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                317.0,
+                1081.0,
+                114.47000000000003,
+                63.819999999999936
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1906.0,
+                414.0,
+                123.08999999999992,
+                121.28999999999996
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_031.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 2,
+          "fn": 2,
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                861.0,
+                197.0,
+                106.38,
+                116.98000000000002
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                704.0,
+                837.0,
+                103.08000000000004,
+                63.299999999999955
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_032.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 3,
+          "fn": 4,
+          "precision": 0.4,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                1609.0,
+                1019.0,
+                157.94000000000005,
+                92.42000000000007
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                754.0,
+                986.0,
+                101.13,
+                80.6400000000001
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1144.0,
+                2137.0,
+                123.28999999999996,
+                68.55000000000018
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1245.0,
+                1948.0,
+                94.09999999999991,
+                90.66000000000008
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_033.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                605.0,
+                1463.0,
+                124.65999999999997,
+                108.11999999999989
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                2564.0,
+                862.0,
+                53.2199999999998,
+                144.84000000000003
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                2682.0,
+                1888.0,
+                58.48000000000002,
+                91.71000000000004
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_034.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 4,
+          "fn": 7,
+          "precision": 0.42857142857142855,
+          "recall": 0.3,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                2002.0,
+                2592.0,
+                109.67000000000007,
+                95.21000000000004
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                490.0,
+                1376.0,
+                89.25,
+                66.93000000000006
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1766.0,
+                204.0,
+                156.01,
+                51.05000000000001
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                379.0,
+                627.0,
+                68.85000000000002,
+                110.66999999999996
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                611.0,
+                2933.0,
+                145.47000000000003,
+                93.59000000000015
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1671.0,
+                2144.0,
+                114.57999999999993,
+                114.57000000000016
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                979.0,
+                104.0,
+                71.55999999999995,
+                60.93000000000001
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_035.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 1,
+          "fn": 4,
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                248.0,
+                586.0,
+                53.69,
+                190.62
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                675.0,
+                1430.0,
+                85.81999999999994,
+                143.49
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                726.0,
+                1886.0,
+                53.059999999999945,
+                79.34999999999991
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                2891.0,
+                1969.0,
+                116.5300000000002,
+                55.27999999999997
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_036.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.75,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                953.0,
+                559.0,
+                121.59999999999991,
+                72.97000000000003
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1070.0,
+                674.0,
+                68.27999999999997,
+                72.56999999999994
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                162.0,
+                561.0,
+                65.80000000000001,
+                61.66999999999996
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_037.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 1,
+          "fp": 0,
+          "fn": 5,
+          "precision": 1.0,
+          "recall": 0.16666666666666666,
+          "missed_annotations": [
+            {
+              "category_id": 6,
+              "bbox": [
+                837.0,
+                192.0,
+                228.55999999999995,
+                47.110000000000014
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                409.0,
+                661.0,
+                122.30999999999995,
+                101.52999999999997
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                286.0,
+                1115.0,
+                53.70999999999998,
+                68.25
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                923.0,
+                1053.0,
+                53.879999999999995,
+                67.44000000000005
+              ]
+            },
+            {
+              "category_id": 1,
+              "bbox": [
+                1509.0,
+                829.0,
+                125.78999999999996,
+                123.25
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 1
+        },
+        {
+          "image": "images/pcb_defect_038.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 1,
+          "fn": 4,
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 5,
+              "bbox": [
+                923.0,
+                1092.0,
+                148.30999999999995,
+                83.79999999999995
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                758.0,
+                84.0,
+                51.039999999999964,
+                124.76999999999998
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1377.0,
+                87.0,
+                59.67000000000007,
+                50.829999999999984
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1689.0,
+                652.0,
+                42.17000000000007,
+                127.54999999999995
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_039.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1.0,
+          "recall": 0.5,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                1674.0,
+                937.0,
+                104.96000000000004,
+                98.8599999999999
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1446.0,
+                747.0,
+                44.950000000000045,
+                149.78999999999996
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                738.0,
+                621.0,
+                75.09000000000003,
+                45.84000000000003
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_040.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 4,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.8,
+          "recall": 0.5714285714285714,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                633.0,
+                1308.0,
+                94.96000000000004,
+                65.79999999999995
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1009.0,
+                1463.0,
+                130.23000000000002,
+                130.61000000000013
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                1616.0,
+                553.0,
+                33.83999999999992,
+                63.370000000000005
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 4
+        },
+        {
+          "image": "images/pcb_defect_041.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 3,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.6,
+          "missed_annotations": [
+            {
+              "category_id": 3,
+              "bbox": [
+                2346.0,
+                621.0,
+                83.32000000000016,
+                134.20000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                648.0,
+                1110.0,
+                101.96000000000004,
+                61.09999999999991
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 3
+        },
+        {
+          "image": "images/pcb_defect_042.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 1,
+          "fn": 4,
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 1,
+              "bbox": [
+                923.0,
+                1375.0,
+                105.72000000000003,
+                112.0
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                406.0,
+                1325.0,
+                65.94999999999999,
+                81.65000000000009
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                440.0,
+                1847.0,
+                115.25999999999999,
+                99.75
+              ]
+            },
+            {
+              "category_id": 4,
+              "bbox": [
+                83.0,
+                2021.0,
+                131.53,
+                82.98999999999978
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        },
+        {
+          "image": "images/pcb_defect_043.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 5,
+          "fp": 2,
+          "fn": 1,
+          "precision": 0.7142857142857143,
+          "recall": 0.8333333333333334,
+          "missed_annotations": [
+            {
+              "category_id": 2,
+              "bbox": [
+                1453.0,
+                982.0,
+                98.95000000000005,
+                124.25
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 5
+        },
+        {
+          "image": "images/pcb_defect_044.jpg",
+          "group": "pcb-defect-family-52",
+          "tp": 2,
+          "fp": 1,
+          "fn": 4,
+          "precision": 0.6666666666666666,
+          "recall": 0.3333333333333333,
+          "missed_annotations": [
+            {
+              "category_id": 4,
+              "bbox": [
+                1152.0,
+                508.0,
+                195.6300000000001,
+                108.81999999999994
+              ]
+            },
+            {
+              "category_id": 3,
+              "bbox": [
+                1271.0,
+                1281.0,
+                84.29999999999995,
+                109.00999999999999
+              ]
+            },
+            {
+              "category_id": 5,
+              "bbox": [
+                1607.0,
+                1531.0,
+                100.24000000000001,
+                96.19000000000005
+              ]
+            },
+            {
+              "category_id": 2,
+              "bbox": [
+                184.0,
+                1141.0,
+                78.47000000000003,
+                102.43000000000006
+              ]
+            }
+          ],
+          "class_agnostic_target_coverage": 2
+        }
+      ]
+    }
+  ],
+  "promotion_eligible": false,
+  "test_evaluated": false,
+  "limitations": [
+    "Fixed diagnostic thresholds, not calibrated product settings.",
+    "False positives are relative to source annotations, whose completeness is unverified.",
+    "Micro precision/recall at IoU .5 are not COCO AP or AR100.",
+    "Class-agnostic coverage can reuse predictions; not precision or matched recall."
+  ]
+}

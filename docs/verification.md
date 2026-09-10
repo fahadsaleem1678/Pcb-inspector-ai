@@ -179,3 +179,21 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   repository lint and formatting passed. No service code or dependency changes in this slice.
 - Protocol, compact metrics, hashes and interpretations are recorded in ml/RESOLUTION.md and
   ml/evidence/resolution-probe-001.*, coco-resize640-epoch1.*, resolution-training-comparison.json.
+
+### Five-epoch 640-pixel run and error diagnostics (verified 2026-09-10)
+
+- Training completed five epochs / 825 optimizer steps from clean revision 28d7971. Recorded
+  loop wall time totaled 97.35 minutes including validation; unusually long epochs three/five
+  make this unsuitable as an isolated compute-speed benchmark. No causal timing claim is made.
+- First epoch exactly reproduced the pilot's source order, mean loss, every prediction and
+  detection metric. Best epoch five achieved AP50 38.1599%, AP50:95 13.5267%, AR100 23.8448%.
+- Selected checkpoint reload reproduced all validation predictions and detection metrics;
+  checksum-bound evidence export succeeded, and local SQLite MLflow status was FINISHED.
+- Added score-ordered, one-to-one IoU .5 diagnostic matching at fixed scores .05/.25/.5,
+  with TP/FP/FN, per-class/per-board details, missed annotation boxes and overlap coverage.
+- At score .25: 101 TP, 162 FP, 131 missed labels; 39 of 43 mouse-bite labels missed.
+  Precision/recall here are micro rates at one IoU, not COCO AP/AR or product calibration.
+- All 33 ML checks passed, including duplicate/wrong-class/nonoverlap matching, score boundaries,
+  empty denominators and malformed prediction rejection. Repository lint and formatting passed.
+- Reports and compact evidence are in ml/evidence/coco-resize640-5epochs*. No test evaluation,
+  model promotion, product inference change, or dependency change was made.

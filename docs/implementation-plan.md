@@ -117,6 +117,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Five-epoch pretrained experiment, best-epoch reload and auditable evidence export; quality remains inadequate.
 - [x] Fixed-checkpoint validation comparison of 320/640 resolution and 1536-pixel tiles; changed transforms reduced AP50:95.
 - [x] One-epoch 640-pixel training pilot and exact checkpoint reload; AP50 8.2584%, AP50:95 1.7542%, still research-only.
+- [x] Five-epoch 640-pixel run, exact pilot/reload parity and fixed-threshold error diagnostics; AP50 38.1599%, AP50:95 13.5267%, still research-only.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -139,9 +140,10 @@ remains historical context where its taxonomy differs from the accepted V1 speci
 PCB-Defect research release 1.0.0 is frozen: 165 train / 32 validation / 33 test images;
 13 conservative groups, all six classes in every split, no validator findings. See
 [data release notes](../data/releases/pcb-defect-v1/README.md). The offline [baseline pipeline](../ml/BASELINE.md) now provides reproducible training/evaluation.
-The 640-pixel one-epoch pilot improves AP50 to 8.2584%, but recall remains low and no real model
-is approved. Next run a separately named multi-epoch 640-pixel experiment with validation-only
-selection, inspect missed defects, and compare finer feature maps if localization stalls.
+The five-epoch 640-pixel run reaches AP50 38.1599% / AP50:95 13.5267%, but AR100 is only
+23.8448% and no real model is approved. Next build local visual review for missed mouse bites
+and family-51 boards, then define a targeted finer-feature, anchor or trained-tiling experiment.
+Keep the existing frozen release intact until expert label review establishes any correction.
 An approved surface-model API contract follows model qualification. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
 Annotation-completeness review, negative examples and an external camera holdout are still
 required before making broad product claims.

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "scope": "Single-seed frozen-validation comparison; no test evaluation or model promotion",
+  "matching_pilot_epoch1": {
+    "epoch1_reproduces_pilot": true,
+    "loss_equal": true,
+    "source_order_equal": true,
+    "predictions_equal": true,
+    "detection_metrics_equal": true,
+    "epoch1_minutes": 7.399869454999999
+  },
+  "runs": [
+    {
+      "name": "320 best of five",
+      "checkpoint_sha256": "3f8dcca6f1937a5931c8f86b8a517a93cad8ba0bdfa1901d3132e391a5fa71b0",
+      "selected_epoch": 4,
+      "ap50": 0.01752603989343248,
+      "ap50_95": 0.007614068710441269,
+      "ar100": 0.031077129761340288
+    },
+    {
+      "name": "640 one-epoch pilot",
+      "checkpoint_sha256": "a22923cd7f6f4e1c7cc225a6f58edf640cabbbaf1a8d4b480d89cb5e8209f0e3",
+      "selected_epoch": 1,
+      "ap50": 0.082583544289348,
+      "ap50_95": 0.017541767982492306,
+      "ar100": 0.08379948303448916
+    },
+    {
+      "name": "640 best of five",
+      "checkpoint_sha256": "13bb737a93252cf0535520bc774c3d6b434dc656a971ed7473ab458c880772f4",
+      "selected_epoch": 5,
+      "ap50": 0.3815985821519229,
+      "ap50_95": 0.13526710003452808,
+      "ar100": 0.23844784667918084
+    }
+  ],
+  "evidence_sha256": {
+    "coco-resize-5epochs.json": "63e261bf2798f606574733f5ccc97b91bb25b37f3d44947e56ab82a676da10fb",
+    "coco-resize640-epoch1.json": "cbedcf6c1e3667a17d9e5b83356d7224873ccb8325adfc0a4a19024f554c93f3",
+    "coco-resize640-5epochs.json": "e5d0e609fbf4915ee42ac7888e541cb4ea7bee5971cc21c41840f8a92fd4a5f6",
+    "coco-resize640-5epochs-errors.json": "4a42f805e2ff11313cfa38aa18765c4c7d9cb71f03c15cbf494a9a0cf524b171"
+  }
+}

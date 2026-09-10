@@ -235,3 +235,12 @@ An empty denominator returns null. False positives are relative to available lab
 completeness still requires review. Separate class-agnostic overlap coverage may reuse boxes
 and must not be interpreted as matched recall. No test split or automatic threshold selection
 is exposed; output files are never overwritten.
+
+## Five-epoch 640-pixel result
+
+The [completed longer run](evidence/coco-resize640-5epochs.md) selected epoch five: AP50 38.1599%,
+AP50:95 13.5267%, AR100 23.8448%. All 825 optimizer steps completed, first-epoch pilot parity
+was exact, and the selected checkpoint reload reproduced every prediction and detection metric.
+At diagnostic score 0.25 / IoU 0.5, 131 of 232 validation labels remain missed, including 39 of
+43 mouse bites. The next slice is local visual error review followed by a targeted spatial-feature
+or tiling experiment; the model remains research-only and the test split remains unevaluated.
