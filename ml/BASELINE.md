@@ -299,3 +299,14 @@ Nonfinite loss/gradient failures now record source image, tile window, epoch/ste
 and individual loss components in `failure.json`. Losses are represented as strings there to
 preserve NaN/Inf diagnostics in valid JSON. Failed runs cannot be evaluated/promoted.
 See the [failed attempt and amended protocol](RESOLUTION.md#empty-tile-failure-and-corrected-pilot).
+
+
+## Completed corrected tile pilot
+
+The [one-epoch result](evidence/coco-tiles1536-rpn0-epoch1.md) completed 1,053 tile steps from
+clean revision 6b80082, with exact full-board checkpoint reload. AP50 reached 63.1950%,
+AP50:95 24.7772% and AR100 40.0831%. At score 0.25, misses fell to 46 but false positives
+rose to 548; the model remains research-only. Training proposal filtering and step count
+also changed, so the comparison does not isolate tiling. Both the original failed attempt
+and amended successful run remain recorded. Next prioritize false-positive review and an
+explicit matched-step control before further architecture or threshold changes.

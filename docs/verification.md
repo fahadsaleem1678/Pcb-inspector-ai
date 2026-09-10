@@ -247,3 +247,23 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   as compact metadata. No images/weights, held-out test inference or model promotion.
 - The amended full pilot is a fresh single epoch, with explicit comparison limitations:
   training proposal filtering differs in addition to tiling, step count and label appearances.
+
+
+### Completed corrected tile pilot (2026-09-10)
+
+- Clean revision 6b80082 completed one epoch / all 1,053 seeded tile steps, from 165 source
+  training boards. Mean loss 0.259109; loop time including validation 42.92 minutes.
+- Validation used 160 tile views from 32 boards, merged into source coordinates. AP50 63.1950%,
+  AP50:95 24.7772%, AR100 40.0831%; all six classes and both validation groups improved AP50/AP50:95.
+- Independent checkpoint reload reproduced every prediction and aggregate/per-class/per-group
+  detection metric exactly. MLflow status FINISHED. Export verified code/config/checkpoint
+  hashes, complete history and the exact seeded permutation of all 1,053 view indices.
+- At score 0.25 / IoU 0.5: 186 TP, 548 FP, 46 misses; mouse bites 26 TP / 148 FP / 17 misses.
+  Higher recall comes with more false positives and does not qualify a production threshold.
+- Five of six previously inspected mouse-bite labels now match numerically at that score/IoU.
+  Board 044 remains missed. No new expert label review is claimed.
+- New review package generated with verified copies of all 32 validation images, under ignored
+  ml/runs/review-tiles1536-rpn0-001. Model weights and source images were not committed.
+- Full 43-test ML suite, lint/format and both hosted workflows passed for the training fix;
+  final result work changes evidence/docs only. No new test inference, dataset correction,
+  longer training, automatic threshold selection or model promotion occurred.

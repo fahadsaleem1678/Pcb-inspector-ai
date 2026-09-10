@@ -96,6 +96,9 @@ threshold-calibration or weight-distribution gates. Inspect missed detections af
 
 ## Follow-up: trained tiling pilot
 
+Original protocol, retained for provenance. After the observed empty-tile failure, use the
+[corrected pilot below](#empty-tile-failure-and-corrected-pilot) for execution.
+
 The [six-case visual review](evidence/coco-resize640-5epochs-visual-review.md) found a mixture
 of absent retained boxes, low-confidence class confusion and partial localization. Test the
 spatial-detail hypothesis with a separately named, one-epoch tiled run. This protocol is

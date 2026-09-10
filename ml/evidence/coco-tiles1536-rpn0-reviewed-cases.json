@@ -1,0 +1,51 @@
+{
+  "scope": "Numerical recheck of previously visually inspected regions; no new visual assessment",
+  "checkpoint_sha256": "d47d6ab12e6db81126b565f02b2c9447c1440664d162fdff121b411ca6a78ead",
+  "manifest_sha256": "31bc9c3df24a42dae1b577ea7082a4c0906fd26a5fb4ecf095af2853d43b26b4",
+  "score_threshold": 0.25,
+  "iou_threshold": 0.5,
+  "cases": [
+    {
+      "image": "images/pcb_defect_014.jpg",
+      "annotation_index": 7,
+      "previously_missed_at_025": true,
+      "now_missed_at_025": false,
+      "best_mouse_iou_at_025": 0.6164495485884701
+    },
+    {
+      "image": "images/pcb_defect_013.jpg",
+      "annotation_index": 2,
+      "previously_missed_at_025": true,
+      "now_missed_at_025": false,
+      "best_mouse_iou_at_025": 0.5522490146163143
+    },
+    {
+      "image": "images/pcb_defect_016.jpg",
+      "annotation_index": 4,
+      "previously_missed_at_025": true,
+      "now_missed_at_025": false,
+      "best_mouse_iou_at_025": 0.5093217571296337
+    },
+    {
+      "image": "images/pcb_defect_030.jpg",
+      "annotation_index": 1,
+      "previously_missed_at_025": true,
+      "now_missed_at_025": false,
+      "best_mouse_iou_at_025": 0.5669576562433223
+    },
+    {
+      "image": "images/pcb_defect_035.jpg",
+      "annotation_index": 1,
+      "previously_missed_at_025": true,
+      "now_missed_at_025": false,
+      "best_mouse_iou_at_025": 0.6962620234341778
+    },
+    {
+      "image": "images/pcb_defect_044.jpg",
+      "annotation_index": 4,
+      "previously_missed_at_025": true,
+      "now_missed_at_025": true,
+      "best_mouse_iou_at_025": 0.344172500232145
+    }
+  ]
+}

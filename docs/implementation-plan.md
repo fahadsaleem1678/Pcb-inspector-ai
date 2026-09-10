@@ -119,6 +119,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] One-epoch 640-pixel training pilot and exact checkpoint reload; AP50 8.2584%, AP50:95 1.7542%, still research-only.
 - [x] Five-epoch 640-pixel run, exact pilot/reload parity and fixed-threshold error diagnostics; AP50 38.1599%, AP50:95 13.5267%, still research-only.
 - [x] Local validation review with original-coordinate overlays, exported notes and six-case mouse-bite inspection.
+- [x] Corrected empty-tile training and one-epoch tile pilot, exact reload and error comparison; AP50 63.1950%, AP50:95 24.7772%, still research-only.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -141,13 +142,15 @@ remains historical context where its taxonomy differs from the accepted V1 speci
 PCB-Defect research release 1.0.0 is frozen: 165 train / 32 validation / 33 test images;
 13 conservative groups, all six classes in every split, no validator findings. See
 [data release notes](../data/releases/pcb-defect-v1/README.md). The offline [baseline pipeline](../ml/BASELINE.md) now provides reproducible training/evaluation.
-The five-epoch 640-pixel run reaches AP50 38.1599% / AP50:95 13.5267%, but AR100 is only
-23.8448% and no real model is approved. Local visual review now covers all 32 validation boards.
-The [six inspected mouse-bite cases](../ml/evidence/coco-resize640-5epochs-visual-review.md) show
-missing boxes, low-confidence class confusion and partial localization. Next execute the
-[prespecified tile-training pilot](../ml/RESOLUTION.md#follow-up-trained-tiling-pilot): a bounded
-smoke/reload check, then one full epoch at 1536-pixel tiles / 640 input, retaining all results.
-This has 1,053 optimizer steps and is not an equal-step comparison with whole-board training.
+The [corrected tile pilot](../ml/evidence/coco-tiles1536-rpn0-epoch1.md) completed 1,053 steps
+with exact checkpoint reload: AP50 63.1950%, AP50:95 24.7772%, AR100 40.0831%. At diagnostic
+score 0.25, misses fell from 131 to 46 but false positives rose from 162 to 548. No real model
+is approved. Local review now has a generated package for this checkpoint as well as the control.
+Next extend review to select false-positive predictions and show overlap context, then inspect
+high-confidence false positives before threshold changes. Follow with an explicit 1,053-step
+whole-board control using the same training proposal filter and final-budget checkpoint
+selection; step-budget support and that experiment are not implemented yet. Tiling, proposal
+filtering, optimizer steps and repeated label appearances confound the current comparison.
 Keep the existing frozen release intact until expert label review establishes any correction.
 An approved surface-model API contract follows model qualification. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
 Annotation-completeness review, negative examples and an external camera holdout are still
