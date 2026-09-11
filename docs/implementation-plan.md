@@ -120,6 +120,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Five-epoch 640-pixel run, exact pilot/reload parity and fixed-threshold error diagnostics; AP50 38.1599%, AP50:95 13.5267%, still research-only.
 - [x] Local validation review with original-coordinate overlays, exported notes and six-case mouse-bite inspection.
 - [x] Corrected empty-tile training and one-epoch tile pilot, exact reload and error comparison; AP50 63.1950%, AP50:95 24.7772%, still research-only.
+- [x] Selectable false-positive review, overlap contexts, separate prediction notes and seven high-score visual cases.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -146,10 +147,12 @@ The [corrected tile pilot](../ml/evidence/coco-tiles1536-rpn0-epoch1.md) complet
 with exact checkpoint reload: AP50 63.1950%, AP50:95 24.7772%, AR100 40.0831%. At diagnostic
 score 0.25, misses fell from 131 to 46 but false positives rose from 162 to 548. No real model
 is approved. Local review now has a generated package for this checkpoint as well as the control.
-Next extend review to select false-positive predictions and show overlap context, then inspect
-high-confidence false positives before threshold changes. Follow with an explicit 1,053-step
-whole-board control using the same training proposal filter and final-budget checkpoint
-selection; step-budget support and that experiment are not implemented yet. Tiling, proposal
+The [false-positive review](../ml/evidence/coco-tiles1536-rpn0-fp-review.md) is now implemented,
+with seven selected regions inspected. At score 0.25, duplicates account for 41/548 false
+positives; 492 have partial or no overlap. Annotation completeness still needs expert review.
+Next implement explicit optimizer-step budgeting, then execute a 1,053-step whole-board
+control with training RPN threshold zero and final-budget checkpoint selection. That budget
+support and control experiment are not implemented yet. Tiling, proposal
 filtering, optimizer steps and repeated label appearances confound the current comparison.
 Keep the existing frozen release intact until expert label review establishes any correction.
 An approved surface-model API contract follows model qualification. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.

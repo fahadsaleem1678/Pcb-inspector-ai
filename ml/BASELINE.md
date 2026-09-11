@@ -310,3 +310,35 @@ rose to 548; the model remains research-only. Training proposal filtering and st
 also changed, so the comparison does not isolate tiling. Both the original failed attempt
 and amended successful run remain recorded. Next prioritize false-positive review and an
 explicit matched-step control before further architecture or threshold changes.
+
+
+## False-positive review
+
+Newly generated review packages include **Annotations** and **False positives** modes.
+False positives can be filtered by class and overlap context; prediction lists and board
+navigation order by the highest qualifying score. The highest-score button jumps across
+boards. All annotation classes remain visible in prediction mode to expose class confusion.
+Selected predictions show original-coordinate boxes, score, and best same/any-class IoU.
+Overlap is displayed to six decimals; matching always uses full precision.
+
+Contexts are mutually exclusive, in priority order: duplicate (same-class label already
+matched at IoU >= 0.5), class confusion (other-class IoU >= 0.5), partial overlap (any IoU
+between 0 and 0.5), no overlap (all IoUs zero). These describe label geometry, not proven
+causes, annotation completeness or electrical condition. Error-analysis reports now include
+these counts per board and globally, without changing existing matching outcomes.
+
+Review/notes schema 1.1 adds stable prediction indices, subject_kind and separate annotation
+and prediction note identities. A prediction note retains its original threshold and overlap
+context when filters change, plus source/prediction/checkpoint/matching hashes. There is no
+note import, automatic relabeling or persistence beyond explicit JSON export.
+
+```powershell
+.\.venv\Scripts\python.exe -m ml.review --run ml/runs/coco-tiles1536-rpn0-epoch1 --output ml/runs/review-fp-003
+.\.venv\Scripts\python.exe -m http.server 8768 --bind 127.0.0.1 --directory ml/runs/review-fp-003
+node ml/tests/fp_review_browser.cjs http://127.0.0.1:8768/
+```
+
+Choose a fresh output directory when regenerating. The browser harness uses the frozen
+32-board corrected tile run and installed frontend Playwright/axe dependencies; it is a
+manual data-dependent acceptance check, separate from data-free ML CI. See the
+[seven-case review and context counts](evidence/coco-tiles1536-rpn0-fp-review.md).

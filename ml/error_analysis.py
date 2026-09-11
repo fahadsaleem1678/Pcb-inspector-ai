@@ -20,6 +20,12 @@ def overlap(a, b):
     return intersection / union if union > 0 else 0.0
 
 
+def best_overlap(indices, overlaps):
+    index = max(indices, key=overlaps.__getitem__, default=None)
+    iou = overlaps[index] if index is not None else 0.0
+    return {"annotation_index": index if iou > 0 else None, "iou": iou}
+
+
 def match_image(truth, predictions, threshold, classes):
     """Score-ordered, one-to-one, same-class IoU >= .5 diagnostic matching."""
     if not math.isfinite(threshold) or not 0 <= threshold <= 1:
@@ -34,33 +40,59 @@ def match_image(truth, predictions, threshold, classes):
         if not math.isfinite(row["score"]) or not 0 <= row["score"] <= 1:
             raise ValueError("Invalid diagnostic score")
     retained = sorted(
-        (p for p in predictions if p["score"] >= threshold), key=lambda p: -p["score"]
+        ((i, p) for i, p in enumerate(predictions) if p["score"] >= threshold),
+        key=lambda item: -item[1]["score"],
     )
     matched = set()
     counts = {i: {"tp": 0, "fp": 0, "fn": 0} for i in range(1, classes + 1)}
-    for prediction in retained:
-        candidates = [
-            (overlap(prediction["bbox"], target["bbox"]), i)
-            for i, target in enumerate(truth)
-            if i not in matched and prediction["category_id"] == target["category_id"]
-        ]
-        best = max(candidates, key=lambda row: row[0], default=(0, -1))
+    prediction_matches = []
+    contexts = {k: 0 for k in ["duplicate", "class_confusion", "partial_overlap", "no_overlap"]}
+    for prediction_index, prediction in retained:
+        overlaps = [overlap(prediction["bbox"], t["bbox"]) for t in truth]
+        same = [i for i, t in enumerate(truth) if t["category_id"] == prediction["category_id"]]
+
+        best_same = best_overlap(same, overlaps)
+        best_any = best_overlap(range(len(truth)), overlaps)
+        best_available = best_overlap((i for i in same if i not in matched), overlaps)
         category = prediction["category_id"]
-        if best[0] >= 0.5:
-            matched.add(best[1])
+        matched_index = None
+        if best_available["iou"] >= 0.5:
+            matched_index = best_available["annotation_index"]
+            matched.add(matched_index)
             counts[category]["tp"] += 1
+            outcome = "matched"
         else:
             counts[category]["fp"] += 1
+            if best_same["iou"] >= 0.5:
+                outcome = "duplicate"
+            elif best_any["iou"] >= 0.5:
+                outcome = "class_confusion"
+            elif best_any["iou"] > 0:
+                outcome = "partial_overlap"
+            else:
+                outcome = "no_overlap"
+            contexts[outcome] += 1
+        prediction_matches.append(
+            {
+                "prediction_index": prediction_index,
+                "matched_annotation_index": matched_index,
+                "outcome": outcome,
+                "best_same_class": best_same,
+                "best_any_class": best_any,
+            }
+        )
     missed = [i for i in range(len(truth)) if i not in matched]
     for i in missed:
         counts[truth[i]["category_id"]]["fn"] += 1
     # Non-exclusive coverage diagnostic: a prediction may overlap multiple targets.
-    localized = sum(any(overlap(t["bbox"], p["bbox"]) >= 0.5 for p in retained) for t in truth)
+    localized = sum(any(overlap(t["bbox"], p["bbox"]) >= 0.5 for _, p in retained) for t in truth)
     return {
         "counts": counts,
         "missed_indices": missed,
         "class_agnostic_target_coverage": localized,
         "retained_predictions": len(retained),
+        "prediction_matches": prediction_matches,
+        "false_positive_context": contexts,
     }
 
 
@@ -115,6 +147,7 @@ def analyze(args):
                 {
                     "image": sample.image,
                     "group": sample.group_id,
+                    "false_positive_context": result["false_positive_context"],
                     **rates(count),
                     "missed_annotations": [truth[j] for j in result["missed_indices"]],
                     "class_agnostic_target_coverage": result["class_agnostic_target_coverage"],
@@ -125,6 +158,10 @@ def analyze(args):
             {
                 "score_threshold": threshold,
                 "micro": rates(aggregate),
+                "false_positive_context": {
+                    k: sum(b["false_positive_context"][k] for b in boards)
+                    for k in boards[0]["false_positive_context"]
+                },
                 "per_class": {manifest.classes[i - 1]: rates(row) for i, row in totals.items()},
                 "boards": boards,
             }
@@ -144,6 +181,8 @@ def analyze(args):
         "test_evaluated": False,
         "limitations": [
             "Fixed diagnostic thresholds, not calibrated product settings.",
+            "FP context priority: duplicate, other-class IoU >= .5, partial overlap, no overlap.",
+            "Overlap context describes geometry relative to labels, not proven error causes.",
             "False positives are relative to source annotations, whose completeness is unverified.",
             "Micro precision/recall at IoU .5 are not COCO AP or AR100.",
             "Class-agnostic coverage can reuse predictions; not precision or matched recall.",

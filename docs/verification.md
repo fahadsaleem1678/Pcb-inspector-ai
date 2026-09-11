@@ -267,3 +267,32 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
 - Full 43-test ML suite, lint/format and both hosted workflows passed for the training fix;
   final result work changes evidence/docs only. No new test inference, dataset correction,
   longer training, automatic threshold selection or model promotion occurred.
+
+
+### False-positive selection and visual review (2026-09-11)
+
+- Extended the existing matcher with stable prediction indices, matched annotation indices,
+  best same/any-class overlaps and mutually exclusive FP contexts. All prior per-board/class
+  counts, missed boxes and class-agnostic coverage for the corrected tile run remain exact.
+- At score 0.25: 41 duplicates, 15 class confusions, 228 partial overlaps and 264 no-overlap
+  predictions sum to the existing 548 false positives. Context is geometry, not a proven cause.
+- Added false-positive mode, class/context filters, score-ordered lists/board navigation,
+  highest-score selection, original-coordinate focus and all-class annotation context.
+- Schema 1.1 notes isolate annotation and prediction identities and retain original score/
+  overlap context across filter changes. Source, checkpoint, prediction and matching hashes
+  are exported. Notes remain in memory until export; no dataset edits or automatic relabeling.
+- Seven deliberately selected high-score regions were visually inspected on 2026-09-10.
+  Observations include repeated boxes on trace gaps, a spur/bridge class disagreement,
+  box-extent mismatches and unlabelled regions needing reference/expert review.
+- The 0.499693 IoU case exposed misleading three-decimal display; six decimals now distinguish
+  it from a valid 0.5 match. Exact-threshold and just-below-threshold regressions passed.
+- All 47 ML tests passed; Ruff lint/formatting and patch whitespace checks passed. Headless
+  Chromium verified coordinate alignment, note identity isolation and original threshold/
+  context, score navigation, filters/empty state, zoom, all-class label visibility and precise
+  IoU display. Desktop axe reported zero WCAG A/AA violations; mobile had no horizontal overflow
+  and no page script errors. In-app browser setup failed, so a separate Chromium session was used.
+- Final generated package ml/runs/review-fp-003 serves on loopback 8768 during the session.
+  HTML, 32 copied image hashes and matching/evidence hashes agree. Source images/screenshots
+  remain ignored. The reusable browser acceptance harness is ml/tests/fp_review_browser.cjs.
+- No training, threshold/annotation changes, held-out test inference or model promotion.
+  Next work is explicit step-budget support and the matched-step whole-board control.

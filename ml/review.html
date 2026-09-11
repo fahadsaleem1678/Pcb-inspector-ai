@@ -286,6 +286,12 @@
       <span class="badge">Research model · validation only</span>
     </header>
     <div class="toolbar">
+      <label
+        >Review<select id="mode">
+          <option value="annotation">Annotations</option>
+          <option value="prediction">False positives</option>
+        </select></label
+      >
       <label>Board<select id="board"></select></label>
       <button id="previous">Previous board</button
       ><button id="next">Next board</button>
@@ -305,15 +311,22 @@
         ><input id="missed" type="checkbox" checked />Missed annotations
         only</label
       >
+      <label
+        >Overlap context<select id="context" disabled>
+          <option value="all">All contexts</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="class_confusion">Class confusion</option>
+          <option value="partial_overlap">Partial overlap</option>
+          <option value="no_overlap">No overlap</option>
+        </select></label
+      >
+      <button id="top-fp" disabled>Highest-score false positive</button>
       <span id="board-status" role="status"></span>
     </div>
     <main class="workspace">
       <aside class="panel">
-        <h2>Annotations</h2>
-        <div class="muted">
-          Select an annotation to zoom to its source pixels. Missed = no
-          same-class match at IoU ≥ 0.5.
-        </div>
+        <h2 id="list-title">Annotations</h2>
+        <div class="muted" id="list-help"></div>
         <div id="targets" class="defects"></div>
         <h2 class="notehead">Review note</h2>
         <div class="muted">
@@ -345,7 +358,7 @@
           <button id="fit">Fit board</button
           ><button id="zoom-in">Zoom in</button
           ><button id="zoom-out">Zoom out</button
-          ><button id="focus">Focus annotation</button
+          ><button id="focus">Focus selection</button
           ><label
             ><input id="labels" type="checkbox" checked /> Annotations</label
           ><label
@@ -357,7 +370,7 @@
           <span style="--c: #dd7019">Missed annotation (dashed)</span
           ><span style="--c: #238448">Matched annotation</span
           ><span style="--c: #0493ac">Prediction (solid)</span
-          ><span style="--c: #b29b00">Selected annotation</span>
+          ><span style="--c: #b29b00">Selected region</span>
         </div>
         <p id="image-error" role="alert" hidden>
           Source image could not load. Check that the review image folder is
@@ -374,6 +387,7 @@
           <g id="prediction-layer"></g>
         </svg>
         <div id="detail"></div>
+        <div id="overlap-detail" class="muted"></div>
         <p class="muted">
           Drag to pan; use zoom controls for detail. Layer switches reveal the
           image underneath. All boxes use original image coordinates.
@@ -391,18 +405,66 @@
       );
       const $ = (id) => document.getElementById(id),
         svg = $("canvas");
+      const names = {
+        matched: "Matched",
+        duplicate: "Duplicate",
+        class_confusion: "Class confusion",
+        partial_overlap: "Partial overlap",
+        no_overlap: "No overlap",
+      };
       let boardIndex = 0,
+        boardOrder = [],
         selected = null,
         view = [0, 0, 1, 1],
-        drag = null,
-        dirty = false,
+        drag = null;
+      let dirty = false,
         draftDirty = false,
-        noteThreshold = 0.25;
+        noteThreshold = 0.25,
+        noteContext = null;
       const notes = new Map();
       const board = () => data.boards[boardIndex],
         threshold = () => $("threshold").value;
+      const predictionMode = () => $("mode").value === "prediction";
       const title = (id) => data.classes[id - 1].replaceAll("_", " ");
-      const key = () => `${board().image}#${selected}`;
+      const key = () => `${board().image}#${selected.kind}#${selected.index}`;
+      const selectedRow = () =>
+        selected.kind === "prediction"
+          ? board().predictions[selected.index]
+          : board().annotations[selected.index];
+      const profile = (b = board()) => b.profiles[threshold()];
+      const selectedMatch = () =>
+        selected?.kind === "prediction"
+          ? profile().prediction_matches.find(
+              (m) => m.prediction_index === selected.index,
+            )
+          : null;
+      function classMatches(row) {
+        return (
+          $("class").value === "all" ||
+          row.category_id === Number($("class").value)
+        );
+      }
+      function falsePositives(b) {
+        return profile(b).prediction_matches.filter(
+          (m) =>
+            m.outcome !== "matched" &&
+            classMatches(b.predictions[m.prediction_index]) &&
+            ($("context").value === "all" || m.outcome === $("context").value),
+        );
+      }
+      function visibleItems(b = board()) {
+        if (predictionMode())
+          return falsePositives(b).map((m) => ({
+            kind: "prediction",
+            index: m.prediction_index,
+          }));
+        const misses = new Set(profile(b).missed_indices);
+        return b.annotations.flatMap((a, i) =>
+          classMatches(a) && (!$("missed").checked || misses.has(i))
+            ? [{ kind: "annotation", index: i }]
+            : [],
+        );
+      }
       function applyView() {
         svg.setAttribute("viewBox", view.join(" "));
       }
@@ -411,43 +473,46 @@
         applyView();
       }
       function focus() {
-        if (selected === null) return fit();
-        const b = board().annotations[selected].bbox;
-        const width = Math.min(board().width, Math.max(240, b[2] * 4));
-        const height = Math.min(board().height, Math.max(240, b[3] * 4));
+        if (!selected) return fit();
+        const b = selectedRow().bbox,
+          w = Math.min(board().width, Math.max(240, b[2] * 4)),
+          h = Math.min(board().height, Math.max(240, b[3] * 4));
         view = [
-          Math.max(
-            0,
-            Math.min(board().width - width, b[0] + b[2] / 2 - width / 2),
-          ),
-          Math.max(
-            0,
-            Math.min(board().height - height, b[1] + b[3] / 2 - height / 2),
-          ),
-          width,
-          height,
+          Math.max(0, Math.min(board().width - w, b[0] + b[2] / 2 - w / 2)),
+          Math.max(0, Math.min(board().height - h, b[1] + b[3] / 2 - h / 2)),
+          w,
+          h,
         ];
         applyView();
       }
       function zoom(factor) {
         const cx = view[0] + view[2] / 2,
-          cy = view[1] + view[3] / 2;
-        const w = Math.max(24, Math.min(board().width * 2, view[2] * factor));
-        const h = (w * view[3]) / view[2];
+          cy = view[1] + view[3] / 2,
+          w = Math.max(24, Math.min(board().width * 2, view[2] * factor)),
+          h = (w * view[3]) / view[2];
         view = [cx - w / 2, cy - h / 2, w, h];
         applyView();
       }
       function saveNote() {
-        if (selected === null || !draftDirty) return;
+        if (!selected || !draftDirty) return;
         draftDirty = false;
         const note = $("note").value.trim(),
           assessment = $("assessment").value;
         if (note || assessment !== "unreviewed") {
+          const subject =
+            selected.kind === "prediction"
+              ? {
+                  prediction_index: selected.index,
+                  prediction: selectedRow(),
+                  overlap_context: noteContext,
+                }
+              : { annotation_index: selected.index, annotation: selectedRow() };
           notes.set(key(), {
             image: board().image,
+            source_sha256: board().source_sha256,
             group: board().group,
-            annotation_index: selected,
-            annotation: board().annotations[selected],
+            subject_kind: selected.kind,
+            ...subject,
             assessment,
             note,
             score_threshold: noteThreshold,
@@ -461,11 +526,12 @@
       function loadNote() {
         draftDirty = false;
         noteThreshold = Number(threshold());
-        const entry = selected === null ? null : notes.get(key());
+        noteContext = selectedMatch();
+        const entry = selected ? notes.get(key()) : null;
         $("note").value = entry?.note ?? "";
         $("assessment").value = entry?.assessment ?? "unreviewed";
         for (const id of ["note", "assessment", "save-note"])
-          $(id).disabled = selected === null;
+          $(id).disabled = !selected;
       }
       function rectangle(row, cls, parent) {
         const r = document.createElementNS(
@@ -484,77 +550,153 @@
         parent.append(r);
         return r;
       }
+      function overlapDescription(label, entry) {
+        if (entry.annotation_index === null)
+          return `${label}: no overlapping label (IoU 0).`;
+        const a = board().annotations[entry.annotation_index];
+        return `${label}: annotation ${entry.annotation_index + 1}, ${title(a.category_id)}, IoU ${entry.iou.toFixed(6)}.`;
+      }
+      function refreshBoardOptions() {
+        boardOrder = data.boards.map((_, i) => i);
+        if (predictionMode())
+          boardOrder.sort((i, j) => {
+            const top = (b) => {
+              const matches = falsePositives(b);
+              return matches.length
+                ? b.predictions[matches[0].prediction_index].score
+                : -1;
+            };
+            return (
+              top(data.boards[j]) - top(data.boards[i]) ||
+              data.boards[i].image.localeCompare(data.boards[j].image)
+            );
+          });
+        $("board").replaceChildren();
+        for (const i of boardOrder) {
+          const b = data.boards[i],
+            o = document.createElement("option");
+          o.value = i;
+          const fp = falsePositives(b);
+          o.textContent =
+            b.image.split("/").pop() +
+            (predictionMode()
+              ? ` · ${fp.length} FP${fp.length ? ` · top ${b.predictions[fp[0].prediction_index].score.toFixed(3)}` : ""}`
+              : ` · ${profile(b).missed_indices.length} missed`);
+          $("board").append(o);
+        }
+        $("board").value = String(boardIndex);
+        $("top-fp").disabled =
+          !predictionMode() ||
+          !data.boards.some((b) => falsePositives(b).length);
+      }
       function render() {
         const b = board(),
-          misses = new Set(b.profiles[threshold()].missed_indices),
-          wanted = $("class").value;
-        const targets = $("targets");
-        targets.replaceChildren();
+          misses = new Set(profile().missed_indices),
+          items = visibleItems();
+        $("targets").replaceChildren();
         $("annotation-layer").replaceChildren();
         $("prediction-layer").replaceChildren();
-        let visible = 0;
-        b.annotations.forEach((a, i) => {
-          const category = wanted === "all" || a.category_id === Number(wanted),
-            missed = misses.has(i);
-          if (!category || ($("missed").checked && !missed)) return;
-          visible++;
+        $("list-title").textContent = predictionMode()
+          ? "False positives"
+          : "Annotations";
+        $("list-help").textContent = predictionMode()
+          ? "Highest scores first. False positives are relative to frozen labels, whose completeness is unverified. Overlap context describes geometry, not a proven cause."
+          : "Select an annotation to zoom to its source pixels. Missed = no same-class match at IoU ≥ 0.5.";
+        $("context").disabled = !predictionMode();
+        $("missed").disabled = predictionMode();
+        for (const item of items) {
+          const row =
+            item.kind === "prediction"
+              ? b.predictions[item.index]
+              : b.annotations[item.index];
+          const match =
+            item.kind === "prediction"
+              ? profile().prediction_matches.find(
+                  (m) => m.prediction_index === item.index,
+                )
+              : null;
           const button = document.createElement("button");
           button.type = "button";
-          button.setAttribute("aria-pressed", String(i === selected));
-          button.textContent = `${i + 1}. ${title(a.category_id)} · ${missed ? "missed" : "matched"}`;
-          button.addEventListener("click", () => {
+          button.dataset.kind = item.kind;
+          button.dataset.index = item.index;
+          button.setAttribute(
+            "aria-pressed",
+            String(
+              selected?.kind === item.kind && selected.index === item.index,
+            ),
+          );
+          button.textContent =
+            item.kind === "prediction"
+              ? `P${item.index + 1}. ${title(row.category_id)} · ${row.score.toFixed(3)} · ${names[match.outcome]}`
+              : `${item.index + 1}. ${title(row.category_id)} · ${misses.has(item.index) ? "missed" : "matched"}`;
+          button.onclick = () => {
             saveNote();
-            selected = i;
+            selected = item;
             loadNote();
             focus();
             render();
-          });
-          targets.append(button);
-          if ($("labels").checked)
-            rectangle(
-              a,
-              `gt ${missed ? "" : "hit"} ${i === selected ? "selected" : ""}`,
-              $("annotation-layer"),
-            );
-        });
-        if (!visible) {
+          };
+          $("targets").append(button);
+        }
+        if (!items.length) {
           const p = document.createElement("p");
           p.className = "empty";
-          p.textContent = "No annotations match these filters.";
-          targets.append(p);
+          p.textContent = "No regions match these filters.";
+          $("targets").append(p);
         }
-        if ($("predictions").checked)
-          b.predictions
-            .filter(
-              (p) =>
-                p.score >= Number(threshold()) &&
-                (wanted === "all" || p.category_id === Number(wanted)),
+        if ($("labels").checked)
+          b.annotations.forEach((a, i) => {
+            if (
+              !predictionMode() &&
+              (!classMatches(a) || ($("missed").checked && !misses.has(i)))
             )
-            .forEach((p) => rectangle(p, "pred", $("prediction-layer")));
+              return;
+            rectangle(
+              a,
+              `gt ${misses.has(i) ? "" : "hit"} ${selected?.kind === "annotation" && selected.index === i ? "selected" : ""}`,
+              $("annotation-layer"),
+            );
+          });
+        if ($("predictions").checked)
+          b.predictions.forEach((p, i) => {
+            if (p.score < Number(threshold()) || !classMatches(p)) return;
+            rectangle(
+              p,
+              `pred ${selected?.kind === "prediction" && selected.index === i ? "selected" : ""}`,
+              $("prediction-layer"),
+            );
+          });
+        const pos = boardOrder.indexOf(boardIndex),
+          totalFP = Object.values(profile().false_positive_context).reduce(
+            (a, b) => a + b,
+            0,
+          );
         $("board-status").textContent =
-          `${boardIndex + 1}/${data.boards.length} · ${b.group} · ${misses.size}/${b.annotations.length} missed (all classes)`;
-        $("selected-status").textContent =
-          selected === null
-            ? ""
-            : `Annotation ${selected + 1} · ${misses.has(selected) ? "missed" : "matched"}`;
-        $("focus").disabled = selected === null;
-        $("detail").textContent =
-          selected === null
-            ? `${b.image} · ${b.width} × ${b.height} source pixels`
-            : `${b.image} · ${title(b.annotations[selected].category_id)} · bbox [${b.annotations[selected].bbox.map((n) => n.toFixed(1)).join(", ")}] (x, y, width, height)`;
-        $("previous").disabled = boardIndex === 0;
-        $("next").disabled = boardIndex === data.boards.length - 1;
+          `${pos + 1}/${data.boards.length} · ${b.group} · ${misses.size}/${b.annotations.length} missed · ${totalFP} FP (all classes)`;
+        $("selected-status").textContent = !selected
+          ? ""
+          : selected.kind === "prediction"
+            ? `Prediction ${selected.index + 1} · ${names[selectedMatch().outcome]}`
+            : `Annotation ${selected.index + 1} · ${misses.has(selected.index) ? "missed" : "matched"}`;
+        $("focus").disabled = !selected;
+        $("detail").textContent = !selected
+          ? `${b.image} · ${b.width} × ${b.height} source pixels`
+          : `${b.image} · ${title(selectedRow().category_id)}${selected.kind === "prediction" ? ` · score ${selectedRow().score.toFixed(6)}` : ""} · bbox [${selectedRow()
+              .bbox.map((n) => n.toFixed(1))
+              .join(", ")}] (x, y, width, height)`;
+        const match = selectedMatch();
+        $("overlap-detail").textContent = match
+          ? [
+              overlapDescription("Same class", match.best_same_class),
+              overlapDescription("Any class", match.best_any_class),
+              "All annotation classes remain visible in false-positive review.",
+            ].join(" ")
+          : "";
+        $("previous").disabled = pos === 0;
+        $("next").disabled = pos === boardOrder.length - 1;
       }
       function pickFirst() {
-        const b = board(),
-          misses = new Set(b.profiles[threshold()].missed_indices),
-          wanted = $("class").value;
-        selected = b.annotations.findIndex(
-          (a, i) =>
-            (wanted === "all" || a.category_id === Number(wanted)) &&
-            (!$("missed").checked || misses.has(i)),
-        );
-        if (selected < 0) selected = null;
+        selected = visibleItems()[0] ?? null;
         loadNote();
         render();
       }
@@ -563,35 +705,39 @@
         boardIndex = index;
         $("board").value = String(index);
         const b = board();
+        $("image-error").hidden = true;
         $("source").setAttribute("href", b.asset);
         $("source").setAttribute("width", b.width);
         $("source").setAttribute("height", b.height);
-        $("image-error").hidden = true;
         pickFirst();
         fit();
       }
-      data.boards.forEach((b, i) => {
-        const o = document.createElement("option");
-        o.value = i;
-        o.textContent = `${b.image.split("/").pop()} · ${b.profiles["0.25"].missed_indices.length} missed at .25`;
-        $("board").append(o);
-      });
       data.classes.forEach((c, i) => {
         const o = document.createElement("option");
         o.value = i + 1;
         o.textContent = title(i + 1);
         $("class").append(o);
       });
-      $("board").addEventListener("change", () =>
-        changeBoard(Number($("board").value)),
-      );
-      $("previous").onclick = () => changeBoard(boardIndex - 1);
-      $("next").onclick = () => changeBoard(boardIndex + 1);
-      for (const id of ["threshold", "class", "missed"])
+      $("board").onchange = () => changeBoard(Number($("board").value));
+      $("previous").onclick = () =>
+        changeBoard(boardOrder[boardOrder.indexOf(boardIndex) - 1]);
+      $("next").onclick = () =>
+        changeBoard(boardOrder[boardOrder.indexOf(boardIndex) + 1]);
+      for (const id of ["mode", "threshold", "class", "missed", "context"])
         $(id).addEventListener("change", () => {
           saveNote();
+          refreshBoardOptions();
           pickFirst();
         });
+      $("top-fp").onclick = () => {
+        const index = boardOrder.find(
+          (i) => falsePositives(data.boards[i]).length,
+        );
+        if (index !== undefined) {
+          changeBoard(index);
+          focus();
+        }
+      };
       for (const id of ["labels", "predictions"])
         $(id).addEventListener("change", render);
       $("fit").onclick = fit;
@@ -614,11 +760,8 @@
       });
       svg.addEventListener("pointermove", (e) => {
         if (!drag) return;
-        const bounds = svg.getBoundingClientRect();
-        const scale = Math.min(
-          bounds.width / drag.view[2],
-          bounds.height / drag.view[3],
-        );
+        const r = svg.getBoundingClientRect(),
+          scale = Math.min(r.width / drag.view[2], r.height / drag.view[3]);
         view = [
           drag.view[0] - (e.clientX - drag.x) / scale,
           drag.view[1] - (e.clientY - drag.y) / scale,
@@ -636,20 +779,22 @@
       $("export").onclick = () => {
         saveNote();
         const payload = {
-          schema_version: "1.0",
+          schema_version: "1.1",
           purpose: "Review notes only; no dataset changes",
           run: data.run,
           checkpoint_sha256: data.checkpoint_sha256,
           manifest_sha256: data.manifest_sha256,
           prediction_sha256: data.prediction_sha256,
+          matching_code_sha256: data.matching_code_sha256,
           exported_at: new Date().toISOString(),
           notes: [...notes.values()],
         };
-        const blob = new Blob([JSON.stringify(payload, null, 2)], {
-          type: "application/json",
-        });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
+        const url = URL.createObjectURL(
+            new Blob([JSON.stringify(payload, null, 2)], {
+              type: "application/json",
+            }),
+          ),
+          a = document.createElement("a");
         a.href = url;
         a.download = `${data.run}-review-notes.json`;
         a.click();
@@ -665,6 +810,7 @@
       });
       $("provenance").textContent =
         `${data.run} · Checkpoint ${data.checkpoint_sha256.slice(0, 12)} · Manifest ${data.manifest_sha256.slice(0, 12)} · Fixed diagnostic thresholds; labels require independent expert review.`;
+      refreshBoardOptions();
       changeBoard(0);
     </script>
   </body>

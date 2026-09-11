@@ -71,13 +71,14 @@ def build(args):
         raise ValueError("Review source image order differs")
     boards = build_boards(samples, manifest.classes, saved["predictions"])
     payload = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "run": args.run.name,
         "classes": manifest.classes,
         "checkpoint_sha256": evidence["checkpoint_sha256"],
         "manifest_sha256": digest,
         "prediction_sha256": file_hash(args.run / "best-validation.json"),
         "generator_sha256": file_hash(__file__),
+        "matching_code_sha256": file_hash(Path(__file__).with_name("error_analysis.py")),
         "split": "validation",
         "boards": boards,
     }
