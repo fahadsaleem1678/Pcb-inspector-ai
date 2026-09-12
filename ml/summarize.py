@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from ml.data import file_hash
+from ml.schedule import validate_training
 
 
 def summarize(run):
@@ -24,8 +25,6 @@ def summarize(run):
     best, evaluation = data["best-validation"], data["validation-evaluation"]
     if (run / "failure.json").exists() or summary["status"] != "complete":
         raise ValueError("Cannot summarize a failed or incomplete run")
-    if summary["completed_epochs"] != config["epochs"]:
-        raise ValueError("Configured epochs did not complete")
     if config["smoke"] or evaluation["split"] != "validation":
         raise ValueError("Evidence requires a full run and validation reload")
     if checkpoint["config_sha256"] != file_hash(artifacts["config"]):
@@ -59,16 +58,19 @@ def summarize(run):
         if best["metrics"][key] != evaluation["metrics"][key]:
             raise ValueError(f"Checkpoint reload metrics differ: {key}")
     history = data["history"]
-    if [row["epoch"] for row in history] != list(range(1, config["epochs"] + 1)):
-        raise ValueError("Epoch history is incomplete")
-    selected = max(history, key=lambda row: row["validation"]["ap50_95"])
-    if (
-        selected["epoch"] != checkpoint["selected_epoch"]
-        or selected["validation"]["ap50_95"] != best["metrics"]["ap50_95"]
-    ):
+    selected = validate_training(config, summary, checkpoint, history)
+    budget_mode = config.get("max_steps") is not None
+    if budget_mode and checkpoint.get("history_sha256") != file_hash(artifacts["history"]):
+        raise ValueError("Training history checksum mismatch")
+    if selected["validation"]["ap50_95"] != best["metrics"]["ap50_95"]:
         raise ValueError("Best checkpoint differs from validation selection history")
+    if budget_mode and any(
+        selected["validation"][key] != best["metrics"][key]
+        for key in ["ap50_95", "ap50", "ar100", "per_class", "by_group"]
+    ):
+        raise ValueError("Endpoint metrics differ from validation history")
     return {
-        "schema_version": "1.0",
+        "schema_version": "1.1" if budget_mode else "1.0",
         "recorded_at_utc": datetime.now(UTC).isoformat(),
         "experiment": run.name,
         "training_git_revision": config["git_revision"],
@@ -91,11 +93,22 @@ def summarize(run):
         "validation_images": len(config["validation_source_images"]),
         "total_train_steps": sum(row["train_steps"] for row in history),
         "elapsed_seconds": sum(row["elapsed_seconds"] for row in history),
-        "epochs": [
+        "passes" if budget_mode else "epochs": [
             {key: value for key, value in row.items() if key != "train_view_indices"}
             for row in history
         ],
         "selected_epoch": checkpoint["selected_epoch"],
+        **(
+            {
+                "requested_steps": config["max_steps"],
+                "selected_step": checkpoint["selected_step"],
+                "selection_policy": config["selection_policy"],
+                "completed_epochs": summary["completed_epochs"],
+                "partial_pass_steps": summary["partial_pass_steps"],
+            }
+            if budget_mode
+            else {}
+        ),
         "validation": best["metrics"],
         "validation_prediction_count": len(best["predictions"]),
         "reload_predictions_and_metrics_equal": True,

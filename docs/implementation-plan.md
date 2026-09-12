@@ -121,6 +121,8 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Local validation review with original-coordinate overlays, exported notes and six-case mouse-bite inspection.
 - [x] Corrected empty-tile training and one-epoch tile pilot, exact reload and error comparison; AP50 63.1950%, AP50:95 24.7772%, still research-only.
 - [x] Selectable false-positive review, overlap contexts, separate prediction notes and seven high-score visual cases.
+- [x] Exact optimizer-step budgeting, endpoint-only selection, strict schedule evidence checks and real CPU partial-pass smoke/reload.
+- [ ] Execute and compare the prespecified 1,053-step whole-board control.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -150,9 +152,10 @@ is approved. Local review now has a generated package for this checkpoint as wel
 The [false-positive review](../ml/evidence/coco-tiles1536-rpn0-fp-review.md) is now implemented,
 with seven selected regions inspected. At score 0.25, duplicates account for 41/548 false
 positives; 492 have partial or no overlap. Annotation completeness still needs expert review.
-Next implement explicit optimizer-step budgeting, then execute a 1,053-step whole-board
-control with training RPN threshold zero and final-budget checkpoint selection. That budget
-support and control experiment are not implemented yet. Tiling, proposal
+Explicit optimizer-step budgeting is implemented and smoke/reload verified; see the
+[exact-budget protocol](../ml/BASELINE.md#exact-optimizer-step-budgets). Next execute the
+prespecified 1,053-step whole-board control with training RPN threshold zero and final-budget
+checkpoint selection, from a clean implementation commit. Tiling, proposal
 filtering, optimizer steps and repeated label appearances confound the current comparison.
 Keep the existing frozen release intact until expert label review establishes any correction.
 An approved surface-model API contract follows model qualification. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.

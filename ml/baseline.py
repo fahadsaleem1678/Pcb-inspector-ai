@@ -20,6 +20,7 @@ from torchvision.ops import FrozenBatchNorm2d, batched_nms
 from ml.data import BoardViews, file_hash, restore_boxes, verify_release
 from ml.metrics import coco_metrics, grouped_metrics
 from ml.pretrained import verify_weights
+from ml.schedule import EPOCH_SELECTION, STEP_SELECTION, training_schedule, validate_training
 
 MODEL = "torchvision-fasterrcnn-mobilenet-v3-large-320-fpn"
 INFERENCE_RPN_SCORE_THRESHOLD = 0.05
@@ -171,7 +172,7 @@ def metadata(args, manifest, digest):
     except (subprocess.CalledProcessError, FileNotFoundError):
         revision, dirty = "unavailable", None
     return {
-        "schema_version": "1.0",
+        "schema_version": "1.1" if args.max_steps is not None else "1.0",
         "architecture": MODEL,
         "initialization": "coco_v1_local" if args.initial_weights else "random_no_download",
         "normalization": "frozen_batch" if args.initial_weights else "batch",
@@ -191,6 +192,7 @@ def metadata(args, manifest, digest):
                 Path(__file__).with_name("data.py"),
                 Path(__file__).with_name("metrics.py"),
                 Path(__file__).with_name("pretrained.py"),
+                Path(__file__).with_name("schedule.py"),
             ]
         },
         "python": platform.python_version(),
@@ -208,6 +210,8 @@ def metadata(args, manifest, digest):
         "tile_size": args.tile_size,
         "overlap": args.overlap,
         "epochs": args.epochs,
+        "max_steps": args.max_steps,
+        "selection_policy": STEP_SELECTION if args.max_steps is not None else EPOCH_SELECTION,
         "learning_rate": args.learning_rate,
         "smoke": args.smoke,
         "promotion_eligible": False,
@@ -253,7 +257,8 @@ def train(args):
     optimizer = torch.optim.SGD(
         model.parameters(), lr=args.learning_rate, momentum=0.9, weight_decay=0.0005
     )
-    completed_epochs, best_ap = 0, -1.0
+    completed_epochs, completed_steps, best_ap = 0, 0, -1.0
+    budget_mode = args.max_steps is not None
     checkpoint = args.output / "best-state.pt"
     training_context = None
     try:
@@ -272,6 +277,8 @@ def train(args):
                         "tile_size",
                         "overlap",
                         "epochs",
+                        "max_steps",
+                        "selection_policy",
                         "learning_rate",
                         "training_rpn_score_threshold",
                         "inference_rpn_score_threshold",
@@ -281,18 +288,23 @@ def train(args):
             )
             mlflow.set_tags({"promotion_eligible": "false", "git_revision": config["git_revision"]})
             history = []
-            for epoch in range(args.epochs):
+            schedule = training_schedule(
+                len(train_data),
+                args.seed,
+                epochs=args.epochs,
+                max_steps=args.max_steps,
+                smoke=args.smoke,
+            )
+            for epoch, indices in enumerate(schedule):
                 training_mode(model, args.training_rpn_score_threshold)
-                indices = list(range(len(train_data)))
-                random.Random(args.seed + epoch).shuffle(indices)
-                if args.smoke:
-                    indices = indices[:2]
+                step_start = completed_steps + 1
                 losses, start = [], time.perf_counter()
                 for step, index in enumerate(indices):
                     source_index, window = train_data.views[index]
                     training_context = {
-                        "epoch": epoch + 1,
+                        "pass" if budget_mode else "epoch": epoch + 1,
                         "step": step + 1,
+                        "optimizer_step": completed_steps + 1,
                         "view_index": index,
                         "source_image": train_data.samples[source_index].image,
                         "window": list(window),
@@ -313,42 +325,62 @@ def train(args):
                         model.parameters(), 10.0, error_if_nonfinite=True
                     )
                     optimizer.step()
+                    completed_steps += 1
                     losses.append(float(loss.detach()))
                     if step % 10 == 0 or step + 1 == len(indices):
                         print(
                             json.dumps(
                                 {
-                                    "epoch": epoch + 1,
+                                    "pass" if budget_mode else "epoch": epoch + 1,
                                     "step": step + 1,
                                     "steps": len(indices),
+                                    "completed_steps": completed_steps,
                                     "loss": losses[-1],
                                 }
                             ),
                             flush=True,
                         )
                 training_context = None
-                metrics, predictions = infer(model, validation_data, manifest.classes, device)
-                completed_epochs += 1
+                validate = not budget_mode or completed_steps == args.max_steps
+                if validate:
+                    metrics, predictions = infer(model, validation_data, manifest.classes, device)
+                if not budget_mode or len(indices) == len(train_data):
+                    completed_epochs += 1
                 record = {
-                    "epoch": completed_epochs,
                     "train_loss": sum(losses) / len(losses),
                     "train_steps": len(indices),
                     "train_view_indices": indices,
                     "elapsed_seconds": time.perf_counter() - start,
-                    "validation": metrics,
                 }
+                if budget_mode:
+                    record.update(
+                        {
+                            "pass": epoch + 1,
+                            "pass_complete": len(indices) == len(train_data),
+                            "step_start": step_start,
+                            "step_end": completed_steps,
+                        }
+                    )
+                else:
+                    record["epoch"] = completed_epochs
+                if validate:
+                    record["validation"] = metrics
                 history.append(record)
                 write_json(args.output / "history.json", history)
+                logged_metrics = {"train_loss": record["train_loss"]}
+                if validate:
+                    logged_metrics.update(
+                        {
+                            "val_ap50_95": metrics["ap50_95"],
+                            "val_ap50": metrics["ap50"],
+                            "val_ar100": metrics["ar100"],
+                        }
+                    )
                 mlflow.log_metrics(
-                    {
-                        "train_loss": record["train_loss"],
-                        "val_ap50_95": metrics["ap50_95"],
-                        "val_ap50": metrics["ap50"],
-                        "val_ar100": metrics["ar100"],
-                    },
-                    step=completed_epochs,
+                    logged_metrics,
+                    step=completed_steps if budget_mode else completed_epochs,
                 )
-                if metrics["ap50_95"] > best_ap:
+                if validate and (budget_mode or metrics["ap50_95"] > best_ap):
                     best_ap = metrics["ap50_95"]
                     torch.save(model.state_dict(), checkpoint)
                     write_json(
@@ -367,9 +399,18 @@ def train(args):
                             "manifest_sha256": digest,
                             "config_sha256": file_hash(args.output / "config.json"),
                             "state_sha256": file_hash(checkpoint),
-                            "selected_epoch": completed_epochs,
-                            "selection_metric": "validation_ap50_95",
-                            "selection_value": best_ap,
+                            "selected_epoch": None if budget_mode else completed_epochs,
+                            "selected_step": completed_steps,
+                            "selection_policy": config["selection_policy"],
+                            "selection_metric": (
+                                "optimizer_steps" if budget_mode else "validation_ap50_95"
+                            ),
+                            "selection_value": completed_steps if budget_mode else best_ap,
+                            **(
+                                {"history_sha256": file_hash(args.output / "history.json")}
+                                if budget_mode
+                                else {}
+                            ),
                             "smoke": args.smoke,
                             "promotion_eligible": False,
                         },
@@ -377,8 +418,9 @@ def train(args):
                 print(
                     json.dumps(
                         {
-                            "epoch_complete": completed_epochs,
-                            "validation_ap50_95": metrics["ap50_95"],
+                            "completed_epochs": completed_epochs,
+                            "completed_steps": completed_steps,
+                            "validation_ap50_95": metrics["ap50_95"] if validate else None,
                             "smoke": args.smoke,
                         }
                     ),
@@ -387,6 +429,8 @@ def train(args):
             summary = {
                 "status": "complete",
                 "completed_epochs": completed_epochs,
+                "completed_steps": completed_steps,
+                "partial_pass_steps": completed_steps % len(train_data) if budget_mode else 0,
                 "mlflow_run_id": run.info.run_id,
                 "smoke": args.smoke,
                 "checkpoint_sha256": file_hash(checkpoint),
@@ -403,6 +447,7 @@ def train(args):
             {
                 "status": "failed",
                 "completed_epochs": completed_epochs,
+                "completed_steps": completed_steps,
                 "error_type": type(exc).__name__,
                 "message": str(exc),
                 "training_context": training_context,
@@ -422,17 +467,28 @@ def evaluate(args):
         raise ValueError("Training run is incomplete or failed")
     if args.split == "test" and (config["smoke"] or not args.final_test):
         raise ValueError("Test evaluation requires a full run and explicit --final-test")
-    if summary["completed_epochs"] != config["epochs"]:
-        raise ValueError("Training did not complete the configured epochs")
+    history = json.loads((run_dir / "history.json").read_text(encoding="utf-8"))
+    validate_training(config, summary, checkpoint, history)
+    if config.get("max_steps") is not None and checkpoint.get("history_sha256") != file_hash(
+        run_dir / "history.json"
+    ):
+        raise ValueError("Training history checksum mismatch")
     if checkpoint["architecture"] != MODEL or config["architecture"] != MODEL:
         raise ValueError("Unsupported checkpoint architecture")
     if checkpoint["config_sha256"] != file_hash(run_dir / "config.json"):
         raise ValueError("Configuration has changed since checkpoint creation")
     state_path = run_dir / "best-state.pt"
-    if checkpoint["state_sha256"] != file_hash(state_path):
+    if checkpoint["state_sha256"] != file_hash(state_path) or (
+        summary["checkpoint_sha256"] != checkpoint["state_sha256"]
+    ):
         raise ValueError("Checkpoint checksum mismatch")
     manifest, digest = verify_release(args.manifest, args.root, args.release)
-    if digest != checkpoint["manifest_sha256"] or manifest.classes != checkpoint["classes"]:
+    if (
+        digest != checkpoint["manifest_sha256"]
+        or digest != config["manifest_sha256"]
+        or manifest.classes != checkpoint["classes"]
+        or manifest.classes != config["classes"]
+    ):
         raise ValueError("Checkpoint and dataset label/release contracts differ")
     output = run_dir / f"{args.split}-evaluation.json"
     if output.exists():
@@ -475,7 +531,7 @@ def evaluate(args):
     return result
 
 
-def main():
+def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=["train", "evaluate"])
     parser.add_argument(
@@ -487,7 +543,11 @@ def main():
     parser.add_argument("--threads", type=int, default=2)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--run", type=Path)
-    parser.add_argument("--epochs", type=int, default=10)
+    duration = parser.add_mutually_exclusive_group()
+    duration.add_argument("--epochs", type=int, help="Full training epochs (default: 10)")
+    duration.add_argument(
+        "--max-steps", type=int, help="Exact optimizer updates; validate only at end"
+    )
     parser.add_argument("--input-size", type=int, default=320)
     parser.add_argument("--tile-size", type=int, default=0)
     parser.add_argument("--overlap", type=int, default=256)
@@ -507,9 +567,13 @@ def main():
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--split", choices=["validation", "test"], default="validation")
     parser.add_argument("--final-test", action="store_true")
-    args = parser.parse_args()
-    if not 1 <= args.threads <= 32 or not 1 <= args.epochs <= 1000:
+    args = parser.parse_args(argv)
+    if args.max_steps is None and args.epochs is None:
+        args.epochs = 10
+    if not 1 <= args.threads <= 32 or (args.epochs is not None and not 1 <= args.epochs <= 1000):
         parser.error("Threads must be 1–32 and epochs 1–1000")
+    if args.max_steps is not None and args.max_steps <= 0:
+        parser.error("max-steps must be a positive integer")
     if (
         not 128 <= args.input_size <= 2048
         or not math.isfinite(args.learning_rate)
@@ -526,10 +590,17 @@ def main():
     if args.action == "train":
         if not args.output:
             parser.error("Training requires --output")
-        train(args)
     else:
         if not args.run:
             parser.error("Evaluation requires --run")
+    return args
+
+
+def main():
+    args = parse_args()
+    if args.action == "train":
+        train(args)
+    else:
         evaluate(args)
 
 

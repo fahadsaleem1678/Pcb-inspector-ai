@@ -342,3 +342,65 @@ Choose a fresh output directory when regenerating. The browser harness uses the 
 32-board corrected tile run and installed frontend Playwright/axe dependencies; it is a
 manual data-dependent acceptance check, separate from data-free ML CI. See the
 [seven-case review and context counts](evidence/coco-tiles1536-rpn0-fp-review.md).
+
+
+## Exact optimizer-step budgets
+
+Use either explicit `--epochs` or `--max-steps`; supplying both is an error.
+Omitting both preserves ten epochs and first-best validation AP50:95 selection,
+including the first epoch winning ties. The new step mode requires a positive integer
+and selects only the final-budget checkpoint, regardless of its metric value.
+
+Pass zero shuffles all training-view indices using Python Random(seed); subsequent
+passes use Random(seed + pass_index). Consume complete permutations, then truncate
+the final permutation to reach exactly the requested number of SGD updates. No data,
+empty tiles, targets, optimizer parameters or inference settings change.
+Step-mode smoke uses four source training boards and two validation boards and honors
+the exact requested steps across their views; the historical two-step-per-epoch smoke
+cap applies only to epoch mode. Keep smoke budgets small.
+
+In step mode, history records one row per consumed pass, including its seeded indices,
+inclusive global step range and whether the pass is complete. Only the final row has
+validation metrics. A partial pass has no epoch number. Summary records completed_steps,
+completed_epochs (complete view passes only), and partial_pass_steps. Config records
+max_steps, epochs=null and selection_policy=final_budget_endpoint. Checkpoint metadata
+records selected_step, selected_epoch=null, optimizer_steps as the selection metric,
+and the final history hash. The legacy filename best-state.pt is retained.
+
+Evaluation and evidence export share schedule/selection validation. They reject
+under/over-budget completion, missing/extra passes, wrong seeded order or step ranges,
+extra validation opportunities, a partial pass reported as an epoch, and a checkpoint
+selected before the endpoint. The history hash also binds recorded loss/time/metrics.
+Export schema 1.1 uses passes in place of epochs and records requested/actual/selected
+steps. Legacy epoch evidence remains schema 1.0 and readable.
+
+Bounded real-data pipeline check (five updates: four-board pass plus one update):
+
+```powershell
+.venv-ml/Scripts/python.exe -m ml.baseline train --output ml/runs/steps-smoke-001 --max-steps 5 --smoke --input-size 128 --training-rpn-score-threshold 0 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.venv-ml/Scripts/python.exe -m ml.baseline evaluate --run ml/runs/steps-smoke-001 --split validation
+```
+
+### Prespecified matched-step whole-board control
+
+After tests, smoke/reload, and a clean implementation commit, run once:
+
+```powershell
+.venv-ml/Scripts/python.exe -m ml.baseline train --output ml/runs/coco-resize640-rpn0-steps1053 --max-steps 1053 --input-size 640 --tile-size 0 --seed 20260908 --learning-rate 0.005 --threads 2 --device cpu --training-rpn-score-threshold 0 --initial-weights ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth
+.venv-ml/Scripts/python.exe -m ml.baseline evaluate --run ml/runs/coco-resize640-rpn0-steps1053 --split validation
+.venv-ml/Scripts/python.exe -m ml.summarize --run ml/runs/coco-resize640-rpn0-steps1053 --output ml/evidence/coco-resize640-rpn0-steps1053.json
+.venv-ml/Scripts/python.exe -m ml.error_analysis --run ml/runs/coco-resize640-rpn0-steps1053 --output ml/evidence/coco-resize640-rpn0-steps1053-errors.json
+```
+
+The frozen 165 training boards yield six complete passes (990 updates) plus the first
+63 views of the seventh seeded permutation. Validate the final checkpoint once on the
+same 32 validation boards, then independently reload it for reproducibility. Keep
+the original COCO bytes, frozen batch normalization, six trainable backbone stages,
+SGD momentum 0.9, weight decay 0.0005, gradient clipping 10, deterministic CPU execution,
+640 short-side/1280 long-side cap, and inference RPN threshold 0.05.
+No test inference or further expensive experiment follows automatically.
+
+Compare with the corrected 1,053-step tile pilot. Matching optimizer steps, training RPN
+filter and endpoint selection improves interpretation, but does not match compute,
+board exposure or repeated/clipped label appearances. These single-seed, two-group
+validation results cannot establish product accuracy or isolate all effects of tiling.

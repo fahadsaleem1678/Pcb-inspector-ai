@@ -296,3 +296,25 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   remain ignored. The reusable browser acceptance harness is ml/tests/fp_review_browser.cjs.
 - No training, threshold/annotation changes, held-out test inference or model promotion.
   Next work is explicit step-budget support and the matched-step whole-board control.
+
+
+## Exact optimizer-step budgeting — 2026-09-12
+
+Added mutually exclusive --epochs / --max-steps modes with the ten-epoch legacy default
+and first-best tie behavior preserved. Step mode consumes seeded full passes plus a final
+prefix, validates only at the exact endpoint, and records full/partial passes separately.
+Evaluation/export verify schedule order, step ranges, completion and endpoint selection;
+the checkpoint binds the final history hash. New evidence uses schema 1.1 passes while
+old epoch evidence remains readable.
+
+105 ML tests passed, covering 165-view/1,053-step schedule boundaries, invalid budgets,
+actual optimizer updates and endpoint validation in the trainer, legacy first-best ties,
+nonfinite failure, and rejection of altered completion/order/selection/history. Ruff lint
+and formatting passed. Existing dependency deprecation warnings do not fail the checks.
+
+Real pinned-COCO CPU smoke completed five updates on four source views (4 + 1), with one
+validation opportunity on two boards. Independent reload reproduced all predictions and
+detection metrics exactly; MLflow FINISHED and its validation metric occurs only at step 5.
+Both historical comparison runs revalidated through the updated exporter. This is a
+dirty-development smoke, not a full quality experiment; recorded code/artifact hashes are
+in [smoke evidence](../ml/evidence/step-budget-smoke-check.json).

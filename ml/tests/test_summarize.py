@@ -120,3 +120,136 @@ def test_export_rejects_misleading_or_changed_evidence(run, mutation, match):
         write(path, value)
     with pytest.raises(ValueError, match=match):
         summarize(run)
+
+
+@pytest.fixture
+def step_run(run):
+    from ml.schedule import STEP_SELECTION, training_schedule
+
+    def read(name):
+        return json.loads((run / f"{name}.json").read_text())
+
+    config = read("config")
+    config.update(
+        {
+            "epochs": None,
+            "max_steps": 5,
+            "training_views": 4,
+            "seed": 17,
+            "selection_policy": STEP_SELECTION,
+        }
+    )
+    write(run / "config.json", config)
+    metrics = read("best-validation")["metrics"]
+    history = [
+        {
+            "pass": i + 1,
+            "train_steps": len(indices),
+            "train_view_indices": indices,
+            "step_start": i * 4 + 1,
+            "step_end": min((i + 1) * 4, 5),
+            "pass_complete": len(indices) == 4,
+            "elapsed_seconds": 1,
+        }
+        for i, indices in enumerate(training_schedule(4, 17, max_steps=5))
+    ]
+    history[-1]["validation"] = metrics
+    write(run / "history.json", history)
+    checkpoint = read("checkpoint")
+    checkpoint.update(
+        {
+            "config_sha256": file_hash(run / "config.json"),
+            "history_sha256": file_hash(run / "history.json"),
+            "selected_epoch": None,
+            "selected_step": 5,
+            "selection_policy": STEP_SELECTION,
+            "selection_metric": "optimizer_steps",
+            "selection_value": 5,
+        }
+    )
+    write(run / "checkpoint.json", checkpoint)
+    summary = read("summary")
+    summary.update(
+        {
+            "completed_steps": 5,
+            "completed_epochs": 1,
+            "partial_pass_steps": 1,
+            "best_validation_ap50_95": metrics["ap50_95"],
+        }
+    )
+    write(run / "summary.json", summary)
+    return run
+
+
+def test_step_evidence_reports_passes_without_inventing_complete_epoch(step_run):
+    result = summarize(step_run)
+    assert result["schema_version"] == "1.1"
+    assert result["selected_epoch"] is None
+    assert result["selected_step"] == result["total_train_steps"] == result["requested_steps"] == 5
+    assert result["completed_epochs"] == 1
+    assert result["partial_pass_steps"] == 1
+    assert "epochs" not in result
+    assert "validation" not in result["passes"][0]
+    assert result["passes"][-1]["validation"]["ap50_95"] == 0.5
+
+
+@pytest.mark.parametrize(
+    "mutation,match",
+    [
+        ("under", "completion"),
+        ("over", "completion"),
+        ("selection", "endpoint"),
+        ("order", "ordering"),
+        ("history_hash", "history checksum"),
+        ("early_validation", "only at the endpoint"),
+        ("endpoint_metrics", "Endpoint metrics"),
+    ],
+)
+def test_step_evidence_and_evaluation_reject_invalid_contracts(
+    step_run, monkeypatch, mutation, match
+):
+    from types import SimpleNamespace
+
+    from ml import baseline
+
+    name = {
+        "under": "summary",
+        "over": "summary",
+        "selection": "checkpoint",
+        "order": "history",
+        "history_hash": "history",
+        "early_validation": "history",
+        "endpoint_metrics": "history",
+    }[mutation]
+    path = step_run / f"{name}.json"
+    value = json.loads(path.read_text())
+    if mutation in ("under", "over"):
+        value["completed_steps"] = 4 if mutation == "under" else 6
+    elif mutation == "selection":
+        value["selected_step"] = 4
+    elif mutation == "order":
+        value[0]["train_view_indices"].reverse()
+    elif mutation == "early_validation":
+        value[0]["validation"] = {"ap50_95": 0.9}
+    elif mutation == "endpoint_metrics":
+        value[-1]["validation"]["ap50"] = 0.9
+    else:
+        value[0]["elapsed_seconds"] += 1
+    write(path, value)
+    if mutation == "endpoint_metrics":
+        path = step_run / "checkpoint.json"
+        checkpoint = json.loads(path.read_text())
+        checkpoint["history_sha256"] = file_hash(step_run / "history.json")
+        write(path, checkpoint)
+    with pytest.raises(ValueError, match=match):
+        summarize(step_run)
+
+    if mutation != "endpoint_metrics":
+
+        def forbidden(*args, **kwargs):
+            raise AssertionError("Invalid training run reached model loading")
+
+        monkeypatch.setattr(baseline, "make_model", forbidden)
+        monkeypatch.setattr(baseline.torch, "load", forbidden)
+        with pytest.raises(ValueError, match=match):
+            baseline.evaluate(SimpleNamespace(run=step_run, split="validation", final_test=False))
