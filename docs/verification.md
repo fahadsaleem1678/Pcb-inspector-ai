@@ -318,3 +318,26 @@ detection metrics exactly; MLflow FINISHED and its validation metric occurs only
 Both historical comparison runs revalidated through the updated exporter. This is a
 dirty-development smoke, not a full quality experiment; recorded code/artifact hashes are
 in [smoke evidence](../ml/evidence/step-budget-smoke-check.json).
+
+
+## Matched-step control completed — 2026-09-12
+
+- Trained once from clean local c76479702c1a642878c3af78b2ae3ce0abbe7b99.
+- Exactly 1,053 optimizer updates: six 165-view passes plus a 63-view final prefix.
+  Seeded order, inclusive step ranges, six complete passes and partial-pass metadata verified.
+- Only one training validation/selection opportunity, at step 1,053. MLflow FINISHED;
+  run b4276b9d3ca84d16930b96cb1887d5d8.
+- Checkpoint 4dc04ed4a31e7630e929adc69139ba8e2130edc314fb7b1161b4dcf95c057824
+  independently reproduced all 3,182 predictions and detection metrics exactly.
+- Validation AP50 45.8523%, AP50:95 15.5973%, AR100 26.6494%; training loop 3,876.73 seconds.
+- Exported evidence, fixed-score error/overlap diagnostics and checksum-bound comparison.
+  At score 0.25: 137 TP / 268 FP / 95 FN. Tiles retain 9.1799 points higher AP50:95,
+  with 49 more TP and 280 more FP at that score.
+- Matched initialization/source/configuration fields and single endpoint selection verified.
+  Exposure remains unequal: 7,849 control versus 2,774 tile label appearances.
+- No held-out test inference, label changes, threshold calibration or promotion.
+- Automatic review blocked the main-branch push pending direct permission. The experiment
+  used a clean local commit. A later approval-service usage-limit interruption delayed only
+  evidence export, which succeeded after the user asked to continue.
+
+See [full report and evidence](../ml/evidence/coco-resize640-rpn0-steps1053.md).

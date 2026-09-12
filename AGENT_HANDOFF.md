@@ -5,12 +5,27 @@ Updated: 2026-09-12 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 ## Current task and stopping point
 
 The user asked to resume explicit step-budget support, then the matched-step training control.
-Step-budget implementation is complete, with 105 passing ML tests and a real five-update
-partial-pass smoke run/reload. The full control has not started yet at this checkpoint.
-Next commit/push the implementation cleanly, execute the single approved control below,
-reload validation, export evidence/errors, compare with the tile pilot, and commit/push results.
-Earlier user authorization covers local commits and pushes to main. Do not run further
-expensive experiments automatically after that comparison.
+Both are complete. Implementation commit: c76479702c1a642878c3af78b2ae3ce0abbe7b99.
+The single full control completed exactly 1,053 updates from that clean local revision,
+then independently reproduced every prediction/metric. Evidence, error diagnostics and
+the matched-step comparison are exported. Do not rerun the control or automatically start
+another expensive experiment.
+
+Full report: ml/evidence/coco-resize640-rpn0-steps1053.md.
+AP50 45.8523%, AP50:95 15.5973%, AR100 26.6494%. Tile AP50:95 remains 9.1799 percentage
+points higher. At score .25 the control has 137 TP / 268 FP / 95 FN; tiles have 186/548/46.
+Training loop including validation took 3,876.73 seconds (64.61 minutes).
+Checkpoint: 4dc04ed4a31e7630e929adc69139ba8e2130edc314fb7b1161b4dcf95c057824.
+MLflow: b4276b9d3ca84d16930b96cb1887d5d8, FINISHED; one validation event at step 1053.
+Reload reproduced all 3,182 predictions and all detection metrics exactly.
+No test evaluation, label/threshold changes or model promotion occurred.
+
+The implementation and results are local. Automatic approval review rejected the push to
+main because historical authorization in the handoff was not accepted as direct permission.
+An explicit push-approval question was sent; the later user message "continue" resumed
+evidence export after an approval-service usage-limit failure and was not treated as
+specific push authorization. Direct approval is still needed before updating the shared
+main branch. Do not bypass that rejection. No fresh remote CI ran for these local commits.
 
 ## Scope and frozen data
 
@@ -55,9 +70,9 @@ training RPN zero. Reload predictions/metrics match exactly. MLflow FINISHED wit
 single validation event at step 5. Development run is dirty, with code/artifact hashes
 in ml/evidence/step-budget-smoke-check.json. Old whole-board/tile evidence revalidated.
 
-## Approved whole-board control
+## Completed whole-board control
 
-Output: ml/runs/coco-resize640-rpn0-steps1053 (verify absent before launching).
+Output: ml/runs/coco-resize640-rpn0-steps1053 (complete; do not overwrite or rerun).
 
 Exactly 1,053 updates: six full 165-board passes (990) plus 63 indices of seventh seeded
 permutation. Whole boards, input 640 / max 1280, original COCO initialization, frozen
@@ -68,7 +83,12 @@ validation opportunity. Exact commands are in ml/BASELINE.md.
 
 Weights: ml/weights/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth.
 SHA256: 907ea3f91ff92242bc1baea8049276a3e76bca48ce7560bd268cc029f37977b5.
-No implicit downloads. Keep the frozen source ordering and untouched test holdout.
+No implicit downloads. Frozen source ordering and untouched test holdout were preserved.
+Files: ml/evidence/coco-resize640-rpn0-steps1053.json, matching -errors.json,
+-comparison.json and .md report. Comparison verifies equal updates/RPN settings/one
+endpoint opportunity and matching source, initialization and configuration fields.
+Exposure differs: control 7,849 label appearances versus tile 2,774; tiles retain 111
+empty updates and 416 clipped appearances. Equal updates do not imply equal compute.
 
 ## Existing comparison evidence
 

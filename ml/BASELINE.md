@@ -404,3 +404,14 @@ Compare with the corrected 1,053-step tile pilot. Matching optimizer steps, trai
 filter and endpoint selection improves interpretation, but does not match compute,
 board exposure or repeated/clipped label appearances. These single-seed, two-group
 validation results cannot establish product accuracy or isolate all effects of tiling.
+
+
+## Completed matched-step control
+
+The [whole-board 1,053-step control](evidence/coco-resize640-rpn0-steps1053.md) completed
+six full passes plus 63 updates, with one endpoint validation and exact checkpoint reload.
+AP50 reached 45.8523%, AP50:95 15.5973%, AR100 26.6494%. The matched-step tile advantage
+is 9.1799 percentage points on AP50:95. At diagnostic score 0.25, the control has
+137 TP / 268 FP / 95 FN, versus tiles' 186 / 548 / 46. Matching updates and RPN filtering
+does not remove exposure/clipping/compute differences or qualify either model for production.
+The prescribed experiment sequence is complete; no additional training follows automatically.

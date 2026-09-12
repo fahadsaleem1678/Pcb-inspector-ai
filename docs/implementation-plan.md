@@ -122,7 +122,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Corrected empty-tile training and one-epoch tile pilot, exact reload and error comparison; AP50 63.1950%, AP50:95 24.7772%, still research-only.
 - [x] Selectable false-positive review, overlap contexts, separate prediction notes and seven high-score visual cases.
 - [x] Exact optimizer-step budgeting, endpoint-only selection, strict schedule evidence checks and real CPU partial-pass smoke/reload.
-- [ ] Execute and compare the prespecified 1,053-step whole-board control.
+- [x] Execute and compare the prespecified 1,053-step whole-board control; exact reload, AP50:95 15.5973%, tile advantage 9.1799 points.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -152,11 +152,12 @@ is approved. Local review now has a generated package for this checkpoint as wel
 The [false-positive review](../ml/evidence/coco-tiles1536-rpn0-fp-review.md) is now implemented,
 with seven selected regions inspected. At score 0.25, duplicates account for 41/548 false
 positives; 492 have partial or no overlap. Annotation completeness still needs expert review.
-Explicit optimizer-step budgeting is implemented and smoke/reload verified; see the
-[exact-budget protocol](../ml/BASELINE.md#exact-optimizer-step-budgets). Next execute the
-prespecified 1,053-step whole-board control with training RPN threshold zero and final-budget
-checkpoint selection, from a clean implementation commit. Tiling, proposal
-filtering, optimizer steps and repeated label appearances confound the current comparison.
+Explicit optimizer-step budgeting and the [1,053-step whole-board control](../ml/evidence/coco-resize640-rpn0-steps1053.md)
+are complete, with exact reload and one endpoint selection opportunity. Control AP50 is
+45.8523%, AP50:95 15.5973%, AR100 26.6494%; the tile pilot retains a 9.1799-point AP50:95 lead.
+At score 0.25, tiles detect 49 more labels with 280 more false positives. This comparison
+matches updates and RPN filtering, but compute, board/label exposure and clipping still differ.
+The prescribed experiment sequence stops here; no further expensive experiment is launched.
 Keep the existing frozen release intact until expert label review establishes any correction.
 An approved surface-model API contract follows model qualification. PCB-IND acquisition and label-map reconciliation remain separate follow-up work.
 Annotation-completeness review, negative examples and an external camera holdout are still
