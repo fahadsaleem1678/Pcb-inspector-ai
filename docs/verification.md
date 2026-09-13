@@ -58,7 +58,7 @@ Local development remains the default. No real Cognito pool or browser login has
 Windows launcher cleanup now stops owned process trees; the smoke test also verifies the old API no longer accepts connections before restart.
 
 
-## Dataset acquisition and scope revision — 2026-09-08
+## Dataset acquisition and scope revision â€” 2026-09-08
 
 - Acquired the original PCB-Defect V1 and MIXED V4 archives; both SHA-256 values match
   Mendeley metadata. URLs, versions and hashes are recorded in data/source-lock.json.
@@ -80,7 +80,7 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   ignored by Git. Dataset V1 specification records the accepted surface scope and remaining gates.
 
 
-## Frozen PCB-Defect research manifest — 2026-09-08
+## Frozen PCB-Defect research manifest â€” 2026-09-08
 
 - Reviewed first/middle/last images from all 22 original-name families and all 30 cross-family
   aHash/pHash candidates. Recorded five different-layout decisions and 25 conservative merges,
@@ -100,7 +100,7 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   completeness certification or trained model is included.
 
 
-## Offline ML baseline workflow — 2026-09-08
+## Offline ML baseline workflow â€” 2026-09-08
 
 - Installed matched torch 2.13.0+cpu / torchvision 0.28.0+cpu in separate .venv-ml, with
   pycocotools 2.0.11, numpy 2.5.3 and mlflow-skinny 3.16.0. Resolved ML pins are recorded.
@@ -298,7 +298,7 @@ Windows launcher cleanup now stops owned process trees; the smoke test also veri
   Next work is explicit step-budget support and the matched-step whole-board control.
 
 
-## Exact optimizer-step budgeting — 2026-09-12
+## Exact optimizer-step budgeting â€” 2026-09-12
 
 Added mutually exclusive --epochs / --max-steps modes with the ten-epoch legacy default
 and first-best tie behavior preserved. Step mode consumes seeded full passes plus a final
@@ -320,7 +320,7 @@ dirty-development smoke, not a full quality experiment; recorded code/artifact h
 in [smoke evidence](../ml/evidence/step-budget-smoke-check.json).
 
 
-## Matched-step control completed — 2026-09-12
+## Matched-step control completed â€” 2026-09-12
 
 - Trained once from clean local c76479702c1a642878c3af78b2ae3ce0abbe7b99.
 - Exactly 1,053 optimizer updates: six 165-view passes plus a 63-view final prefix.
@@ -343,7 +343,7 @@ in [smoke evidence](../ml/evidence/step-budget-smoke-check.json).
 See [full report and evidence](../ml/evidence/coco-resize640-rpn0-steps1053.md).
 
 
-## Review import/adjudication and Cognito browser integration — 2026-09-13
+## Review import/adjudication and Cognito browser integration â€” 2026-09-13
 
 Implemented bound schema-1.1 review-note import, immutable reviewer/adjudicator history,
 reopened cases after new observations, and separately versioned unapproved correction
@@ -386,3 +386,33 @@ Mock provider/API acceptance does not establish live AWS behavior. Actual pool/c
 permitted test accounts and live two-user ownership acceptance remain pending. No AWS
 resources, expert reviews, model promotion, test inference or new training were performed.
 Next service implementation: S3 storage, transactional outbox and SQS worker integration.
+
+
+## S3/outbox/SQS local integration — 2026-09-14
+
+- Added an encrypted, bounded, SHA256-verified S3 ObjectStore and storage-neutral protected
+  image delivery. The API verifies ownership before fetching S3 bytes. Existing API schema
+  generation produces no semantic diff.
+- Submission and outbox creation share a transaction. Publisher leases and retry backoff
+  preserve intent across send failures and crashes. Queue events bind to database identities.
+- Workers renew database leases and SQS visibility; stale tokens cannot commit. Duplicate
+  receipts, uncertain acknowledgement, retry exhaustion, poison events and terminal failures
+  are covered. Native DLQ policy is checked on publisher/worker startup.
+- Added an explicit atomic redrive command and audit event, plus a read-only orphan-candidate
+  command. Uncertain submission commits retain uploaded objects to protect committed jobs.
+- Migration preserves existing local jobs and rejects downgrade if SQS records would be lost.
+- 116 service tests passed, including 51 new cloud tests. AWS tests use SDK Stubber request
+  validation and memory simulators with actual SQLite transactions; no AWS accounts/resources
+  were accessed. Ruff lint/format, strict mypy and pip check passed.
+- Separate-process HTTP upload -> worker -> report -> API restart smoke passed. All eight
+  desktop/mobile browser checks passed after the image-delivery change.
+- A test exposed a race where successful completion retired the lease before a heartbeat
+  renewal, unnecessarily suppressing acknowledgement. Completion is now checked durably after
+  the heartbeat joins; renewal treats terminal state as a retired lease. Regression passed.
+- PostgreSQL cloud/worker tests now run in isolated disposable schemas in CI. Local Docker
+  engine was unavailable, so those tests and fresh remote CI remain unverified for this slice.
+- No new training, held-out test inference, label correction, live Cognito/AWS acceptance,
+  infrastructure provisioning, production enablement or push was performed. The earlier push
+  approval rejection remains in force pending explicit permission.
+
+See [cloud integration and recovery guide](cloud-integrations.md) for operational limitations.

@@ -29,6 +29,8 @@ def run() -> None:
                 "PCB_ENVIRONMENT": "test",
                 "PCB_DETECTOR": "demo",
                 "PCB_AUTH_MODE": "local",
+                "PCB_STORAGE_BACKEND": "local",
+                "PCB_QUEUE_BACKEND": "database",
                 "PCB_DATABASE_URL": env.get(
                     "PCB_SMOKE_DATABASE_URL", f"sqlite:///{temporary / 'db.sqlite'}"
                 ),

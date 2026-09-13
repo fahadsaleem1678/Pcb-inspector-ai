@@ -40,6 +40,8 @@ def main() -> None:
                 "PCB_ENVIRONMENT": "test",
                 "PCB_DETECTOR": "demo",
                 "PCB_AUTH_MODE": "local",
+                "PCB_STORAGE_BACKEND": "local",
+                "PCB_QUEUE_BACKEND": "database",
                 "PCB_WORKER_POLL_SECONDS": "0.3",
             }
         )

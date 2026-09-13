@@ -32,13 +32,13 @@ Decisions for the first iteration:
 
 | Milestone | Scope | Acceptance gate | Dependencies |
 | --- | --- | --- | --- |
-| M1 — Backend foundation | Package, config, migration, image validation, storage, durable jobs, API, separate demo worker, events, metrics, CI, Compose | Upload → queued → worker → persisted demo report; restart persistence, invalid uploads, lease recovery and duplicate ownership tests pass | None |
-| M2 — Local product | React/TypeScript upload, polling, image viewer with coordinate-correct overlays, errors, history, JSON report download, accessibility | Browser test of complete workflow; responsive desktop/mobile layouts; demo mode is visibly labeled | M1 |
-| M3 — Data and real inference | Inventory/licenses, taxonomy decision, grouped splits, duplicate/annotation validation, DVC manifest, quality checks, YOLO baseline, MLflow evaluation, detector adapter | Reproducible held-out evaluation with per-class AP/recall, latency, artifact hash and label map; thresholds justified by validation data | Dataset permission and class coverage; M1 contract |
-| M4 — Production service integrations | Cognito JWT verification, owner isolation, S3 adapters/presigned uploads, SQS/outbox, visibility renewal, idempotent completion, DLQ/redrive, controlled URL ingestion | PostgreSQL/S3/SQS integration tests; auth/SSRF tests; worker crash, redelivery, publish-failure and ownership tests | M1; M2 auth UI |
-| M5 — AWS staging | Terraform VPC/IAM/KMS/S3/RDS/SQS/ECR/Cognito/ALB/ECS/CloudFront/WAF/secrets, OIDC deployment, immutable images, backups and retention | Reviewed plan, staging smoke test, migration/rollback and restore drill, budget alerts | M2–M4; account/region/domain/budget |
-| M6 — Operations and MLOps | Prometheus/Grafana, CloudWatch, tracing, SLOs, model registry approval, drift baselines, retraining/evaluation pipeline; EKS only if justified | Actionable failure alerts, model rollback demo, promotion gate rejects regressions, drift validation | M3–M5 |
-| M7 — Release validation | Security review, load tests, capacity tuning, documentation, demo and final acceptance audit | All section 34 acceptance criteria demonstrated with real authorized model and deployed services | M1–M6 |
+| M1 â€” Backend foundation | Package, config, migration, image validation, storage, durable jobs, API, separate demo worker, events, metrics, CI, Compose | Upload â†’ queued â†’ worker â†’ persisted demo report; restart persistence, invalid uploads, lease recovery and duplicate ownership tests pass | None |
+| M2 â€” Local product | React/TypeScript upload, polling, image viewer with coordinate-correct overlays, errors, history, JSON report download, accessibility | Browser test of complete workflow; responsive desktop/mobile layouts; demo mode is visibly labeled | M1 |
+| M3 â€” Data and real inference | Inventory/licenses, taxonomy decision, grouped splits, duplicate/annotation validation, DVC manifest, quality checks, YOLO baseline, MLflow evaluation, detector adapter | Reproducible held-out evaluation with per-class AP/recall, latency, artifact hash and label map; thresholds justified by validation data | Dataset permission and class coverage; M1 contract |
+| M4 â€” Production service integrations | Cognito JWT verification, owner isolation, S3 adapters/presigned uploads, SQS/outbox, visibility renewal, idempotent completion, DLQ/redrive, controlled URL ingestion | PostgreSQL/S3/SQS integration tests; auth/SSRF tests; worker crash, redelivery, publish-failure and ownership tests | M1; M2 auth UI |
+| M5 â€” AWS staging | Terraform VPC/IAM/KMS/S3/RDS/SQS/ECR/Cognito/ALB/ECS/CloudFront/WAF/secrets, OIDC deployment, immutable images, backups and retention | Reviewed plan, staging smoke test, migration/rollback and restore drill, budget alerts | M2â€“M4; account/region/domain/budget |
+| M6 â€” Operations and MLOps | Prometheus/Grafana, CloudWatch, tracing, SLOs, model registry approval, drift baselines, retraining/evaluation pipeline; EKS only if justified | Actionable failure alerts, model rollback demo, promotion gate rejects regressions, drift validation | M3â€“M5 |
+| M7 â€” Release validation | Security review, load tests, capacity tuning, documentation, demo and final acceptance audit | All section 34 acceptance criteria demonstrated with real authorized model and deployed services | M1â€“M6 |
 
 M3 dataset research can proceed alongside M2 implementation. M4 can use a deterministic test
 detector while training proceeds, but public inspection requires the M3 model gate.
@@ -86,7 +86,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 7. Worker visibility renewal and fencing must protect slow model inference and stale workers.
 8. Product results describe visible findings only, never electrical/functional certification.
 
-## M2 — Local product: implemented
+## M2 â€” Local product: implemented
 
 - [x] React/TypeScript/Vite application using generated FastAPI OpenAPI types.
 - [x] File selection and drop, image preview, validation errors and submission state.
@@ -98,7 +98,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Local combined launcher, frontend Docker image/Compose service and CI.
 - [x] M2 verification recorded in `docs/verification.md`: build/lint, 3 component tests and desktop/mobile workflow/accessibility/overlay checks passed.
 
-## M3 — Preparation started
+## M3 â€” Preparation started
 
 - [x] Strict dataset manifest/schema with provenance, license evidence/review and purposes.
 - [x] Checksum, decode/dimension, annotation, class coverage and group-leakage checks.
@@ -131,7 +131,7 @@ Assembly inspection is deferred to V2. The six-class research manifest is frozen
 integrity gates; no calibrated production model has been produced. The original architecture
 remains historical context where its taxonomy differs from the accepted V1 specification.
 
-## M4 — Identity and browser integration implemented locally
+## M4 â€” Identity and browser integration implemented locally
 
 - [x] Optional Cognito access-token signature and issuer/client/expiry validation.
 - [x] Signing-key cache/rotation, bounded retrieval and fail-closed authentication errors.
@@ -140,7 +140,10 @@ remains historical context where its taxonomy differs from the accepted V1 speci
 - [x] Synthetic signed-token and cross-user regression coverage.
 - [x] Managed browser login with PKCE/session renewal/logout, protected images/downloads and mock browser acceptance.
 - [ ] Live Cognito signup/login/renewal/logout and two-user ownership acceptance.
-- [ ] S3/SQS/outbox, worker visibility renewal, DLQ and safe URL ingestion.
+- [x] Opt-in S3 adapter, transactional outbox, SQS delivery, visibility renewal and fenced completion.
+- [x] Native DLQ policy checks, explicit audited failed-job retry and read-only orphan candidate audit.
+- [ ] Live S3/SQS/PostgreSQL acceptance, IAM/KMS/policy checks and operational recovery/alerts.
+- [ ] Safe URL ingestion with SSRF controls.
 
 ## Next implementation slice
 
@@ -170,7 +173,10 @@ Next, obtain human review observations, resolve disagreements, and independently
 proposed release. No actual label correction or expert approval has been recorded.
 
 Cognito browser integration and mock acceptance are implemented: see [authentication setup](authentication.md).
-Live Cognito acceptance awaits configured infrastructure/accounts. The next service coding
-slice is S3 object storage, transactional submission outbox and SQS delivery, with idempotent
-worker claims, visibility renewal and DLQ behavior. Docker/PostgreSQL verification remains
-pending in a suitable environment. No cloud deployment is needed for annotation review.
+Live Cognito acceptance awaits configured infrastructure/accounts. The S3/outbox/SQS service
+slice is implemented with local failure-oriented tests; see [cloud integration guide](cloud-integrations.md).
+Next validate the deployment roles, queue/DLQ policies, migrations and crash/recovery behavior
+against an authorized integration environment. PostgreSQL cloud/worker tests were added to CI;
+the local Docker engine is stopped and fresh remote CI has not run. Complete monitoring,
+retention/reconciliation, load and staging acceptance before enabling public deployment.
+No cloud deployment is needed for annotation review.

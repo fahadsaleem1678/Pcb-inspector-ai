@@ -1,21 +1,46 @@
-# PCB Inspector AI — Agent handoff
+# PCB Inspector AI â€” Agent handoff
 
-Updated: 2026-09-13 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
+Updated: 2026-09-14 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
-The user subsequently asked to start the next phases. Two implementation slices are now
-complete locally: M3 review-note import/adjudication/correction-candidate tooling, and M4
-Cognito browser PKCE/session renewal/logout with protected asset delivery. Details and
-commands are in ml/ADJUDICATION.md and docs/authentication.md. These do not complete model
-qualification or live cloud acceptance. No actual expert decisions, dataset corrections,
-new training, test inference, AWS resources or real model promotion were performed.
+The latest "continue working" implemented the next local service slice: private S3 storage,
+transactional submission outbox, standard SQS publication/consumption, database/SQS lease
+renewal, native DLQ policy checks, explicit audited failed-job retry, and a read-only orphan
+candidate audit. See docs/cloud-integrations.md for configuration and recovery commands.
+The API and worker now use the same ObjectStore abstraction; ownership is checked before
+S3 image delivery. Uncertain database commits no longer cause immediate image deletion.
 
-Next independent coding work: S3 storage plus a transactional submission outbox and SQS
-publication/consumption, with idempotency, worker visibility renewal and DLQ handling.
-Human/data follow-up: expert annotation-completeness review, clean-board negatives and
-camera holdout acquisition. Live Cognito acceptance needs an authorized existing public
-app client/pool and test accounts; configuration questions remain unanswered.
+Migration 0002 adds queue_backend (existing records default to database) and submission_outbox.
+Run migrations before starting the updated API/worker. Do not flip an existing filesystem
+installation to S3 without migrating its images or choosing a fresh integration database.
+Downgrade refuses SQS inspection records. Local/test/demo configuration gates remain in place.
+No AWS resources, live queue messages, real model inference or dataset changes were performed.
+
+Verification: 116 service tests passed (including 51 cloud tests), Ruff lint/format, strict
+mypy, pip check, separate-process API/worker/restart smoke, and all eight desktop/mobile local
+browser checks passed. OpenAPI output is unchanged. The ML and frontend unit suites were not
+rerun for this service-only slice; their last verified results remain 144 and 29 respectively.
+A full-suite test exposed a heartbeat/completion race; durable completion is now acknowledged
+even when a concurrent heartbeat observes the retired lease. Regression tests pass.
+
+CI now runs cloud/worker tests against PostgreSQL in unique disposable schemas using
+PCB_TEST_DATABASE_URL. The local Docker executable exists but its engine is stopped; the
+PostgreSQL additions are not locally verified. SDK request-model stubs and in-memory S3/SQS
+simulations do not establish live AWS behavior. Do not describe this as production-ready.
+
+Next acceptance work: fresh remote CI once push is authorized, then authorized existing
+S3/SQS/Cognito infrastructure and test accounts for IAM/KMS/queue-policy, two-user ownership,
+crash/recovery, DLQ/retention and deployment checks. Monitoring/alerts, staging, restore/load
+checks and safe URL ingestion remain pending. Upload idempotency keys are not implemented;
+uncertain submissions can be located in history, and the browser does not replay uploads.
+Expert annotation review, clean negatives and external-camera holdout remain independent
+model qualification blockers. Do not automatically rerun the completed training experiments.
+
+The earlier review-import/adjudication and Cognito PKCE work remains complete locally. No
+actual expert decisions or dataset corrections have been recorded. See ml/ADJUDICATION.md
+and docs/authentication.md. Prior push rejection still requires explicit push permission;
+this slice is committed locally only. No attempt to bypass that rejection should be made.
 
 ## Prior completed step-budget work
 
@@ -55,7 +80,7 @@ Release: data/releases/pcb-defect-v1; images: data/processed/pcb-defect-v1.
 230 boards: 165 train / 32 validation / 33 test, 13 conservative groups.
 Validation families 51 and 52 have 16 boards each and 232 labels total.
 Classes: missing_pad, mouse_bite, open_circuit, short_circuit, spur, spurious_copper.
-Torch labels 1–6, background 0. Keep the release intact.
+Torch labels 1â€“6, background 0. Keep the release intact.
 
 No test inference is authorized. Expert annotation-completeness review, clean-board
 negatives and an external-camera holdout are missing. Local research permission is not
@@ -194,5 +219,5 @@ run artifacts after recording their actual-byte hashes. Keep full training sourc
 before launch. Frontend checks run with pnpm.cmd --dir frontend; test:auth and test:e2e
 use separate output directories and ports 5175/5174. Local e2e also uses API port 8011.
 
-Live Cognito acceptance, S3/SQS/outbox and production deployment remain pending. Product qualification still requires expert labels, negatives, external data,
+Live Cognito and live S3/SQS acceptance plus production deployment remain pending. Product qualification still requires expert labels, negatives, external data,
 calibration and an approved surface-model artifact/API contract.

@@ -4,17 +4,18 @@ import logging
 import signal
 import threading
 import time
+from collections.abc import Callable
 from types import FrameType
 
 from PIL import Image
 
 from pcb_inspector.config import Settings
-from pcb_inspector.database import make_engine
+from pcb_inspector.database import Inspection, make_engine
 from pcb_inspector.inference import DemoDetector, Detector, decide
 from pcb_inspector.observability import configure_logging
 from pcb_inspector.repository import Repository
 from pcb_inspector.schemas import Report
-from pcb_inspector.storage import LocalObjectStore, ObjectStore
+from pcb_inspector.storage import ObjectStore, make_store
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +37,10 @@ class Worker:
         job = self.repository.claim(self.settings)
         if job is None:
             return False
+        self.process(job)
+        return True
+
+    def process(self, job: Inspection, can_commit: Callable[[], bool] = lambda: True) -> None:
         started = time.perf_counter()
         try:
             with Image.open(io.BytesIO(self.storage.get(job.image_key))) as image:
@@ -66,7 +71,7 @@ class Worker:
                         else "Decision thresholds are provisional; calibration is required.",
                     ],
                 )
-            committed = self.repository.complete(job, report)
+            committed = can_commit() and self.repository.complete(job, report)
             logger.info(
                 "inspection_completed" if committed else "stale_result_discarded",
                 extra={"inspection_id": job.id},
@@ -74,8 +79,8 @@ class Worker:
         except Exception as exc:
             # Expose only a stable error code to clients, not paths or credentials.
             logger.error("inference_error:%s", type(exc).__name__, extra={"inspection_id": job.id})
-            self.repository.fail(job, self.settings)
-        return True
+            if can_commit():
+                self.repository.fail(job, self.settings)
 
 
 def main() -> None:
@@ -85,7 +90,15 @@ def main() -> None:
     configure_logging()
     settings = Settings()
     engine = make_engine(settings.database_url)
-    worker = Worker(Repository(engine), LocalObjectStore(settings.storage_path), settings)
+    worker = Worker(Repository(engine), make_store(settings), settings)
+    run_once = worker.run_once
+    if settings.queue_backend == "sqs":
+        from pcb_inspector.queue import SQSQueue
+        from pcb_inspector.sqs_worker import SQSWorker
+
+        queue = SQSQueue.from_settings(settings)
+        queue.validate()
+        run_once = SQSWorker(worker, queue).run_once
     stopped = threading.Event()
 
     def stop(signum: int, frame: FrameType | None) -> None:
@@ -95,12 +108,12 @@ def main() -> None:
     signal.signal(signal.SIGTERM, stop)
     try:
         if args.once:
-            worker.run_once()
+            run_once()
             return
         logger.info("worker_started_demo_mode")
         while not stopped.is_set():
             try:
-                busy = worker.run_once()
+                busy = run_once()
             except Exception as exc:
                 logger.error("worker_poll_error:%s", type(exc).__name__)
                 busy = False

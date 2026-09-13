@@ -19,6 +19,9 @@ class Inspection(Base):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
     owner_id: Mapped[str] = mapped_column(String(128))
+    queue_backend: Mapped[str] = mapped_column(
+        String(16), default="database", server_default="database"
+    )
     image_key: Mapped[str] = mapped_column(String(512))
     width: Mapped[int] = mapped_column(Integer)
     height: Mapped[int] = mapped_column(Integer)
@@ -44,6 +47,20 @@ class InspectionEvent(Base):
     event_type: Mapped[str] = mapped_column(String(64))
     created_at: Mapped[float] = mapped_column(Float)
     event_data: Mapped[dict[str, Any]] = mapped_column(JSON)
+
+
+class SubmissionOutbox(Base):
+    __tablename__ = "submission_outbox"
+    __table_args__ = (Index("ix_outbox_pending", "published_at", "available_at", "lease_until"),)
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    inspection_id: Mapped[str] = mapped_column(ForeignKey("inspections.id"), unique=True)
+    created_at: Mapped[float] = mapped_column(Float)
+    available_at: Mapped[float] = mapped_column(Float)
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    published_at: Mapped[float | None] = mapped_column(Float, nullable=True)
+    lease_token: Mapped[str | None] = mapped_column(String(36), nullable=True)
+    lease_until: Mapped[float | None] = mapped_column(Float, nullable=True)
 
 
 def make_engine(url: str) -> Engine:

@@ -7,7 +7,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 
 from pcb_inspector.config import Settings
-from pcb_inspector.database import Inspection, InspectionEvent
+from pcb_inspector.database import Inspection, InspectionEvent, SubmissionOutbox
 from pcb_inspector.schemas import Report, Status
 
 
@@ -37,7 +37,10 @@ class Repository:
         width: int,
         height: int,
         request_id: str,
+        queue_backend: str = "database",
     ) -> None:
+        if queue_backend not in ("database", "sqs"):
+            raise ValueError("Invalid queue backend")
         now = time.time()
         with Session(self.engine) as session, session.begin():
             session.add(
@@ -45,6 +48,7 @@ class Repository:
                     id=inspection_id,
                     owner_id=owner_id,
                     image_key=image_key,
+                    queue_backend=queue_backend,
                     width=width,
                     height=height,
                     status=Status.QUEUED,
@@ -54,6 +58,16 @@ class Repository:
                 )
             )
             session.flush()
+            if queue_backend == "sqs":
+                session.add(
+                    SubmissionOutbox(
+                        id=str(uuid4()),
+                        inspection_id=inspection_id,
+                        created_at=now,
+                        available_at=now,
+                        attempts=0,
+                    )
+                )
             self._event(session, inspection_id, "inspection_queued", now, request_id=request_id)
 
     def get(self, inspection_id: str, owner_id: str) -> Inspection | None:
@@ -77,12 +91,23 @@ class Repository:
                 )
             )
 
-    def claim(self, settings: Settings, now: float | None = None) -> Inspection | None:
+    def claim(
+        self,
+        settings: Settings,
+        now: float | None = None,
+        *,
+        inspection_id: str | None = None,
+    ) -> Inspection | None:
         now = time.time() if now is None else now
         eligible = or_(
             and_(Inspection.status == Status.QUEUED, Inspection.available_at <= now),
             and_(Inspection.status == Status.PROCESSING, Inspection.lease_until <= now),
         )
+        eligible = and_(eligible, Inspection.queue_backend == settings.queue_backend)
+        if settings.queue_backend == "sqs" and inspection_id is None:
+            raise ValueError("SQS claims require a message-bound inspection ID")
+        if inspection_id is not None:
+            eligible = and_(eligible, Inspection.id == inspection_id)
         # Retry contention and drain a bounded number of expired, exhausted jobs per poll.
         for _ in range(10):
             with Session(self.engine, expire_on_commit=False) as session, session.begin():
@@ -194,3 +219,36 @@ class Repository:
                 error_code="INFERENCE_FAILED",
             )
             return True
+
+    def renew(self, job: Inspection, settings: Settings, now: float | None = None) -> bool:
+        now = time.time() if now is None else now
+        with Session(self.engine) as session, session.begin():
+            return (
+                session.scalar(
+                    update(Inspection)
+                    .where(
+                        Inspection.id == job.id,
+                        Inspection.status == Status.PROCESSING,
+                        Inspection.lease_token == job.lease_token,
+                        Inspection.lease_until > now,
+                    )
+                    .values(lease_until=now + settings.lease_seconds)
+                    .returning(Inspection.id)
+                )
+                is not None
+            )
+
+    def message_job(self, event_id: str, inspection_id: str) -> Inspection | None:
+        with Session(self.engine) as session:
+            return session.scalar(
+                select(Inspection)
+                .join(
+                    SubmissionOutbox,
+                    SubmissionOutbox.inspection_id == Inspection.id,
+                )
+                .where(
+                    SubmissionOutbox.id == event_id,
+                    Inspection.id == inspection_id,
+                    Inspection.queue_backend == "sqs",
+                )
+            )

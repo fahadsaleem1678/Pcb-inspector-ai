@@ -135,7 +135,7 @@ def test_health_ready_metrics_and_readiness_failure(client, settings):
         assert fresh.get("/ready").status_code == 503
 
 
-def test_database_failure_cleans_new_object(app, png, monkeypatch):
+def test_database_failure_retains_object_for_reconciliation(app, png, monkeypatch):
     def fail(*args, **kwargs):
         raise RuntimeError("sensitive database detail")
 
@@ -144,4 +144,4 @@ def test_database_failure_cleans_new_object(app, png, monkeypatch):
         response = client.post("/api/v1/inspections/upload", files={"file": ("x.png", png)})
         assert response.status_code == 500
         assert "sensitive" not in response.text
-    assert list(app.state.storage.root.rglob("*.png")) == []
+    assert len(list(app.state.storage.root.rglob("*.png"))) == 1

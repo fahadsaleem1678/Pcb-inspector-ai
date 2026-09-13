@@ -7,19 +7,19 @@ from uuid import UUID, uuid4
 
 from fastapi import FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
-from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.responses import JSONResponse, Response
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from sqlalchemy import select
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from pcb_inspector.auth import Authenticator, Principal, PrincipalDependency
 from pcb_inspector.config import Settings
-from pcb_inspector.database import Inspection, make_engine
+from pcb_inspector.database import Inspection, SubmissionOutbox, make_engine
 from pcb_inspector.images import InvalidImage, validate_image
 from pcb_inspector.observability import Metrics, configure_logging
 from pcb_inspector.repository import Repository
 from pcb_inspector.schemas import History, InspectionSummary, Report, Status, Submission
-from pcb_inspector.storage import LocalObjectStore
+from pcb_inspector.storage import make_store
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +79,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or Settings()
     engine = make_engine(settings.database_url)
     repository = Repository(engine)
-    storage = LocalObjectStore(settings.storage_path)
+    storage = make_store(settings)
     metrics = Metrics()
 
     @asynccontextmanager
@@ -146,7 +146,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def ready() -> dict[str, str]:
         try:
             with engine.connect() as connection:
-                connection.execute(select(Inspection.id).limit(1))
+                connection.execute(select(Inspection.id, Inspection.queue_backend).limit(1))
+                if settings.queue_backend == "sqs":
+                    connection.execute(select(SubmissionOutbox.id).limit(1))
             probe = f".health/{uuid4()}.txt"
             try:
                 storage.put(probe, b"ready")
@@ -191,9 +193,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     image.width,
                     image.height,
                     request.state.request_id,
+                    queue_backend=settings.queue_backend,
                 )
             except Exception:
-                storage.delete(key)
+                # Commit acknowledgement can be lost after success. Retain the object;
+                # reconciliation must establish that it is unreferenced before deletion.
+                logger.error("submission_commit_uncertain", extra={"inspection_id": inspection_id})
                 raise
 
         await run_in_threadpool(persist)
@@ -242,10 +247,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
 
     @app.get("/api/v1/inspections/{inspection_id}/image")
-    def original_image(inspection_id: UUID, principal: PrincipalDependency) -> FileResponse:
-        path = storage.path(owned_job(inspection_id, principal).image_key)
-        if not path.is_file():
-            raise HTTPException(404, "Image not found")
-        return FileResponse(path, media_type="image/png")
+    def original_image(inspection_id: UUID, principal: PrincipalDependency) -> Response:
+        job = owned_job(inspection_id, principal)
+        try:
+            content = storage.get(job.image_key)
+        except FileNotFoundError as exc:
+            raise HTTPException(404, "Image not found") from exc
+        return Response(content, media_type="image/png")
 
     return app

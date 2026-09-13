@@ -114,3 +114,11 @@ builds both containers, and runs frontend/browser checks with API-type drift det
 See [API contract](docs/api.md) and [architecture decisions](docs/architecture.md).
 
 Optional backend Cognito token verification is implemented; see [authentication configuration](docs/authentication.md). Browser login remains a subsequent step.
+
+
+### Optional cloud service adapters
+
+S3 storage and standard SQS delivery through a transactional outbox are implemented for
+integration testing. See [configuration, recovery and remaining acceptance](docs/cloud-integrations.md).
+Run migration 0002 before the updated services. Default local mode and demo-only results remain;
+live AWS acceptance and production/model qualification are still pending.
