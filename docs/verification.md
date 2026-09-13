@@ -341,3 +341,48 @@ in [smoke evidence](../ml/evidence/step-budget-smoke-check.json).
   evidence export, which succeeded after the user asked to continue.
 
 See [full report and evidence](../ml/evidence/coco-resize640-rpn0-steps1053.md).
+
+
+## Review import/adjudication and Cognito browser integration — 2026-09-13
+
+Implemented bound schema-1.1 review-note import, immutable reviewer/adjudicator history,
+reopened cases after new observations, and separately versioned unapproved correction
+candidates. Tests cover source/threshold/subject mismatches, conflicting observations,
+malformed decisions, stale decisions, bounds/classes, duplicate labels, unchanged train/test
+and original data, candidate provenance, checksum rejection and no-overwrite behavior.
+
+- ML suite: 144 passed (`tests/test_ml_views.py ml/tests`). Service suite: 65 passed.
+- Real 32-board corrected-tile review package generated at `ml/runs/review-adjudication-001`.
+  Existing FP harness and new note-import harness passed. The new harness verifies restore,
+  idempotence, atomic conflict rejection, source/context checks, unsaved-draft preservation,
+  zero axe violations, no mobile overflow and no page errors.
+- Real-package CLI import smoke created two **automated** pending observations, no expert
+  decisions, at `ml/runs/adjudication-import-smoke-001`. No real correction candidate or
+  modified frozen dataset was produced. Candidate CLI tests use synthetic temporary data.
+
+The frontend now supports Cognito code/PKCE S256, state/nonce verification, API identity
+verification, in-memory tokens, refresh coalescing, logout, and bearer-header image/report
+fetching with cancellation/object-URL cleanup. Existing local development still works.
+
+- Frontend unit suite: 29 passed, including identity mismatch, expired/rejected refresh,
+  refresh/verification races with logout, 401 without POST retry, same-origin credential
+  delivery, late image response cancellation and revoked-URL reuse prevention.
+- Mock Cognito browser acceptance: 10 passed (five scenarios on desktop and mobile), using
+  the real OIDC client and verifying the PKCE challenge against the exchanged verifier.
+  Covers state rejection before exchange, deep-link restoration, no tokens in web storage,
+  protected images/downloads, successful/failed refresh, failed revocation/logout and 401.
+  Authenticated workspace accessibility and mobile overflow checks passed.
+- Local API/worker browser acceptance: 8 passed on desktop/mobile, including upload,
+  report/download/reload/history, keyboard access, errors and detection-overlay fixtures.
+- Ruff lint/format, mypy, frontend lint/format and production build passed. Existing Python
+  dependency deprecation warnings remain non-failing. CI includes the auth browser suite
+  and lightweight review/adjudication tests; remote CI has not run for these local changes.
+
+Initial browser checks exposed duplicate missing-inspection errors (corrected by showing
+one service error) and shared Playwright artifact-directory collisions (corrected by giving
+auth its own output directory). Both suites passed after those fixes.
+
+Mock provider/API acceptance does not establish live AWS behavior. Actual pool/client setup,
+permitted test accounts and live two-user ownership acceptance remain pending. No AWS
+resources, expert reviews, model promotion, test inference or new training were performed.
+Next service implementation: S3 storage, transactional outbox and SQS worker integration.

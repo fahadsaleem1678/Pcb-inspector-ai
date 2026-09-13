@@ -27,7 +27,7 @@ test('upload, inspect, download, reopen and keyboard access', async ({ page }, t
   await expect(page.getByLabel('Zoom level')).toHaveText('100%');
   const url = page.url();
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('link', { name: 'Download JSON report' }).click();
+  await page.getByRole('button', { name: 'Download JSON report' }).click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toMatch(/\.json$/);
   const stream = await download.createReadStream();

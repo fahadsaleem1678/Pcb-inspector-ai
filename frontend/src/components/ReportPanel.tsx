@@ -1,6 +1,7 @@
 import { ArrowDown, Clock, Info, WarningCircle } from '@phosphor-icons/react';
 import type { Inspection, Report } from '../api';
-import { reportUrl } from '../api';
+import { errorMessage, protectedResponse, reportUrl } from '../api';
+import { useEffect, useRef, useState } from 'react';
 
 export function ReportPanel({
   job,
@@ -17,6 +18,44 @@ export function ReportPanel({
   selected: number | null;
   onSelect: (index: number | null) => void;
 }) {
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
+  const downloadController = useRef<AbortController | null>(null);
+  useEffect(() => {
+    setDownloadError(null);
+    setDownloading(false);
+    return () => {
+      downloadController.current?.abort();
+      downloadController.current = null;
+    };
+  }, [report?.inspection_id]);
+  async function download() {
+    if (!report || downloadController.current) return;
+    const controller = new AbortController();
+    downloadController.current = controller;
+    setDownloading(true);
+    setDownloadError(null);
+    try {
+      const response = await protectedResponse(reportUrl(report.inspection_id), {
+        signal: controller.signal,
+      });
+      const blob = await response.blob();
+      if (controller.signal.aborted) return;
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `inspection-${report.inspection_id}.json`;
+      anchor.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      if (!controller.signal.aborted) setDownloadError(errorMessage(error));
+    } finally {
+      if (downloadController.current === controller) {
+        downloadController.current = null;
+        setDownloading(false);
+      }
+    }
+  }
   const pending = job?.status === 'QUEUED' || job?.status === 'PROCESSING';
   return (
     <aside className="report-panel" aria-label="Inspection report">
@@ -146,9 +185,19 @@ export function ReportPanel({
         </dl>
       )}
       {report && (
-        <a className="button secondary download" href={reportUrl(report.inspection_id)} download>
-          <ArrowDown size={18} aria-hidden /> Download JSON report
-        </a>
+        <button
+          className="button secondary download"
+          onClick={() => void download()}
+          disabled={downloading}
+        >
+          <ArrowDown size={18} aria-hidden />{' '}
+          {downloading ? 'Downloading report…' : 'Download JSON report'}
+        </button>
+      )}
+      {downloadError && (
+        <p className="error-message" role="alert">
+          {downloadError}
+        </p>
       )}
       <p className="scope-note">
         AI-assisted visual inspection only. No electrical, functional, or manufacturing

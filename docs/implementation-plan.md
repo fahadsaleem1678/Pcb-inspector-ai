@@ -123,6 +123,7 @@ measurement. The demo decision policy is not a calibrated manufacturing rule.
 - [x] Selectable false-positive review, overlap contexts, separate prediction notes and seven high-score visual cases.
 - [x] Exact optimizer-step budgeting, endpoint-only selection, strict schedule evidence checks and real CPU partial-pass smoke/reload.
 - [x] Execute and compare the prespecified 1,053-step whole-board control; exact reload, AP50:95 15.5973%, tile advantage 9.1799 points.
+- [x] Bound review-note import, immutable adjudication history and separate validation-label correction candidates.
 - [ ] Meaningful trained baseline/YOLO or RT-DETR comparison, DVC data versioning and calibrated quality classifier.
 - [ ] Calibrated thresholds and approved real detector artifact.
 
@@ -130,14 +131,15 @@ Assembly inspection is deferred to V2. The six-class research manifest is frozen
 integrity gates; no calibrated production model has been produced. The original architecture
 remains historical context where its taxonomy differs from the accepted V1 specification.
 
-## M4 — Identity boundary implemented
+## M4 — Identity and browser integration implemented locally
 
 - [x] Optional Cognito access-token signature and issuer/client/expiry validation.
 - [x] Signing-key cache/rotation, bounded retrieval and fail-closed authentication errors.
 - [x] Verified owner filtering on uploads and all inspection read endpoints.
 - [x] Optional scope/resource-audience enforcement and identity endpoint.
 - [x] Synthetic signed-token and cross-user regression coverage.
-- [ ] Managed browser login with PKCE/session renewal/logout and live Cognito acceptance.
+- [x] Managed browser login with PKCE/session renewal/logout, protected images/downloads and mock browser acceptance.
+- [ ] Live Cognito signup/login/renewal/logout and two-user ownership acceptance.
 - [ ] S3/SQS/outbox, worker visibility renewal, DLQ and safe URL ingestion.
 
 ## Next implementation slice
@@ -163,5 +165,12 @@ An approved surface-model API contract follows model qualification. PCB-IND acqu
 Annotation-completeness review, negative examples and an external camera holdout are still
 required before making broad product claims.
 
-Managed browser login, S3/SQS/outbox and Docker/PostgreSQL verification remain the next service
-integration work. No cloud deployment is needed for the dataset audit.
+Review import/adjudication/candidate tooling is implemented: see [review workflow](../ml/ADJUDICATION.md).
+Next, obtain human review observations, resolve disagreements, and independently validate any
+proposed release. No actual label correction or expert approval has been recorded.
+
+Cognito browser integration and mock acceptance are implemented: see [authentication setup](authentication.md).
+Live Cognito acceptance awaits configured infrastructure/accounts. The next service coding
+slice is S3 object storage, transactional submission outbox and SQS delivery, with idempotent
+worker claims, visibility renewal and DLQ behavior. Docker/PostgreSQL verification remains
+pending in a suitable environment. No cloud deployment is needed for annotation review.

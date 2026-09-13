@@ -8,7 +8,9 @@ import {
   UploadSimple,
   X,
 } from '@phosphor-icons/react';
-import { api, errorMessage, imageUrl } from './api';
+import { api, errorMessage } from './api';
+import type { Principal } from './auth';
+import { useInspectionImage } from './useInspectionImage';
 import { useInspection } from './useInspection';
 import { ImageViewer } from './components/ImageViewer';
 import { ReportPanel } from './components/ReportPanel';
@@ -19,7 +21,13 @@ function selectedFromUrl() {
   return id && /^[a-f0-9-]{36}$/i.test(id) ? id : null;
 }
 
-export default function App() {
+export default function App({
+  principal,
+  onLogout,
+}: {
+  principal?: Principal;
+  onLogout?: () => Promise<void>;
+}) {
   const [selectedId, setSelectedId] = useState<string | null>(selectedFromUrl);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -103,7 +111,8 @@ export default function App() {
       setUploading(false);
     }
   }
-  const source = selectedId ? imageUrl(selectedId) : preview;
+  const image = useInspectionImage(selectedId);
+  const source = selectedId ? image.url : preview;
   return (
     <>
       <a href="#main" className="skip-link">
@@ -127,7 +136,14 @@ export default function App() {
             </span>
           </a>
           <div className="workspace-label">
-            LOCAL WORKSPACE <span className="avatar">L</span>
+            {principal?.auth_mode === 'cognito' ? 'YOUR WORKSPACE' : 'LOCAL WORKSPACE'}
+            {onLogout ? (
+              <button className="text-button" onClick={() => void onLogout()}>
+                Sign out
+              </button>
+            ) : (
+              <span className="avatar">L</span>
+            )}
           </div>
         </div>
       </header>
@@ -181,6 +197,12 @@ export default function App() {
                 event.target.value = '';
               }}
             />
+            {image.error && !error && (
+              <p className="error-message" role="alert">
+                {image.error}
+              </p>
+            )}
+            {selectedId && !source && !image.error && <p role="status">Loading board image…</p>}
             {source ? (
               <ImageViewer
                 key={source}
@@ -191,7 +213,7 @@ export default function App() {
                 selected={selectedFinding}
                 onSelect={setSelectedFinding}
               />
-            ) : (
+            ) : selectedId ? null : (
               <div
                 className={dragging ? 'drop-zone dragging' : 'drop-zone'}
                 onDragOver={(event) => {

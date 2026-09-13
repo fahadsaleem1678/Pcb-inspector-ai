@@ -27,3 +27,7 @@ frontend/playwright-report/
 .venv-ml/
 ml/runs/
 *.pth
+
+frontend/auth-test-results/
+frontend/.env.local
+frontend/.env.*.local

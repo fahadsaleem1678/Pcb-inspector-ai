@@ -28,6 +28,7 @@ pnpm run build
 pnpm test
 pnpm exec playwright install chromium
 pnpm run test:e2e
+pnpm run test:auth
 ```
 
 Browser tests start an isolated database/API/worker on port 8011 and frontend on port 5174.
@@ -48,5 +49,12 @@ Commit both `openapi.json` and `src/generated/api.d.ts`. CI regenerates them and
 The server OpenAPI response model remains authoritative. Client upload hints use the default
 10 MiB cap; server-side configured size/dimension limits are always enforced.
 
-This is local single-user development. Authentication, URL ingestion, real models, cloud
-storage/queue integration and production deployment remain subsequent milestones.
+Local mode is single-user development. Opt-in Cognito browser login, renewal/logout and
+bearer-protected images/downloads are implemented; see [authentication setup](../docs/authentication.md).
+Copy `.env.example` to `.env.local` for public browser settings. Tokens stay in memory, so a
+page reload requires another hosted sign-in. Live AWS acceptance remains pending.
+
+The separate auth browser suite uses port 5175 and mock provider/API responses; no AWS
+account is contacted. It verifies PKCE and auth failure paths on desktop and mobile, writing
+artifacts to `auth-test-results/`. URL ingestion, real models, cloud storage/queue integration
+and production deployment remain subsequent milestones.

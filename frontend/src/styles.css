@@ -1137,3 +1137,9 @@ td {
     padding-right: 12px;
   }
 }
+
+.auth-panel {
+  max-width: 38rem;
+  margin: 12vh auto;
+  padding: 2rem;
+}

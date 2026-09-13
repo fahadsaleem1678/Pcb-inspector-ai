@@ -1,8 +1,23 @@
 # PCB Inspector AI — Agent handoff
 
-Updated: 2026-09-12 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
+Updated: 2026-09-13 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
+
+The user subsequently asked to start the next phases. Two implementation slices are now
+complete locally: M3 review-note import/adjudication/correction-candidate tooling, and M4
+Cognito browser PKCE/session renewal/logout with protected asset delivery. Details and
+commands are in ml/ADJUDICATION.md and docs/authentication.md. These do not complete model
+qualification or live cloud acceptance. No actual expert decisions, dataset corrections,
+new training, test inference, AWS resources or real model promotion were performed.
+
+Next independent coding work: S3 storage plus a transactional submission outbox and SQS
+publication/consumption, with idempotency, worker visibility renewal and DLQ handling.
+Human/data follow-up: expert annotation-completeness review, clean-board negatives and
+camera holdout acquisition. Live Cognito acceptance needs an authorized existing public
+app client/pool and test accounts; configuration questions remain unanswered.
+
+## Prior completed step-budget work
 
 The user asked to resume explicit step-budget support, then the matched-step training control.
 Both are complete. Implementation commit: c76479702c1a642878c3af78b2ae3ce0abbe7b99.
@@ -45,6 +60,42 @@ Torch labels 1–6, background 0. Keep the release intact.
 No test inference is authorized. Expert annotation-completeness review, clean-board
 negatives and an external-camera holdout are missing. Local research permission is not
 public redistribution approval. Weights/data/runs/environments stay ignored.
+
+## New review and browser-auth implementation
+
+ml/review.py exposes build_payload for authoritative validation context. The offline page
+imports schema-1.1 notes with strict run/model/data/prediction/matcher and subject/threshold
+checks, atomic conflict rejection and unsaved-draft preservation. Legacy export remains 1.1.
+ml/adjudication.py provides import/adjudicate/candidate commands. Ledger revisions preserve
+observations and decisions; later observations reopen cases. Human identities are self-reported,
+not authenticated expertise. Corrections require explicit class/box decisions, resolved cases
+and a separate version/output directory; candidate ready_for_training stays false. Train/test,
+source images, groups and original frozen manifests remain unchanged. A candidate needs full
+integrity/release review and a new evaluation protocol for changed validation labels.
+
+Local generated package: ml/runs/review-adjudication-001 (32 validation boards).
+Smoke ledger: ml/runs/adjudication-import-smoke-001, two pending synthetic cases, zero decisions.
+The reviewer name explicitly says automated pipeline check, not human review. Never treat this
+as expert coverage. Review import browser evidence: .runtime/review-import-browser-check.json.
+Serve the package on a loopback port before running ml/tests/review_import_browser.cjs; do not
+assume an old server is still alive. No real candidate has been generated.
+
+Frontend adds pinned oidc-client-ts 3.5.0 with public VITE_* configuration. Default local mode
+verifies /api/v1/auth/me; Cognito mode uses code/PKCE S256, state/nonce, API identity verification,
+in-memory tokens and sessionStorage redirect state. Reload requires another hosted sign-in.
+Refresh is single-flight, errors/401 close the workspace without replaying uploads, and late
+responses cannot revive a logged-out session. Logout clears memory before bounded revocation
+and hosted logout. Images/reports use bearer fetch and temporary object URLs, never token URLs.
+See frontend/.env.example and docs/authentication.md for exact pool/client/callback settings.
+Vite settings are build-time; Docker exposes public build arguments. No secrets belong there.
+
+Verification: 144 ML tests, 65 service tests, 29 frontend tests; 10 mock Cognito desktop/mobile
+checks and 8 local browser checks passed. Both old FP-review and new note-import browser
+harnesses passed; accessibility has zero axe violations and no horizontal mobile overflow.
+Ruff, mypy, frontend lint/format and production build passed. Auth browser tests use synthetic
+provider tokens plus a mocked identity API; backend signed-token tests remain separate.
+CI now includes auth browser acceptance and lightweight review/adjudication tests. No remote
+CI or live Cognito verification has run for these local changes.
 
 ## Exact-budget implementation
 
@@ -140,8 +191,8 @@ Retain long-command session IDs and keep progress updates under a minute apart.
 
 Git tracks LF. Hash new checked-in comparison evidence using LF bytes; never rewrite local
 run artifacts after recording their actual-byte hashes. Keep full training source clean
-before launch. No browser work is required for this task.
+before launch. Frontend checks run with pnpm.cmd --dir frontend; test:auth and test:e2e
+use separate output directories and ports 5175/5174. Local e2e also uses API port 8011.
 
-Service work (managed Cognito browser PKCE, S3/SQS/outbox, production deployment) remains
-separate. Product qualification still requires expert labels, negatives, external data,
+Live Cognito acceptance, S3/SQS/outbox and production deployment remain pending. Product qualification still requires expert labels, negatives, external data,
 calibration and an approved surface-model artifact/API contract.
