@@ -415,3 +415,10 @@ is 9.1799 percentage points on AP50:95. At diagnostic score 0.25, the control ha
 137 TP / 268 FP / 95 FN, versus tiles' 186 / 548 / 46. Matching updates and RPN filtering
 does not remove exposure/clipping/compute differences or qualify either model for production.
 The prescribed experiment sequence is complete; no additional training follows automatically.
+
+## Review import and adjudication
+
+The offline viewer can restore matching schema-1.1 exports. Use `ml.adjudication` to preserve
+reviewer observations and explicit adjudicator decisions in immutable revisions and emit
+separate unapproved correction candidates. See [ADJUDICATION.md](ADJUDICATION.md) for commands
+and release gates. The frozen data and all historical experiment scores remain unchanged.

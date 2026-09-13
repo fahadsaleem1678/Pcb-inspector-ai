@@ -344,6 +344,7 @@
         <label
           >Note<textarea
             id="note"
+            maxlength="4000"
             placeholder="Describe the visible feature or uncertainty"
           ></textarea>
         </label>
@@ -351,6 +352,14 @@
           <button id="save-note">Save note</button
           ><button id="export">Export notes</button>
         </div>
+        <label
+          >Import exported notes<input
+            id="import-notes"
+            type="file"
+            accept=".json,application/json"
+            style="max-width: 100%"
+        /></label>
+        <p id="import-error" role="alert" hidden></p>
         <p id="notes-status" class="muted" role="status"></p>
       </aside>
       <section class="panel">
@@ -397,6 +406,9 @@
     <footer id="provenance"></footer>
     <script type="application/json" id="review-data">
       __REVIEW_DATA__
+    </script>
+    <script>
+      __REVIEW_NOTES_JS__;
     </script>
     <script>
       "use strict";
@@ -801,6 +813,35 @@
         setTimeout(() => URL.revokeObjectURL(url), 1000);
         dirty = false;
         $("notes-status").textContent = `Exported ${notes.size} review notes.`;
+      };
+      $("import-notes").onchange = async () => {
+        const input = $("import-notes"),
+          file = input.files[0];
+        if (!file) return;
+        input.disabled = true;
+        $("import-error").hidden = true;
+        try {
+          if (file.size > 2000000)
+            throw new Error("Notes file exceeds the 2 MB limit.");
+          const document = JSON.parse(await file.text());
+          if (draftDirty)
+            throw new Error("Save the current draft before importing notes.");
+          const incoming = PCBReviewNotes.validate(document, data);
+          const merged = PCBReviewNotes.merge(notes, incoming);
+          const added = merged.size - notes.size;
+          notes.clear();
+          for (const [key, value] of merged) notes.set(key, value);
+          dirty = dirty || added > 0;
+          loadNote();
+          $("notes-status").textContent =
+            `Imported ${added} new notes; ${notes.size} total. Export to retain changes.`;
+        } catch (error) {
+          $("import-error").textContent = error.message;
+          $("import-error").hidden = false;
+        } finally {
+          input.disabled = false;
+          input.value = "";
+        }
       };
       window.addEventListener("beforeunload", (e) => {
         if (dirty) {

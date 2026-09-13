@@ -55,9 +55,8 @@ def build_boards(samples, classes, predictions):
     return sorted(boards, key=lambda b: (-len(b["profiles"]["0.25"]["missed_indices"]), b["image"]))
 
 
-def build(args):
-    if args.output.exists():
-        raise ValueError("Review output already exists")
+def build_payload(args):
+    """Reconstruct authoritative review references without writing a package."""
     evidence = summarize(args.run)
     manifest, digest = verify_release(args.manifest, args.root, args.release)
     if (
@@ -82,8 +81,18 @@ def build(args):
         "split": "validation",
         "boards": boards,
     }
+    return payload
+
+
+def build(args):
+    if args.output.exists():
+        raise ValueError("Review output already exists")
+    payload = build_payload(args)
+    boards = payload["boards"]
     template = Path(__file__).with_name("review.html")
     payload["template_sha256"] = file_hash(template)
+    notes_code = Path(__file__).with_name("review_notes.js")
+    payload["notes_code_sha256"] = file_hash(notes_code)
     args.output.mkdir(parents=True)
     try:
         (args.output / "images").mkdir()
@@ -92,7 +101,11 @@ def build(args):
             shutil.copyfile(contained(args.root, board["image"]), destination)
             if file_hash(destination) != board["source_sha256"]:
                 raise ValueError("Copied image checksum mismatch")
-        html = template.read_text(encoding="utf-8").replace("__REVIEW_DATA__", script_json(payload))
+        html = (
+            template.read_text(encoding="utf-8")
+            .replace("__REVIEW_DATA__", script_json(payload))
+            .replace("__REVIEW_NOTES_JS__", notes_code.read_text(encoding="utf-8"))
+        )
         (args.output / "index.html").write_text(html, encoding="utf-8")
         (args.output / "provenance.json").write_text(
             json.dumps(
