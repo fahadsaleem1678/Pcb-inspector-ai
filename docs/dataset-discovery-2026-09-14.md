@@ -35,7 +35,7 @@ Before use: inspect normal/defect pairing, near duplicates and source grouping; 
 related views in one split; preserve an untouched evaluation partition; review representative
 normal examples and confirm rights. Do not infer six-class labels from a generic defect box.
 
-## DsPCBSD+: next acquisition candidate
+## DsPCBSD+: acquired and audited
 
 The [author paper](https://www.nature.com/articles/s41597-024-03656-8) describes actual etched
 PCB defects captured by industrial AOI line-scan cameras and nine classes: short, spur,
@@ -46,7 +46,9 @@ renaming hole breakout. Retain source labels and review mapping before mixing da
 
 [Figshare file](https://ndownloader.figshare.com/files/44069552): DsPCBSD+.zip,
 128,541,608 bytes; publisher MD5 508334b65bdaea7336f4c1b5d5a80a81.
-DOI: 10.6084/m9.figshare.24970329.v1. Metadata checked; archive not downloaded in this task.
+DOI: 10.6084/m9.figshare.24970329.v1. Archive subsequently downloaded and verified against
+the publisher size and MD5. See [candidate audit](dataset-candidate-audit.md) for measured
+counts, split checks and bounded annotation correction proposals.
 
 ## Other sources
 

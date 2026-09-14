@@ -4,6 +4,19 @@ Updated: 2026-09-14 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+Dataset follow-up completed on 2026-09-14: downloaded and checksum-verified DsPCBSD+;
+audited its 10,259 images / 20,276 boxes and Meiwei's 969 normal/defect filename pairs.
+See docs/dataset-candidate-audit.md and ml/evidence/*-source-audit-001.json.
+Meiwei has two exact-normal-duplicate groups crossing inherited splits. DsPCBSD+ has
+277 border overshoots above 1e-6 pixels; bounded proposals also cover 94 floating-point
+boundary discrepancies. Original labels are intact. Near-image matches require review;
+no verified board-group metadata or clean whole-board qualification set is available.
+Neither candidate is released for training. No training or model test inference was
+performed. 176 ML tests passed, including 14 new audit tests.
+Next: review source grouping, normal-label completeness and source class definitions before
+freezing a separate candidate release. Keep all paired/related views together. Preserve
+all nine DsPCBSD+ classes in a separate research track; do not erase unmapped defects.
+
 Latest model task: user asked to start production model qualification, chose **only flagged
 boards get reviewed**, and answered **Not decided yet** for maximum defective-board escape
 rate. The workflow is recorded in ml/qualification-policy-draft.json; targets remain null.
@@ -52,7 +65,7 @@ PCB_TEST_DATABASE_URL. The local Docker executable exists but its engine is stop
 PostgreSQL additions are not locally verified. SDK request-model stubs and in-memory S3/SQS
 simulations do not establish live AWS behavior. Do not describe this as production-ready.
 
-Next acceptance work: fresh remote CI once push is authorized, then authorized existing
+Next acceptance work: inspect remote CI, then authorized existing
 S3/SQS/Cognito infrastructure and test accounts for IAM/KMS/queue-policy, two-user ownership,
 crash/recovery, DLQ/retention and deployment checks. Monitoring/alerts, staging, restore/load
 checks and safe URL ingestion remain pending. Upload idempotency keys are not implemented;
@@ -62,8 +75,8 @@ model qualification blockers. Do not automatically rerun the completed training 
 
 The earlier review-import/adjudication and Cognito PKCE work remains complete locally. No
 actual expert decisions or dataset corrections have been recorded. See ml/ADJUDICATION.md
-and docs/authentication.md. Prior push rejection still requires explicit push permission;
-this slice is committed locally only. No attempt to bypass that rejection should be made.
+and docs/authentication.md. The user subsequently explicitly authorized pushing main;
+push through 5f5c3fb succeeded. Dataset discovery/audit work after that is local only.
 
 ## Prior completed step-budget work
 

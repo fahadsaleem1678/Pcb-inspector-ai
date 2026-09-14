@@ -1,0 +1,436 @@
+{
+  "source": "MeiweiPCB",
+  "archive_sha256": {
+    "images.zip": "31580dc1fc39abfc7019a21db2fd8e39e98e373a902f89dab8cf7b9021601d89",
+    "images_nor.zip": "3710b4f4899fc5976e49ae4fa5aa07c9edb505e2e8100a741bf0d25c137c19d5",
+    "annotations_coco.zip": "23c66dce0b15506d6e315d2b19965a8c92f2e190f2690878093b71adde7c4827"
+  },
+  "statistics": {
+    "images": 969,
+    "annotations": 1275,
+    "annotation_empty_images": 0,
+    "split_images": {
+      "test": 194,
+      "train": 581,
+      "validation": 194
+    },
+    "dimensions": {
+      "220x220": 969
+    },
+    "classes": {
+      "1": {
+        "name": "1",
+        "annotations": 1275
+      }
+    }
+  },
+  "issues": [],
+  "normal_images": 969,
+  "matched_filename_pairs": 969,
+  "normal_split_assignment": "Inherits matching Cur filename split for leakage audit only",
+  "defect_leakage": {
+    "duplicate_pixel_groups": [
+      [
+        {
+          "file": "AAAAAA0823-21-10e302a02-2-8-9_1-5_Cur.jpg",
+          "split": "train"
+        },
+        {
+          "file": "AAAAAA0823-21-10e302a02-2-8-9_1-6_Cur.jpg",
+          "split": "train"
+        }
+      ]
+    ],
+    "cross_split_duplicate_pixel_groups": [],
+    "near_duplicate_method": "64-bit dHash, original orientation, Hamming distance <=2",
+    "near_duplicate_cross_split_pairs": 14,
+    "near_duplicate_candidates": [
+      {
+        "first": "118-10e302a02-2-8-9_10-129_Cur.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-40-10e302a02-2-8-9_1-14_Cur.jpg",
+        "second_split": "train",
+        "dhash_distance": 2
+      },
+      {
+        "first": "118-10e302a02-2-8-9_10-129_Cur.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-54-10e302a02-2-8-9_1-7_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "AAAAAA0823-2-10e302a02-2-8-9_1-10_Cur.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-50-10e302a02-2-8-9_1-2_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "AAAAAA0823-31-10e302a02-2-8-9_1-2_Cur.jpg",
+        "first_split": "test",
+        "second": "118-10e302a02-2-8-9_10-28_Cur.jpg",
+        "second_split": "train",
+        "dhash_distance": 1
+      },
+      {
+        "first": "AAAAAA0823-75-10e302a02-2-8-9_1-4_Cur.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-33-10e302a02-2-8-9_1-3_Cur.jpg",
+        "second_split": "train",
+        "dhash_distance": 0
+      },
+      {
+        "first": "AAAAAA0823-75-10e302a02-2-8-9_1-4_Cur.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-2-10e302a02-2-8-9_1-6_Cur.jpg",
+        "second_split": "train",
+        "dhash_distance": 2
+      },
+      {
+        "first": "8-TL1-4-1-26_Cur.jpg",
+        "first_split": "train",
+        "second": "4-TL1-4-1-6_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "8-TL1-4-1-26_Cur.jpg",
+        "first_split": "train",
+        "second": "8-TL1-4-1-5_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "8-TL1-4-1-26_Cur.jpg",
+        "first_split": "train",
+        "second": "9-TL1-4-1-18_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "AAAAAA0823-67-10e302a02-2-8-9_1-6_Cur.jpg",
+        "first_split": "train",
+        "second": "101-10e302a02-2-8-9_10-13_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "AAAAAA0823-15-10e302a02-2-8-9_1-5_Cur.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-34-10e302a02-2-8-9_1-2_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "9-TL1-4-1-8_Cur.jpg",
+        "first_split": "train",
+        "second": "4-TL1-4-1-6_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "AAAAAA0823-69-10e302a02-2-8-9_1-5_Cur.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-51-10e302a02-2-8-9_1-2_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "8-TL1-4-1-28_Cur.jpg",
+        "first_split": "train",
+        "second": "4-TL1-4-1-6_Cur.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      }
+    ],
+    "candidate_list_truncated": false,
+    "near_duplicate_is_proof_of_leakage": false
+  },
+  "normal_leakage": {
+    "duplicate_pixel_groups": [
+      [
+        {
+          "file": "AAAAAA0823-33-10e302a02-2-8-9_1-6_Ref.jpg",
+          "split": "test"
+        },
+        {
+          "file": "AAAAAA0823-66-10e302a02-2-8-9_1-7_Ref.jpg",
+          "split": "train"
+        }
+      ],
+      [
+        {
+          "file": "AAAAAA0823-73-10e302a02-2-8-9_1-3_Ref.jpg",
+          "split": "train"
+        },
+        {
+          "file": "AAAAAA0823-68-10e302a02-2-8-9_1-8_Ref.jpg",
+          "split": "validation"
+        }
+      ],
+      [
+        {
+          "file": "AAAAAA0823-21-10e302a02-2-8-9_1-5_Ref.jpg",
+          "split": "train"
+        },
+        {
+          "file": "AAAAAA0823-21-10e302a02-2-8-9_1-6_Ref.jpg",
+          "split": "train"
+        }
+      ]
+    ],
+    "cross_split_duplicate_pixel_groups": [
+      [
+        {
+          "file": "AAAAAA0823-33-10e302a02-2-8-9_1-6_Ref.jpg",
+          "split": "test"
+        },
+        {
+          "file": "AAAAAA0823-66-10e302a02-2-8-9_1-7_Ref.jpg",
+          "split": "train"
+        }
+      ],
+      [
+        {
+          "file": "AAAAAA0823-73-10e302a02-2-8-9_1-3_Ref.jpg",
+          "split": "train"
+        },
+        {
+          "file": "AAAAAA0823-68-10e302a02-2-8-9_1-8_Ref.jpg",
+          "split": "validation"
+        }
+      ]
+    ],
+    "near_duplicate_method": "64-bit dHash, original orientation, Hamming distance <=2",
+    "near_duplicate_cross_split_pairs": 29,
+    "near_duplicate_candidates": [
+      {
+        "first": "100-10e302a02-2-8-9_10-8_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-53-10e302a02-2-8-9_1-8_Ref.jpg",
+        "second_split": "train",
+        "dhash_distance": 0
+      },
+      {
+        "first": "100-10e302a02-2-8-9_10-8_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-25-10e302a02-2-8-9_1-20_Ref.jpg",
+        "second_split": "train",
+        "dhash_distance": 2
+      },
+      {
+        "first": "100-10e302a02-2-8-9_10-8_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-1-10e302a02-2-8-9_1-21_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 0
+      },
+      {
+        "first": "118-10e302a02-2-8-9_10-128_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-60-10e302a02-2-8-9_1-1_Ref.jpg",
+        "second_split": "train",
+        "dhash_distance": 2
+      },
+      {
+        "first": "118-10e302a02-2-8-9_10-129_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-54-10e302a02-2-8-9_1-7_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "118-10e302a02-2-8-9_10-129_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-16-10e302a02-2-8-9_1-6_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "AAAAAA0823-2-10e302a02-2-8-9_1-10_Ref.jpg",
+        "first_split": "test",
+        "second": "118-10e302a02-2-8-9_10-164_Ref.jpg",
+        "second_split": "train",
+        "dhash_distance": 2
+      },
+      {
+        "first": "AAAAAA0823-2-10e302a02-2-8-9_1-10_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-50-10e302a02-2-8-9_1-2_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 0
+      },
+      {
+        "first": "AAAAAA0823-75-10e302a02-2-8-9_1-4_Ref.jpg",
+        "first_split": "test",
+        "second": "AAAAAA0823-2-10e302a02-2-8-9_1-6_Ref.jpg",
+        "second_split": "train",
+        "dhash_distance": 0
+      },
+      {
+        "first": "AAAAAA0823-75-10e302a02-2-8-9_1-4_Ref.jpg",
+        "first_split": "test",
+        "second": "101-10e302a02-2-8-9_10-13_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "5-TL1-4-1-19_Ref.jpg",
+        "first_split": "train",
+        "second": "8-TL1-4-1-23_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "118-10e302a02-2-8-9_10-39_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-54-10e302a02-2-8-9_1-7_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "118-10e302a02-2-8-9_10-39_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-16-10e302a02-2-8-9_1-6_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "118-10e302a02-2-8-9_10-164_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-50-10e302a02-2-8-9_1-2_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "8-TL1-4-1-26_Ref.jpg",
+        "first_split": "train",
+        "second": "4-TL1-4-1-6_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 0
+      },
+      {
+        "first": "8-TL1-4-1-26_Ref.jpg",
+        "first_split": "train",
+        "second": "9-TL1-4-1-18_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 0
+      },
+      {
+        "first": "AAAAAA0823-15-10e302a02-2-8-9_1-5_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-34-10e302a02-2-8-9_1-2_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "AAAAAA0823-15-10e302a02-2-8-9_1-5_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-51-10e302a02-2-8-9_1-2_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "AAAAAA0823-66-10e302a02-2-8-9_1-3_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-54-10e302a02-2-8-9_1-7_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "AAAAAA0823-66-10e302a02-2-8-9_1-3_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-16-10e302a02-2-8-9_1-6_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "AAAAAA0823-53-10e302a02-2-8-9_1-8_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-1-10e302a02-2-8-9_1-21_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 0
+      },
+      {
+        "first": "AAAAAA0823-25-10e302a02-2-8-9_1-20_Ref.jpg",
+        "first_split": "train",
+        "second": "AAAAAA0823-1-10e302a02-2-8-9_1-21_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 2
+      },
+      {
+        "first": "5-TL1-4-1-18_Ref.jpg",
+        "first_split": "train",
+        "second": "8-TL1-4-1-23_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "9-TL1-4-1-8_Ref.jpg",
+        "first_split": "train",
+        "second": "4-TL1-4-1-6_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 0
+      },
+      {
+        "first": "9-TL1-4-1-8_Ref.jpg",
+        "first_split": "train",
+        "second": "9-TL1-4-1-18_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 0
+      },
+      {
+        "first": "AAAAAA0823-2-10e302a02-2-8-9_1-6_Ref.jpg",
+        "first_split": "train",
+        "second": "101-10e302a02-2-8-9_10-13_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "6-TL1-4-1-8_Ref.jpg",
+        "first_split": "train",
+        "second": "8-TL1-4-1-23_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "8-TL1-4-1-28_Ref.jpg",
+        "first_split": "train",
+        "second": "4-TL1-4-1-6_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      },
+      {
+        "first": "8-TL1-4-1-28_Ref.jpg",
+        "first_split": "train",
+        "second": "9-TL1-4-1-18_Ref.jpg",
+        "second_split": "validation",
+        "dhash_distance": 1
+      }
+    ],
+    "candidate_list_truncated": false,
+    "near_duplicate_is_proof_of_leakage": false
+  },
+  "filename_family_hints": {
+    "10e302a02-2-8-9": {
+      "test": 192,
+      "train": 552,
+      "validation": 183
+    },
+    "TL1": {
+      "test": 2,
+      "train": 29,
+      "validation": 11
+    }
+  },
+  "family_hints_are_verified_board_ids": false,
+  "schema_version": "1.0",
+  "code_sha256": "a7011c8aa94efec2b365b1c3466a73384a715c894f7c1dfb086dec3e59766599",
+  "ready_for_training": false,
+  "production_eligible": false,
+  "test_inference_performed": false,
+  "inventory_sha256": "8a7d6942c5ad9528c68c3bdf42ef1b43dcd1b7c59afe4afc5770b702ba7aff09",
+  "publisher_url": "https://github.com/youtang1993/MeiweiPCB/tree/c19045cec8010a7576251fb24ef0c03c1c0ebefb",
+  "local_inventory_path": "ml/runs/meiwei-audit-004/inventory.json"
+}
