@@ -57,10 +57,11 @@ in the source archives recorded by the bound audit. No candidate images are copi
   mappings and definition reviews remain null. Do not treat hole breakout as missing pad.
 - Source-level review: record actual reviewer/time, provenance/rights and grouping evidence.
 
-There is no decision-import or release-promotion command in this module. Filling fields is
-review preparation only. The next implementation step is a validated, versioned decision
-import that preserves disagreements and verifies packet identity before deriving revised
-groups or annotations. A subsequent split proposal must keep every accepted related group
+Use the [versioned decision importer](CANDIDATE_DECISIONS.md) to record real reviewer
+observations against the packet hash. It preserves history and disagreements without
+changing source data or approving a release. The importer has separate strict decision
+submission templates; editing the packet itself invalidates its committed summary hash.
+A subsequent derived-candidate and split proposal must keep every accepted related group
 together and reserve independent evaluation data before a new training release is frozen.
 Do not edit ready_for_training or production_eligible to bypass those steps.
 

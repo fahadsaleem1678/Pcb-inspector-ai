@@ -4,6 +4,19 @@ Updated: 2026-09-14 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+Candidate decision import is now implemented in ml.candidate_decisions. Read
+ml/CANDIDATE_DECISIONS.md for strict batch fields and revision commands. Actual reviewer
+observations bind to the committed packet hash; earlier batches and disagreements are
+preserved, repeated batches are no-ops, and source data/splits remain unchanged.
+Blank templates: ml/runs/meiwei-decisions-template-001 (1,015 cases) and
+ml/runs/dspcbsd-decisions-template-001 (835 cases). No real reviews were imported.
+Evidence: ml/evidence/candidate-decision-templates-001.json. Validation: 207-test ML suite
+passed, then two added CLI regression checks passed (22 importer tests total); Ruff passed.
+Next coding slice: derive versioned candidate groups/annotations from uncontested actual
+reviews, preserving unresolved cases and keeping training/release eligibility false.
+Expert review and independent production qualification data are still outstanding.
+
+
 Candidate grouping follow-up: ml.candidate_manifest now builds hash-bound review packets.
 Meiwei has 966 provisional groups (two cross source splits), 969 pair reviews and 43
 similarity cases. DsPCBSD+ has 10,259 provisional singleton groups, all 453 similarity
@@ -12,8 +25,8 @@ merge groups. New splits, physical-board identities and reviewer decisions remai
 See ml/CANDIDATE_REVIEW.md and ml/evidence/*-candidate-review-001.json. Full packets are
 under ignored ml/runs/*-candidate-review-001. No training or source correction was applied.
 Validation: 187 ML tests passed, including 11 new manifest cases; Ruff lint/format passed.
-Next coding slice: hash-bound versioned decision import, then reviewed derived groups/
-annotations and an independent split proposal. Do not infer approvals from filled flags.
+Decision import is now complete as described above. Reviewed derived groups/annotations
+and an independent split proposal remain. Do not infer approvals from filled flags.
 
 
 Dataset follow-up completed on 2026-09-14: downloaded and checksum-verified DsPCBSD+;
