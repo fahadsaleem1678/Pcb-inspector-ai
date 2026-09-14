@@ -78,3 +78,9 @@ ignored local artifacts; source URLs and acquisition metadata support reacquisit
 The audit reads source test annotations/images for integrity checks only, never model
 predictions. Tests: 176 passed, including 14 audit cases covering unsafe archive paths,
 size limits, malformed references, exact versus heuristic leakage and bounded correction.
+
+## Follow-up: candidate review packets
+
+The [candidate review workflow](../ml/CANDIDATE_REVIEW.md) now provides hash-bound
+provisional groups and complete review queues for both sources. No new split or training
+release has been approved.

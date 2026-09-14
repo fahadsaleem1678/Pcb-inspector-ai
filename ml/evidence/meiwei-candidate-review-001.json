@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "source": "MeiweiPCB",
+  "status": "unreviewed_candidate",
+  "ready_for_training": false,
+  "production_eligible": false,
+  "binding": {
+    "audit_sha256": "97c0a26b8eced583fc6ad14249ebfa16517c00a73ee6d763234e8630493a2d2a",
+    "inventory_sha256": "8a7d6942c5ad9528c68c3bdf42ef1b43dcd1b7c59afe4afc5770b702ba7aff09",
+    "generator_sha256": "d5cb7aa2ca9821c3c77fa72b27b8d5c4336ab83d69a417e4271602f17f425c9f"
+  },
+  "summary": {
+    "images": 1938,
+    "groups": 966,
+    "cross_source_split_groups": 2,
+    "link_reasons": {
+      "source_filename_pair": 969,
+      "identical_decoded_pixels": 4
+    },
+    "pair_review_cases": 969,
+    "near_duplicate_review_cases": 43,
+    "border_correction_review_cases": 0
+  },
+  "packet_sha256": "ac2a0b7bcd5fa44d8ba2cbc6b41818ddf13f6de8cc28aa9b69f93a20ca45ad80",
+  "local_packet_path": "ml/runs/meiwei-candidate-review-001/candidate-review.json"
+}

@@ -4,6 +4,18 @@ Updated: 2026-09-14 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+Candidate grouping follow-up: ml.candidate_manifest now builds hash-bound review packets.
+Meiwei has 966 provisional groups (two cross source splits), 969 pair reviews and 43
+similarity cases. DsPCBSD+ has 10,259 provisional singleton groups, all 453 similarity
+cases and 371 correction proposals. Exact/pair links are transitive; similarity does not
+merge groups. New splits, physical-board identities and reviewer decisions remain null.
+See ml/CANDIDATE_REVIEW.md and ml/evidence/*-candidate-review-001.json. Full packets are
+under ignored ml/runs/*-candidate-review-001. No training or source correction was applied.
+Validation: 187 ML tests passed, including 11 new manifest cases; Ruff lint/format passed.
+Next coding slice: hash-bound versioned decision import, then reviewed derived groups/
+annotations and an independent split proposal. Do not infer approvals from filled flags.
+
+
 Dataset follow-up completed on 2026-09-14: downloaded and checksum-verified DsPCBSD+;
 audited its 10,259 images / 20,276 boxes and Meiwei's 969 normal/defect filename pairs.
 See docs/dataset-candidate-audit.md and ml/evidence/*-source-audit-001.json.
