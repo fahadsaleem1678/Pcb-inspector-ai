@@ -416,3 +416,23 @@ Next service implementation: S3 storage, transactional outbox and SQS worker int
   approval rejection remains in force pending explicit permission.
 
 See [cloud integration and recovery guide](cloud-integrations.md) for operational limitations.
+
+
+## Flagged-board model qualification audit - 2026-09-14
+
+Added ml.qualification with validation-only source/order/hash checks, exact global score
+sweep with tied-score batches, micro/per-class diagnostics, per-group board routing, and
+explicit null clean-board rates when no annotation-empty boards exist. Empty annotations
+are not asserted to mean verified clean. Outputs remain BLOCKED with no production threshold.
+
+Both corrected-tile and matched-step whole-board runs passed existing evidence verification;
+3,199 and 3,184 thresholds were examined respectively. Fixed .05/.25/.5 detection counts
+and all per-class rates match previous error reports; current analysis code hashes verified.
+Tile recall at the >=90% precision diagnostic floor is 16.38%, with four defective boards
+unflagged. Whole-board recall is 11.64%, with 14 unflagged.
+
+162 ML tests passed, including 18 new cases for direct-matching parity, tied scores,
+board-versus-defect semantics, missing negative evidence, invalid inputs, evidence mismatch,
+and fail-closed reports. Ruff lint/format passed. No new training/test inference, production
+promotion or threshold installation occurred. User chose flagged-only review and left
+escape-rate tolerance undecided.

@@ -180,3 +180,16 @@ against an authorized integration environment. PostgreSQL cloud/worker tests wer
 the local Docker engine is stopped and fresh remote CI has not run. Complete monitoring,
 retention/reconciliation, load and staging acceptance before enabling public deployment.
 No cloud deployment is needed for annotation review.
+
+
+## Model qualification slice - 2026-09-14
+
+The user selected review of flagged boards only; the acceptable defective-board escape rate
+is undecided. [Qualification protocol](../ml/QUALIFICATION.md) records the draft gates,
+required camera/negative data, and next proposed train-only hard-negative comparison.
+A validation-only threshold audit of both verified checkpoints is complete. The tile model
+cannot combine 90% precision and 90% label recall by changing a global stored-score threshold;
+at its maximum recall with precision >=90%, four of 32 defective boards receive no flag.
+At score .25 all boards are flagged, but 46 labels remain missed. Full-board human review and
+independently verified clean-board data are necessary to assess the selected workflow.
+No production threshold, new training, label change or test inference was performed.

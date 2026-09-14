@@ -4,6 +4,29 @@ Updated: 2026-09-14 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+Latest model task: user asked to start production model qualification, chose **only flagged
+boards get reviewed**, and answered **Not decided yet** for maximum defective-board escape
+rate. The workflow is recorded in ml/qualification-policy-draft.json; targets remain null.
+
+Completed ml.qualification and two bound validation reports, documented in ml/QUALIFICATION.md.
+The tile model's maximum label recall at >=90% precision is 16.38% (38 TP, 3 FP, 194 FN),
+leaving 4/32 defective boards without a flag. At .25 all 32 are flagged but 46 labels remain
+missed. Flagged boards require full-board inspection, not just checking model boxes.
+No clean-board/domain qualification can be inferred from this positive-only two-group set.
+
+162 ML tests passed (18 new qualification cases). The audit rejects nonvalidation sources,
+source/hash/order mismatches and invalid predictions; tied-score sweep matches direct greedy
+matching. Reports never enable promotion or select a production threshold. Existing frozen
+runs/labels/test holdout remain unchanged. No additional training was performed.
+
+Next model work depends on real expert completeness review and verified clean/camera data.
+The proposed next experiment compares train-only verified hard-negative inclusion with a
+matched tile control after a reviewed release is frozen. Do not fabricate negative labels,
+expert decisions, numeric acceptance targets or final-test authorization. See the qualification
+guide for intake fields, split rules and independent-sample planning. The previously completed
+cloud slice and its pending live acceptance remain as recorded below.
+
+
 The latest "continue working" implemented the next local service slice: private S3 storage,
 transactional submission outbox, standard SQS publication/consumption, database/SQS lease
 renewal, native DLQ policy checks, explicit audited failed-job retry, and a read-only orphan

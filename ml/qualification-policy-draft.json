@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "status": "DRAFT_NOT_APPROVED",
+  "recorded_date": "2026-09-14",
+  "user_decisions": {
+    "review_workflow": "flagged_boards_only",
+    "maximum_defective_board_escape_rate": null,
+    "escape_rate_answer": "Not decided yet"
+  },
+  "proposed_routing": {
+    "flag_on_any_supported_defect": true,
+    "flag_on_invalid_quality_or_unsupported_domain": true,
+    "flagged_board_review_scope": "entire_board",
+    "automatic_clearance_enabled": false
+  },
+  "acceptance_targets": {
+    "maximum_defective_board_escape_rate": null,
+    "maximum_verified_clean_board_flag_rate": null,
+    "maximum_review_fraction_at_expected_prevalence": null,
+    "minimum_per_class_localization_recall": null,
+    "maximum_p95_end_to_end_latency_ms": null
+  },
+  "approvals": {
+    "business_targets": false,
+    "independent_annotation_review": false,
+    "verified_clean_board_evidence": false,
+    "external_camera_holdout": false,
+    "production_use_rights": false,
+    "fixed_model_and_threshold": false,
+    "authorized_final_test_acceptance": false,
+    "runtime_and_rollback_acceptance": false
+  },
+  "promotion_eligible": false,
+  "notes": [
+    "User selected review of flagged boards only; numeric limits remain undecided.",
+    "Routing details are a proposal. The existing demo result contract is unchanged.",
+    "This file records a draft protocol, not authenticated approval or an executable promotion decision."
+  ]
+}
