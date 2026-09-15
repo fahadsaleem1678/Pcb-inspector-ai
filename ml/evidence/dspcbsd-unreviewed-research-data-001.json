@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "manifest_sha256": "1bee207587d9793402d9292c47e004b8d0de7c926ce52775298884dbf610b90f",
+  "local_manifest_path": "data/processed/dspcbsd-unreviewed-research-001/research-manifest.json",
+  "summary": {
+    "train_images": 7936,
+    "validation_images": 256,
+    "quarantined_train_images": 272,
+    "corrections": 304,
+    "validation_annotations_per_class": {
+      "3": 30,
+      "8": 48,
+      "6": 95,
+      "2": 107,
+      "7": 45,
+      "5": 64,
+      "4": 50,
+      "9": 38,
+      "1": 27
+    }
+  },
+  "packet_sha256": "702bcf6918470a9b69d863fec1fd12cfd5ca258d4153f31c2612403b7d61fb41",
+  "archive_sha256": "b256846a1f2cf17e6e88be49c551ebf2c7551601e08691f50c70dc367a218817",
+  "classes": [
+    "SH",
+    "SP",
+    "SC",
+    "OP",
+    "MB",
+    "HB",
+    "CS",
+    "CFO",
+    "BMFO"
+  ],
+  "expert_review_completed": false,
+  "production_eligible": false,
+  "authorization": "User explicitly agreed to experimental training without an expert reviewer",
+  "planned_steps": 600,
+  "planned_batch_size": 2,
+  "planned_input_size": 320,
+  "planned_seed": 20260915
+}
