@@ -4,6 +4,9 @@ The candidate decision importer records actual reviewer observations against an 
 candidate packet. It preserves history and disagreements. It does not change source images,
 annotations, groups or splits, and it does not approve training or production.
 
+Use the [visual reviewer](CANDIDATE_VISUAL_REVIEW.md) to inspect images and export these
+strict decision batches without editing JSON manually.
+
 ## Prepared templates
 
 - [Meiwei template](runs/meiwei-decisions-template-001/decisions-template.json): 1,015 cases.

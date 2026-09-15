@@ -4,6 +4,21 @@ Updated: 2026-09-15 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+Visual candidate review is complete: ml.candidate_viewer builds verified offline packages;
+ml/candidate_viewer.html and .js provide paired images, overlays, zoom, filtering, strict
+saved-decision export/restore and missing-image safeguards. Read ml/CANDIDATE_VISUAL_REVIEW.md.
+Packages: ml/runs/meiwei-visual-review-002 (1,015 cases / 1,938 images) and
+ml/runs/dspcbsd-visual-review-002 (835 cases / 771 selected images). Open index.html in a
+browser with the package folders intact. Saved decisions stay in memory until exported.
+Validation: 225 ML tests; desktop/mobile browser checks and axe checks passed for both;
+synthetic browser exports validated in memory with the Python importer, never recorded as
+actual expert observations. Evidence: ml/evidence/candidate-visual-review-001.json.
+Browser plugin startup failed twice; the project's standalone Playwright harness was used.
+Next practical step is actual expert/source review using these viewers, then importing the
+exports and deriving candidates. Training and production remain unapproved; no reviews or
+model metrics were invented, and source labels/splits remain unchanged.
+
+
 Candidate derivation completed: ml.candidate_derive consumes a bound inventory/packet and
 optional validated decision ledger. It applies only uncontested bounded corrections and
 related-capture group links, preserves all source classes/images/labels, records conflicts
