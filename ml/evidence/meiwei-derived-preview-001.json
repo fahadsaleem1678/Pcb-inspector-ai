@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "source": "MeiweiPCB",
+  "status": "derived_unapproved_candidate",
+  "ready_for_training": false,
+  "production_eligible": false,
+  "binding": {
+    "packet_sha256": "ac2a0b7bcd5fa44d8ba2cbc6b41818ddf13f6de8cc28aa9b69f93a20ca45ad80",
+    "inventory_sha256": "8a7d6942c5ad9528c68c3bdf42ef1b43dcd1b7c59afe4afc5770b702ba7aff09",
+    "ledger_sha256": null,
+    "derivation_code_sha256": "3e8c79a62bac39b12541f81ae32007fc1fac2656ced5b702a78d405cf1fc1c4e",
+    "decision_code_sha256": "da8ec0dc8a6e16f902b09977d5fc41873f872700d7229008383ecb8921cf5c78"
+  },
+  "summary": {
+    "images": 1938,
+    "annotations": 1275,
+    "groups": 966,
+    "cross_source_split_groups": 2,
+    "applied_corrections": 0,
+    "reviewed_group_links": 0,
+    "case_blockers": 1015,
+    "blocker_reasons": {
+      "unreviewed": 1015
+    },
+    "remaining_invalid_boxes": 0
+  },
+  "candidate_sha256": "3355c37b03568d4c7a565aefc34bfdb709edc0b07c3ca659337ecf9f388b499d",
+  "local_candidate_path": "ml/runs/meiwei-derived-preview-001/derived-candidate.json"
+}

@@ -1,8 +1,24 @@
 # PCB Inspector AI â€” Agent handoff
 
-Updated: 2026-09-14 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
+Updated: 2026-09-15 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
+
+Candidate derivation completed: ml.candidate_derive consumes a bound inventory/packet and
+optional validated decision ledger. It applies only uncontested bounded corrections and
+related-capture group links, preserves all source classes/images/labels, records conflicts
+and rejected/unresolved cases, and keeps split/physical-board IDs null and eligibility false.
+Shared ledger validation was extracted in ml.candidate_decisions without changing its format.
+Validation: 221 ML tests passed (12 new derivation cases), plus Ruff lint/format checks.
+See ml/CANDIDATE_DERIVATION.md. Complete-data no-review previews preserve 1,938 Meiwei
+images / 1,275 boxes (1,015 unreviewed cases), and 10,259 DsPCBSD+ images / 20,276 boxes
+(835 unreviewed cases; 277 invalid boxes still present). Zero corrections or reviewed links
+were applied. Evidence: ml/evidence/*-derived-preview-001.json; full outputs remain ignored.
+No expert reviews, training runs, new source splits or production approvals were fabricated.
+Next practical work: visual candidate review interface and actual expert/source review,
+then a separately reviewed independent split/release proposal. The derivation path is ready
+for genuine review ledgers; lack of those decisions still blocks a new training release.
+
 
 Candidate decision import is now implemented in ml.candidate_decisions. Read
 ml/CANDIDATE_DECISIONS.md for strict batch fields and revision commands. Actual reviewer
@@ -12,8 +28,7 @@ Blank templates: ml/runs/meiwei-decisions-template-001 (1,015 cases) and
 ml/runs/dspcbsd-decisions-template-001 (835 cases). No real reviews were imported.
 Evidence: ml/evidence/candidate-decision-templates-001.json. Validation: 207-test ML suite
 passed, then two added CLI regression checks passed (22 importer tests total); Ruff passed.
-Next coding slice: derive versioned candidate groups/annotations from uncontested actual
-reviews, preserving unresolved cases and keeping training/release eligibility false.
+The derived-candidate slice is now implemented above; actual expert reviews remain pending.
 Expert review and independent production qualification data are still outstanding.
 
 

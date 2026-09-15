@@ -63,8 +63,9 @@ rejects duplicate keys and nonfinite values, with bounded reads (5 MB decision s
 history and links the prior file but does not traverse older files on disk. Preserve the
 revision chain for independent audit. Checksums provide content identity, not signatures.
 
-Next implementation: derive versioned candidate groups and annotations from reviewed,
-uncontested decisions while retaining all source evidence and unresolved cases. Release
+The [candidate derivation command](CANDIDATE_DERIVATION.md) now derives versioned groups
+and annotations from uncontested reviews while preserving source evidence and unresolved
+cases. No actual reviews have been imported for these datasets. Release
 and independent-split approval remain separate. Production camera/clean-board evaluation
 and the still-undecided acceptable defective-board escape rate remain outstanding.
 

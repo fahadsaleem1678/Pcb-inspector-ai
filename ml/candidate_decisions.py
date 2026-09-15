@@ -191,6 +191,38 @@ def review_state(batches, catalog, packet_hash):
     return states
 
 
+def validate_ledger(previous, catalog, packet_hash):
+    expected = {
+        "schema_version",
+        "packet_sha256",
+        "revision",
+        "parent_sha256",
+        "batches",
+        "states",
+        "ready_for_training",
+        "production_eligible",
+        "content_sha256",
+    }
+    if set(previous) != expected:
+        raise ValueError("Unexpected ledger fields")
+    body = {k: v for k, v in previous.items() if k != "content_sha256"}
+    if content_hash(body) != previous["content_sha256"]:
+        raise ValueError("Ledger content hash mismatch")
+    if (
+        previous["schema_version"] != "1.0"
+        or previous["packet_sha256"] != packet_hash
+        or previous["ready_for_training"] is not False
+        or previous["production_eligible"] is not False
+    ):
+        raise ValueError("Ledger binding or eligibility mismatch")
+    batches = previous["batches"]
+    if previous["revision"] != len(batches):
+        raise ValueError("Ledger revision mismatch")
+    if review_state(batches, catalog, packet_hash) != previous["states"]:
+        raise ValueError("Ledger state does not reproduce history")
+    return previous["states"]
+
+
 def import_batch(batch, catalog, packet_hash, previous=None, parent_hash=None):
     batches = []
     if previous is not None and (
@@ -202,34 +234,8 @@ def import_batch(batch, catalog, packet_hash, previous=None, parent_hash=None):
     if previous is None and parent_hash is not None:
         raise ValueError("Initial ledger cannot have a parent")
     if previous is not None:
-        expected = {
-            "schema_version",
-            "packet_sha256",
-            "revision",
-            "parent_sha256",
-            "batches",
-            "states",
-            "ready_for_training",
-            "production_eligible",
-            "content_sha256",
-        }
-        if set(previous) != expected:
-            raise ValueError("Unexpected ledger fields")
-        body = {k: v for k, v in previous.items() if k != "content_sha256"}
-        if content_hash(body) != previous["content_sha256"]:
-            raise ValueError("Ledger content hash mismatch")
-        if (
-            previous["schema_version"] != "1.0"
-            or previous["packet_sha256"] != packet_hash
-            or previous["ready_for_training"] is not False
-            or previous["production_eligible"] is not False
-        ):
-            raise ValueError("Ledger binding or eligibility mismatch")
+        validate_ledger(previous, catalog, packet_hash)
         batches = previous["batches"]
-        if previous["revision"] != len(batches):
-            raise ValueError("Ledger revision mismatch")
-        if review_state(batches, catalog, packet_hash) != previous["states"]:
-            raise ValueError("Ledger state does not reproduce history")
     validate_batch(batch, catalog, packet_hash)
     if any(content_hash(old) == content_hash(batch) for old in batches):
         return previous, False
