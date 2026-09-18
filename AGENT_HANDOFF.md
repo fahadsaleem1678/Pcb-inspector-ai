@@ -4,6 +4,19 @@ Updated: 2026-09-18 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+Saved-prediction error analysis completed on 2026-09-18. See
+ml/evidence/dspcbsd-nineclass-errors-001.{json,md} and ml/research_errors.py.
+At score .25: overall 145 TP / 518 FP / 359 FN; MB 0 TP / 0 FP / 64 FN;
+SP 15 TP / 98 FP / 92 FN. At .05 MB/SP recall improves but precision is about 3%.
+Mixed confidence, classification and localization errors; 12 examples visually inspected,
+without expert certification. Corrected the prior narrative's 604-label typo to 504;
+metrics/data were already based on the actual 504 labels. 243 ML tests passed.
+Next chosen experiment: fresh 3,968-step / batch-two / size-320 control from the same COCO
+initialization and seed, covering all 7,936 training images once; estimated ~3 hours CPU.
+Not launched in this diagnostic step. The old checkpoint lacks optimizer state, so do not
+claim exact resume. Preserve fixed validation/quarantine; no production threshold selected.
+
+
 User changed the model-work scope on 2026-09-15: no expert reviewer is available; after the
 assistant proposed clearly unreviewed experimental training, the user explicitly said
 "ok do it". This permits the separate research run, not expert certification or promotion.
@@ -21,8 +34,7 @@ Data: 7,936 train / fixed 256 source-validation images; 272 train similarity can
 quarantined; 304 bounded source-box corrections recorded as experimental preprocessing.
 No expert ledger was fabricated. 231 ML tests passed before execution. Post-run evidence
 verification helper: .runtime/export_dsp_research.py (run only after result.json exists).
-Next: analyze saved predictions for mouse-bite/spur misses, class confusion and localization
-before choosing another bounded research experiment. Website/production gates remain unchanged.
+Saved-prediction analysis is complete as described above. Website/production gates remain unchanged.
 
 
 Visual candidate review is complete: ml.candidate_viewer builds verified offline packages;

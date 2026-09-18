@@ -37,7 +37,7 @@ policy was selected.
 - 600 SGD updates, two images per update, 1,200 distinct training images; all nine source
   classes appeared in training. This covers about 15.1% of the 7,936-image training pool,
   not a full epoch or proof of convergence.
-- Frozen 256-image publisher-validation subset with 604 annotations, with class-aware
+- Frozen 256-image publisher-validation subset with 504 annotations, with class-aware
   selection and no verified independent physical-board count.
 - 272 training images implicated in potential cross-split similarity were quarantined; actual
   training exposure contains no quarantined or validation image.
@@ -82,3 +82,5 @@ research. It remains a separate limitation for production qualification.
 
 The website model, existing six-class release and original project test holdout are unchanged.
 No code or checkpoint was pushed to GitHub.
+
+Follow-up: [saved-prediction error diagnosis](dspcbsd-nineclass-errors-001.md).
