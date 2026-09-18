@@ -1,24 +1,24 @@
 # PCB Inspector AI â€” Agent handoff
 
-Updated: 2026-09-18 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
+Updated: 2026-09-19 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
-The user explicitly said "lets start" on 2026-09-18. The full-pass research experiment has
-been launched as a hidden background process. Run directory:
-ml/runs/dspcbsd-nineclass-research-3968steps-001. Do NOT start another copy.
-Job metadata: .runtime/dspcbsd-fullpass-001.job.json; stdout/stderr logs use the same prefix.
-Inspect process status, progress.json, result.json and logs before taking further action.
-Configuration: 3,968 steps, batch two, input 320, seed 20260915, same pinned manifest and
-COCO initialization as the 600-step control; nine source classes retained. This is a fresh
-matched run, not a resume from the checkpoint without optimizer state. Estimated CPU time
-is about three hours plus evaluation, conditional on the computer staying awake.
-The runner performs final validation and exact checkpoint-reload verification automatically.
-Next after completion: verify 7,936 distinct train images, all-nine-class exposure, matching
-initial evaluation and first-600-step history; compare final metrics and fixed-threshold
-errors with the control; export evidence and update this handoff. The old export helper
-.runtime/export_dsp_research.py is hardcoded to the 600-step run and must not be used as-is.
-No training completion, promotion or automatic notifications are implied by this launch.
+The 3,968-step size-320 full pass is COMPLETE and independently verified. All 7,936
+train images were used once; first 600 steps and initialized validation match the
+600-step control exactly. AP50 45.97%, AP50:95 19.91%, AR100 36.65%.
+See ml/evidence/dspcbsd-nineclass-research-3968steps-001.{json,md} and
+ml/evidence/dspcbsd-nineclass-fullpass-errors-001.json. At score .25 there are
+298 TP / 578 FP / 206 FN; mouse bite 19 TP / 77 FP / 45 FN, spur 45 TP / 204 FP / 62 FN.
+The old .runtime/export_dsp_research.py remains specific to the 600-step run.
+
+User authorized the matched 640-pixel experiment with "go ahead". Runner now accepts
+--input-size 320 or 640, default 320; training and independent reload use the chosen
+size. Budget remains 3,968 steps, same data, seed, initialization and optimizer.
+Planned run: ml/runs/dspcbsd-nineclass-research640-3968steps-001.
+Check .runtime/dspcbsd-resolution640-001.* and run artifacts before launching to
+avoid a duplicate. Launch confirmation will be recorded below after tests pass.
+Higher resolution requires substantially more CPU time. No production promotion.
 
 
 Saved-prediction error analysis completed on 2026-09-18. See

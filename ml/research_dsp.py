@@ -253,7 +253,7 @@ def train(args):
         "initial_weights": verify_weights(args.weights),
         "steps": args.steps,
         "batch_size": 2,
-        "input_size": 320,
+        "input_size": args.input_size,
         "learning_rate": 0.005,
         "seed": SEED,
         "threads": 2,
@@ -268,7 +268,7 @@ def train(args):
     }
     args.output.mkdir(parents=True)
     write_json(args.output / "config.json", config)
-    model = make_model(9, 320, "frozen_batch", args.weights)
+    model = make_model(9, args.input_size, "frozen_batch", args.weights)
     print("Evaluating initialized nine-class head on fixed public-validation subset", flush=True)
     initial = evaluate(model, val_rows, args.data)
     write_json(args.output / "initial-validation.json", initial)
@@ -299,7 +299,7 @@ def train(args):
                 "images": [train_rows[i]["file"] for i in selected],
             }
         )
-        if step % 25 == 0 or step == 1:
+        if step % 25 == 0 or step == 1 or step == args.steps:
             progress = {
                 "step": step,
                 "budget": args.steps,
@@ -322,7 +322,7 @@ def train(args):
     final = evaluate(model, val_rows, args.data)
     write_json(args.output / "final-validation.json", final)
     # Independent reload verifies that the saved artifact reproduces the reported predictions.
-    reloaded = make_model(9, 320, "frozen_batch")
+    reloaded = make_model(9, args.input_size, "frozen_batch")
     reloaded.load_state_dict(
         torch.load(args.output / "final-research.pt", weights_only=True)["model"]
     )
@@ -355,6 +355,7 @@ def main():
         parser.add_argument("--" + name, type=Path)
     parser.add_argument("--manifest-sha256")
     parser.add_argument("--steps", type=int, default=600)
+    parser.add_argument("--input-size", type=int, choices=(320, 640), default=320)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.action == "prepare":

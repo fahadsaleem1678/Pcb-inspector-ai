@@ -62,3 +62,16 @@ three CPU hours plus evaluation; status must be read from actual process/output 
 Final evaluation and independent reload are built into the runner. Do not launch a duplicate.
 After completion verify the saved history and compare it to the control before reporting
 results. Research authorization does not permit model promotion or website deployment.
+
+## Full pass verified and resolution comparison authorized 2026-09-19
+
+The full pass completed: AP50 45.97%, AP50:95 19.91%. All 7,936 train images appeared
+once and the first 600 steps exactly reproduced the control. See
+[verification and remaining errors](evidence/dspcbsd-nineclass-research-3968steps-001.md).
+
+The next matched run uses `--input-size 640 --steps 3968` and a fresh output directory
+`ml/runs/dspcbsd-nineclass-research640-3968steps-001`. All other training settings and
+the pinned manifest are retained. The input option defaults to 320; both initialization
+and checkpoint reload use the selected size. The image transform caps the long side at
+twice this value. Background logs use `.runtime/dspcbsd-resolution640-001.*`.
+Check those artifacts before starting any run; keep the computer awake during training.

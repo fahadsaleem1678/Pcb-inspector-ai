@@ -1,0 +1,251 @@
+{
+  "schema_version": "1.0",
+  "configuration": {
+    "schema_version": "unreviewed-research-run-1",
+    "git_revision": "397265d47b12ee2e6a1df0d947fe1d09159e46c7",
+    "packages": {
+      "torch": "2.13.0+cpu",
+      "torchvision": "0.28.0+cpu",
+      "numpy": "2.5.3",
+      "pycocotools": "2.0.11",
+      "pillow": "12.3.0"
+    },
+    "classes": [
+      "SH",
+      "SP",
+      "SC",
+      "OP",
+      "MB",
+      "HB",
+      "CS",
+      "CFO",
+      "BMFO"
+    ],
+    "manifest_sha256": "1bee207587d9793402d9292c47e004b8d0de7c926ce52775298884dbf610b90f",
+    "initial_weights": {
+      "id": "FasterRCNN_MobileNet_V3_Large_320_FPN_Weights.COCO_V1",
+      "source_url": "https://download.pytorch.org/models/fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth",
+      "sha256": "907ea3f91ff92242bc1baea8049276a3e76bca48ce7560bd268cc029f37977b5",
+      "local_path": "E:\\PCB\\ml\\weights\\fasterrcnn_mobilenet_v3_large_320_fpn-907ea3f9.pth",
+      "review_sha256": "45acc392433328eca6fda294eb207633dab05707cd7acddf889eae11e17fec25",
+      "review_scope": "local research; public distribution approval unresolved"
+    },
+    "steps": 3968,
+    "batch_size": 2,
+    "input_size": 320,
+    "learning_rate": 0.005,
+    "seed": 20260915,
+    "threads": 2,
+    "device": "cpu",
+    "selection": "fixed_final_step_no_checkpoint_search",
+    "promotion_eligible": false,
+    "expert_review_completed": false,
+    "code_hashes": {
+      "research_dsp.py": "24b3c94cc8ff578c02283b564e30d3851dd53601c94a728a54e5ac9368c0f469",
+      "baseline.py": "015c240fc59f60704c485896d87c022cc5f5cc36d7424e271b530ea8d8f32036",
+      "metrics.py": "5b536afe3d8b2a400a7f9c8aa6c0188850c523177997c8a2d555592b43d8f067",
+      "pretrained.py": "d15fe0da5b0bee03a6308945cbcb0b0e538a64878084f5caa43583332e7426d6"
+    }
+  },
+  "result": {
+    "initial_metrics": {
+      "ap50_95": 0.0025390419235795446,
+      "ap50": 0.008656163499080417,
+      "ar100": 0.09339365135753887,
+      "per_class": {
+        "SH": {
+          "ap50_95": 0.0011666253384751692,
+          "ap50": 0.003775616842576604,
+          "ar100": 0.05555555555555556,
+          "instances": 27,
+          "positive_images": 20
+        },
+        "SP": {
+          "ap50_95": 0.0007442427662914225,
+          "ap50": 0.0025850734970348957,
+          "ar100": 0.027102803738317756,
+          "instances": 107,
+          "positive_images": 55
+        },
+        "SC": {
+          "ap50_95": 0.0031698674200239694,
+          "ap50": 0.012358900051912373,
+          "ar100": 0.18,
+          "instances": 30,
+          "positive_images": 26
+        },
+        "OP": {
+          "ap50_95": 8.507435719888725e-05,
+          "ap50": 0.0003162864811444357,
+          "ar100": 0.022000000000000002,
+          "instances": 50,
+          "positive_images": 41
+        },
+        "MB": {
+          "ap50_95": 0.0008653687243944996,
+          "ap50": 0.0035664247988764137,
+          "ar100": 0.0375,
+          "instances": 64,
+          "positive_images": 46
+        },
+        "HB": {
+          "ap50_95": 0.01398119719634201,
+          "ap50": 0.042018933419708866,
+          "ar100": 0.23263157894736844,
+          "instances": 95,
+          "positive_images": 38
+        },
+        "CS": {
+          "ap50_95": 0.0005484060908425301,
+          "ap50": 0.002863930960364365,
+          "ar100": 0.07555555555555557,
+          "instances": 45,
+          "positive_images": 30
+        },
+        "CFO": {
+          "ap50_95": 0.0019607981855392625,
+          "ap50": 0.008644251089005763,
+          "ar100": 0.13125,
+          "instances": 48,
+          "positive_images": 41
+        },
+        "BMFO": {
+          "ap50_95": 0.0003297972331081529,
+          "ap50": 0.0017760543511000431,
+          "ar100": 0.07894736842105263,
+          "instances": 38,
+          "positive_images": 34
+        }
+      },
+      "images": 256,
+      "max_detections_per_image": 100,
+      "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points",
+      "independent_group_count": null
+    },
+    "final_metrics": {
+      "ap50_95": 0.19914879546957073,
+      "ap50": 0.4596990564483072,
+      "ar100": 0.3664813686315708,
+      "per_class": {
+        "SH": {
+          "ap50_95": 0.19545153690388867,
+          "ap50": 0.442463928128616,
+          "ar100": 0.3592592592592593,
+          "instances": 27,
+          "positive_images": 20
+        },
+        "SP": {
+          "ap50_95": 0.03457316799843267,
+          "ap50": 0.17169263540159244,
+          "ar100": 0.18878504672897195,
+          "instances": 107,
+          "positive_images": 55
+        },
+        "SC": {
+          "ap50_95": 0.12358612203957994,
+          "ap50": 0.3084283215558648,
+          "ar100": 0.3666666666666667,
+          "instances": 30,
+          "positive_images": 26
+        },
+        "OP": {
+          "ap50_95": 0.13653303400934744,
+          "ap50": 0.4616164258637784,
+          "ar100": 0.298,
+          "instances": 50,
+          "positive_images": 41
+        },
+        "MB": {
+          "ap50_95": 0.04039043944313124,
+          "ap50": 0.16321178282819215,
+          "ar100": 0.19375,
+          "instances": 64,
+          "positive_images": 46
+        },
+        "HB": {
+          "ap50_95": 0.6465354316017701,
+          "ap50": 0.9751041842594035,
+          "ar100": 0.7178947368421053,
+          "instances": 95,
+          "positive_images": 38
+        },
+        "CS": {
+          "ap50_95": 0.2437589276087319,
+          "ap50": 0.5391858998667045,
+          "ar100": 0.42222222222222217,
+          "instances": 45,
+          "positive_images": 30
+        },
+        "CFO": {
+          "ap50_95": 0.14662488230137433,
+          "ap50": 0.3900192731714798,
+          "ar100": 0.38333333333333336,
+          "instances": 48,
+          "positive_images": 41
+        },
+        "BMFO": {
+          "ap50_95": 0.22488561731988074,
+          "ap50": 0.6855690569591334,
+          "ar100": 0.3684210526315789,
+          "instances": 38,
+          "positive_images": 34
+        }
+      },
+      "images": 256,
+      "max_detections_per_image": 100,
+      "metric_protocol": "pycocotools bbox; IoU 0.50:0.05:0.95; 101 recall points",
+      "independent_group_count": null
+    },
+    "completed_steps": 3968,
+    "training_class_exposures": {
+      "7": 1987,
+      "2": 3569,
+      "5": 1846,
+      "4": 1375,
+      "9": 1293,
+      "6": 2087,
+      "8": 1375,
+      "1": 738,
+      "3": 1285
+    },
+    "checkpoint_sha256": "1427332c3633582f34f1262ebbfaf3c832a411118412bcb2a359df8149c3c87e",
+    "manifest_sha256": "1bee207587d9793402d9292c47e004b8d0de7c926ce52775298884dbf610b90f",
+    "reload_predictions_identical": true,
+    "elapsed_seconds": 13071.011044200015,
+    "production_eligible": false,
+    "expert_review_completed": false,
+    "project_test_holdout_inferred": false,
+    "website_model_changed": false
+  },
+  "data_summary": {
+    "train_images": 7936,
+    "validation_images": 256,
+    "quarantined_train_images": 272,
+    "corrections": 304,
+    "validation_annotations_per_class": {
+      "3": 30,
+      "8": 48,
+      "6": 95,
+      "2": 107,
+      "7": 45,
+      "5": 64,
+      "4": 50,
+      "9": 38,
+      "1": 27
+    }
+  },
+  "unique_training_images_seen": 7936,
+  "training_history_sha256": "9b8003712e424304b6c7977134fe1da68ee74f18be9b809133c2c910fe43fa2a",
+  "initial_validation_sha256": "948c3e931cfc5a95df18ef3596b4a5268da57522c387a0da863540c6b94ff405",
+  "final_validation_sha256": "cb18a7bc52e26253cba4f135e7c29383aee0a3e90ce990f81604313b5a2d8c85",
+  "result_sha256": "325f73a6f6e2fbcad5d0cea1ec0cd92e2059d3691d9824e9c15840e397961642",
+  "source_separation_rechecked": true,
+  "all_nine_classes_seen_during_training": true,
+  "local_run_path": "ml/runs/dspcbsd-nineclass-research-3968steps-001",
+  "training_loss_first_25_mean": 0.5556902572512626,
+  "training_loss_last_25_mean": 0.15077108852565288,
+  "first_600_steps_exactly_reproduced": true,
+  "all_training_images_used_once": true,
+  "initial_validation_matches_control": true,
+  "saved_prediction_metrics_recomputed": true
+}

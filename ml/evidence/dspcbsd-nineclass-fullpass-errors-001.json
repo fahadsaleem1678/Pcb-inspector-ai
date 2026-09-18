@@ -1,0 +1,1742 @@
+{
+  "schema_version": "1.0",
+  "binding": {
+    "manifest_sha256": "1bee207587d9793402d9292c47e004b8d0de7c926ce52775298884dbf610b90f",
+    "run_evidence_sha256": "6dd15a3c573965f46f40f8c3b680b44eb7ca24f4205d11c4042eeb7b57f57fad",
+    "diagnostic_code_sha256": "2417e099ef042cf0e98e2fb8d8d895eb4eaf157f2ddc2d202d552e65ca01f129",
+    "matcher_code_sha256": "0cdda1bc71b1db9e655ef4a6804d4b04f4a7b7a4eeaf1f793702e6f5197bd8f4",
+    "initial_predictions_sha256": "948c3e931cfc5a95df18ef3596b4a5268da57522c387a0da863540c6b94ff405",
+    "final_predictions_sha256": "cb18a7bc52e26253cba4f135e7c29383aee0a3e90ce990f81604313b5a2d8c85"
+  },
+  "phases": {
+    "initial": [
+      {
+        "score_threshold": 0.05,
+        "micro": {
+          "tp": 128,
+          "fp": 16856,
+          "fn": 376,
+          "precision": 0.007536504945831371,
+          "recall": 0.25396825396825395
+        },
+        "per_class": {
+          "SH": {
+            "tp": 4,
+            "fp": 1873,
+            "fn": 23,
+            "precision": 0.002131060202450719,
+            "recall": 0.14814814814814814,
+            "miss_reasons": {
+              "same_class_localization": 5,
+              "no_useful_saved_detection": 15,
+              "wrong_class_partial_overlap": 3
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1153,
+              "no_overlap": 567,
+              "class_confusion": 152,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 24,
+                "matched": 4
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 2,
+                "matched": 0
+              }
+            }
+          },
+          "SP": {
+            "tp": 9,
+            "fp": 1656,
+            "fn": 98,
+            "precision": 0.005405405405405406,
+            "recall": 0.08411214953271028,
+            "miss_reasons": {
+              "no_useful_saved_detection": 84,
+              "same_class_localization": 8,
+              "class_confusion": 4,
+              "wrong_class_partial_overlap": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1052,
+              "no_overlap": 472,
+              "class_confusion": 131,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 74,
+                "matched": 3
+              },
+              ">=16px": {
+                "targets": 26,
+                "matched": 6
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "SC": {
+            "tp": 10,
+            "fp": 1727,
+            "fn": 20,
+            "precision": 0.0057570523891767415,
+            "recall": 0.3333333333333333,
+            "miss_reasons": {
+              "same_class_localization": 5,
+              "wrong_class_partial_overlap": 3,
+              "class_confusion": 8,
+              "no_useful_saved_detection": 4
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1107,
+              "no_overlap": 492,
+              "class_confusion": 125,
+              "duplicate": 3
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 18,
+                "matched": 7
+              },
+              "8-16px": {
+                "targets": 11,
+                "matched": 3
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              }
+            }
+          },
+          "OP": {
+            "tp": 4,
+            "fp": 2116,
+            "fn": 46,
+            "precision": 0.0018867924528301887,
+            "recall": 0.08,
+            "miss_reasons": {
+              "same_class_localization": 17,
+              "no_useful_saved_detection": 25,
+              "wrong_class_partial_overlap": 2,
+              "class_confusion": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1318,
+              "no_overlap": 647,
+              "class_confusion": 151
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 19,
+                "matched": 1
+              },
+              ">=16px": {
+                "targets": 31,
+                "matched": 3
+              }
+            }
+          },
+          "MB": {
+            "tp": 8,
+            "fp": 1591,
+            "fn": 56,
+            "precision": 0.0050031269543464665,
+            "recall": 0.125,
+            "miss_reasons": {
+              "no_useful_saved_detection": 44,
+              "same_class_localization": 6,
+              "wrong_class_partial_overlap": 4,
+              "class_confusion": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1018,
+              "class_confusion": 137,
+              "no_overlap": 432,
+              "duplicate": 4
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 37,
+                "matched": 4
+              },
+              ">=16px": {
+                "targets": 20,
+                "matched": 4
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "HB": {
+            "tp": 51,
+            "fp": 1834,
+            "fn": 44,
+            "precision": 0.027055702917771884,
+            "recall": 0.5368421052631579,
+            "miss_reasons": {
+              "same_class_localization": 29,
+              "class_confusion": 6,
+              "no_useful_saved_detection": 5,
+              "wrong_class_partial_overlap": 4
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1186,
+              "no_overlap": 557,
+              "class_confusion": 88,
+              "duplicate": 3
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 95,
+                "matched": 51
+              }
+            }
+          },
+          "CS": {
+            "tp": 12,
+            "fp": 2115,
+            "fn": 33,
+            "precision": 0.005641748942172073,
+            "recall": 0.26666666666666666,
+            "miss_reasons": {
+              "same_class_localization": 14,
+              "no_useful_saved_detection": 12,
+              "wrong_class_partial_overlap": 3,
+              "class_confusion": 4
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1357,
+              "no_overlap": 605,
+              "class_confusion": 146,
+              "duplicate": 7
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 37,
+                "matched": 12
+              },
+              "4-8px": {
+                "targets": 2,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 6,
+                "matched": 0
+              }
+            }
+          },
+          "CFO": {
+            "tp": 20,
+            "fp": 1597,
+            "fn": 28,
+            "precision": 0.012368583797155226,
+            "recall": 0.4166666666666667,
+            "miss_reasons": {
+              "wrong_class_partial_overlap": 6,
+              "same_class_localization": 4,
+              "no_useful_saved_detection": 16,
+              "class_confusion": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1042,
+              "no_overlap": 460,
+              "class_confusion": 90,
+              "duplicate": 5
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 31,
+                "matched": 18
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 2
+              }
+            }
+          },
+          "BMFO": {
+            "tp": 10,
+            "fp": 2347,
+            "fn": 28,
+            "precision": 0.004242681374628765,
+            "recall": 0.2631578947368421,
+            "miss_reasons": {
+              "no_useful_saved_detection": 21,
+              "same_class_localization": 4,
+              "wrong_class_partial_overlap": 1,
+              "class_confusion": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1506,
+              "no_overlap": 681,
+              "class_confusion": 153,
+              "duplicate": 7
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 21,
+                "matched": 10
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 0
+              }
+            }
+          }
+        },
+        "missed_target_confusions": {
+          "HB->MB": 1,
+          "CFO->BMFO": 1,
+          "SP->CS": 2,
+          "SC->CS": 2,
+          "SC->MB": 1,
+          "OP->MB": 2,
+          "CS->SP": 2,
+          "SP->MB": 2,
+          "CS->HB": 1,
+          "MB->BMFO": 1,
+          "SC->BMFO": 1,
+          "SC->CFO": 2,
+          "SC->OP": 2,
+          "CS->SC": 1,
+          "HB->SH": 1,
+          "CFO->CS": 1,
+          "HB->CS": 2,
+          "HB->OP": 1,
+          "HB->BMFO": 1,
+          "MB->SP": 1,
+          "BMFO->SP": 2
+        }
+      },
+      {
+        "score_threshold": 0.25,
+        "micro": {
+          "tp": 4,
+          "fp": 776,
+          "fn": 500,
+          "precision": 0.005128205128205128,
+          "recall": 0.007936507936507936
+        },
+        "per_class": {
+          "SH": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 27,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "wrong_class_partial_overlap": 4,
+              "no_useful_saved_detection": 19,
+              "score_suppressed": 4
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 24,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 2,
+                "matched": 0
+              }
+            }
+          },
+          "SP": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 107,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 93,
+              "score_suppressed": 8,
+              "class_confusion": 2,
+              "wrong_class_partial_overlap": 4
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 74,
+                "matched": 0
+              },
+              ">=16px": {
+                "targets": 26,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "SC": {
+            "tp": 0,
+            "fp": 4,
+            "fn": 30,
+            "precision": 0.0,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 12,
+              "score_suppressed": 10,
+              "wrong_class_partial_overlap": 8
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 4
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 18,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 11,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              }
+            }
+          },
+          "OP": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 50,
+            "precision": 0.0,
+            "recall": 0.0,
+            "miss_reasons": {
+              "score_suppressed": 4,
+              "wrong_class_partial_overlap": 11,
+              "no_useful_saved_detection": 34,
+              "class_confusion": 1
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 19,
+                "matched": 0
+              },
+              ">=16px": {
+                "targets": 31,
+                "matched": 0
+              }
+            }
+          },
+          "MB": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 64,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 54,
+              "score_suppressed": 6,
+              "wrong_class_partial_overlap": 2,
+              "class_confusion": 2
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 37,
+                "matched": 0
+              },
+              ">=16px": {
+                "targets": 20,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "HB": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 95,
+            "precision": 0.0,
+            "recall": 0.0,
+            "miss_reasons": {
+              "wrong_class_partial_overlap": 18,
+              "no_useful_saved_detection": 26,
+              "score_suppressed": 47,
+              "class_confusion": 4
+            },
+            "false_positive_reasons": {
+              "no_overlap": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 95,
+                "matched": 0
+              }
+            }
+          },
+          "CS": {
+            "tp": 0,
+            "fp": 2,
+            "fn": 45,
+            "precision": 0.0,
+            "recall": 0.0,
+            "miss_reasons": {
+              "wrong_class_partial_overlap": 9,
+              "class_confusion": 6,
+              "no_useful_saved_detection": 23,
+              "score_suppressed": 7
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 2
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 37,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 2,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 6,
+                "matched": 0
+              }
+            }
+          },
+          "CFO": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 48,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "wrong_class_partial_overlap": 5,
+              "score_suppressed": 18,
+              "class_confusion": 3,
+              "no_useful_saved_detection": 22
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 31,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 0
+              }
+            }
+          },
+          "BMFO": {
+            "tp": 4,
+            "fp": 768,
+            "fn": 34,
+            "precision": 0.0051813471502590676,
+            "recall": 0.10526315789473684,
+            "miss_reasons": {
+              "score_suppressed": 6,
+              "no_useful_saved_detection": 25,
+              "same_class_localization": 3
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 565,
+              "no_overlap": 183,
+              "class_confusion": 20
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 21,
+                "matched": 4
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 0
+              }
+            }
+          }
+        },
+        "missed_target_confusions": {
+          "CFO->BMFO": 3,
+          "HB->BMFO": 4,
+          "CS->BMFO": 6,
+          "SP->BMFO": 2,
+          "MB->BMFO": 2,
+          "OP->BMFO": 1
+        }
+      },
+      {
+        "score_threshold": 0.5,
+        "micro": {
+          "tp": 0,
+          "fp": 15,
+          "fn": 504,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "per_class": {
+          "SH": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 27,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 23,
+              "score_suppressed": 4
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 24,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 2,
+                "matched": 0
+              }
+            }
+          },
+          "SP": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 107,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 97,
+              "score_suppressed": 10
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 74,
+                "matched": 0
+              },
+              ">=16px": {
+                "targets": 26,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "SC": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 30,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 20,
+              "score_suppressed": 10
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 18,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 11,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              }
+            }
+          },
+          "OP": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 50,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "score_suppressed": 4,
+              "no_useful_saved_detection": 45,
+              "wrong_class_partial_overlap": 1
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 19,
+                "matched": 0
+              },
+              ">=16px": {
+                "targets": 31,
+                "matched": 0
+              }
+            }
+          },
+          "MB": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 64,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 56,
+              "score_suppressed": 8
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 37,
+                "matched": 0
+              },
+              ">=16px": {
+                "targets": 20,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "HB": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 95,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 44,
+              "score_suppressed": 51
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 95,
+                "matched": 0
+              }
+            }
+          },
+          "CS": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 45,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 33,
+              "score_suppressed": 12
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 37,
+                "matched": 0
+              },
+              "4-8px": {
+                "targets": 2,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 6,
+                "matched": 0
+              }
+            }
+          },
+          "CFO": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 48,
+            "precision": null,
+            "recall": 0.0,
+            "miss_reasons": {
+              "no_useful_saved_detection": 28,
+              "score_suppressed": 20
+            },
+            "false_positive_reasons": {},
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 31,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 0
+              }
+            }
+          },
+          "BMFO": {
+            "tp": 0,
+            "fp": 15,
+            "fn": 38,
+            "precision": 0.0,
+            "recall": 0.0,
+            "miss_reasons": {
+              "score_suppressed": 10,
+              "no_useful_saved_detection": 28
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 12,
+              "no_overlap": 3
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 21,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 0
+              }
+            }
+          }
+        },
+        "missed_target_confusions": {}
+      }
+    ],
+    "final": [
+      {
+        "score_threshold": 0.05,
+        "micro": {
+          "tp": 368,
+          "fp": 2974,
+          "fn": 136,
+          "precision": 0.11011370436864153,
+          "recall": 0.7301587301587301
+        },
+        "per_class": {
+          "SH": {
+            "tp": 20,
+            "fp": 152,
+            "fn": 7,
+            "precision": 0.11627906976744186,
+            "recall": 0.7407407407407407,
+            "miss_reasons": {
+              "class_confusion": 3,
+              "wrong_class_partial_overlap": 4
+            },
+            "false_positive_reasons": {
+              "class_confusion": 42,
+              "partial_overlap": 107,
+              "duplicate": 2,
+              "no_overlap": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 24,
+                "matched": 19
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 2,
+                "matched": 1
+              }
+            }
+          },
+          "SP": {
+            "tp": 58,
+            "fp": 885,
+            "fn": 49,
+            "precision": 0.061505832449628844,
+            "recall": 0.5420560747663551,
+            "miss_reasons": {
+              "no_useful_saved_detection": 19,
+              "same_class_localization": 25,
+              "class_confusion": 3,
+              "score_suppressed": 2
+            },
+            "false_positive_reasons": {
+              "class_confusion": 144,
+              "partial_overlap": 501,
+              "no_overlap": 228,
+              "duplicate": 12
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 74,
+                "matched": 38
+              },
+              ">=16px": {
+                "targets": 26,
+                "matched": 19
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 1
+              }
+            }
+          },
+          "SC": {
+            "tp": 21,
+            "fp": 197,
+            "fn": 9,
+            "precision": 0.0963302752293578,
+            "recall": 0.7,
+            "miss_reasons": {
+              "same_class_localization": 2,
+              "class_confusion": 6,
+              "wrong_class_partial_overlap": 1
+            },
+            "false_positive_reasons": {
+              "class_confusion": 50,
+              "partial_overlap": 135,
+              "no_overlap": 10,
+              "duplicate": 2
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 18,
+                "matched": 16
+              },
+              "8-16px": {
+                "targets": 11,
+                "matched": 5
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              }
+            }
+          },
+          "OP": {
+            "tp": 40,
+            "fp": 369,
+            "fn": 10,
+            "precision": 0.097799511002445,
+            "recall": 0.8,
+            "miss_reasons": {
+              "same_class_localization": 3,
+              "class_confusion": 3,
+              "score_suppressed": 1,
+              "wrong_class_partial_overlap": 3
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 262,
+              "class_confusion": 86,
+              "duplicate": 16,
+              "no_overlap": 5
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 19,
+                "matched": 15
+              },
+              ">=16px": {
+                "targets": 31,
+                "matched": 25
+              }
+            }
+          },
+          "MB": {
+            "tp": 32,
+            "fp": 501,
+            "fn": 32,
+            "precision": 0.0600375234521576,
+            "recall": 0.5,
+            "miss_reasons": {
+              "same_class_localization": 11,
+              "score_suppressed": 4,
+              "no_useful_saved_detection": 6,
+              "class_confusion": 7,
+              "wrong_class_partial_overlap": 4
+            },
+            "false_positive_reasons": {
+              "class_confusion": 133,
+              "partial_overlap": 317,
+              "no_overlap": 44,
+              "duplicate": 7
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 37,
+                "matched": 20
+              },
+              ">=16px": {
+                "targets": 20,
+                "matched": 11
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 1
+              }
+            }
+          },
+          "HB": {
+            "tp": 94,
+            "fp": 87,
+            "fn": 1,
+            "precision": 0.5193370165745856,
+            "recall": 0.9894736842105263,
+            "miss_reasons": {
+              "score_suppressed": 1
+            },
+            "false_positive_reasons": {
+              "no_overlap": 57,
+              "partial_overlap": 21,
+              "class_confusion": 9
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 95,
+                "matched": 94
+              }
+            }
+          },
+          "CS": {
+            "tp": 32,
+            "fp": 259,
+            "fn": 13,
+            "precision": 0.10996563573883161,
+            "recall": 0.7111111111111111,
+            "miss_reasons": {
+              "same_class_localization": 4,
+              "class_confusion": 4,
+              "no_useful_saved_detection": 3,
+              "score_suppressed": 1,
+              "wrong_class_partial_overlap": 1
+            },
+            "false_positive_reasons": {
+              "no_overlap": 66,
+              "partial_overlap": 167,
+              "class_confusion": 14,
+              "duplicate": 12
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 37,
+                "matched": 31
+              },
+              "4-8px": {
+                "targets": 2,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 6,
+                "matched": 1
+              }
+            }
+          },
+          "CFO": {
+            "tp": 38,
+            "fp": 308,
+            "fn": 10,
+            "precision": 0.10982658959537572,
+            "recall": 0.7916666666666666,
+            "miss_reasons": {
+              "no_useful_saved_detection": 3,
+              "same_class_localization": 4,
+              "class_confusion": 3
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 181,
+              "no_overlap": 71,
+              "class_confusion": 51,
+              "duplicate": 5
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 31,
+                "matched": 28
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 10
+              }
+            }
+          },
+          "BMFO": {
+            "tp": 33,
+            "fp": 216,
+            "fn": 5,
+            "precision": 0.13253012048192772,
+            "recall": 0.868421052631579,
+            "miss_reasons": {
+              "score_suppressed": 1,
+              "same_class_localization": 3,
+              "wrong_class_partial_overlap": 1
+            },
+            "false_positive_reasons": {
+              "class_confusion": 48,
+              "partial_overlap": 147,
+              "no_overlap": 18,
+              "duplicate": 3
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 21,
+                "matched": 20
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 13
+              }
+            }
+          }
+        },
+        "missed_target_confusions": {
+          "SH->OP": 1,
+          "OP->MB": 2,
+          "CS->SC": 1,
+          "SP->MB": 3,
+          "MB->CFO": 1,
+          "MB->OP": 3,
+          "SC->SH": 1,
+          "SC->SP": 2,
+          "CFO->SC": 1,
+          "CFO->MB": 1,
+          "SH->SP": 1,
+          "CS->OP": 1,
+          "CS->HB": 2,
+          "SH->MB": 1,
+          "CFO->SH": 1,
+          "SC->MB": 2,
+          "SC->BMFO": 1,
+          "MB->SP": 3,
+          "OP->BMFO": 1
+        }
+      },
+      {
+        "score_threshold": 0.25,
+        "micro": {
+          "tp": 298,
+          "fp": 578,
+          "fn": 206,
+          "precision": 0.3401826484018265,
+          "recall": 0.5912698412698413
+        },
+        "per_class": {
+          "SH": {
+            "tp": 12,
+            "fp": 15,
+            "fn": 15,
+            "precision": 0.4444444444444444,
+            "recall": 0.4444444444444444,
+            "miss_reasons": {
+              "score_suppressed": 6,
+              "no_useful_saved_detection": 2,
+              "wrong_class_partial_overlap": 3,
+              "class_confusion": 4
+            },
+            "false_positive_reasons": {
+              "class_confusion": 4,
+              "duplicate": 2,
+              "partial_overlap": 9
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 24,
+                "matched": 11
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 2,
+                "matched": 1
+              }
+            }
+          },
+          "SP": {
+            "tp": 45,
+            "fp": 204,
+            "fn": 62,
+            "precision": 0.18072289156626506,
+            "recall": 0.4205607476635514,
+            "miss_reasons": {
+              "no_useful_saved_detection": 26,
+              "class_confusion": 6,
+              "same_class_localization": 19,
+              "score_suppressed": 9,
+              "wrong_class_partial_overlap": 2
+            },
+            "false_positive_reasons": {
+              "class_confusion": 40,
+              "partial_overlap": 124,
+              "duplicate": 8,
+              "no_overlap": 32
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 74,
+                "matched": 29
+              },
+              ">=16px": {
+                "targets": 26,
+                "matched": 15
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 1
+              }
+            }
+          },
+          "SC": {
+            "tp": 12,
+            "fp": 16,
+            "fn": 18,
+            "precision": 0.42857142857142855,
+            "recall": 0.4,
+            "miss_reasons": {
+              "same_class_localization": 2,
+              "score_suppressed": 5,
+              "class_confusion": 9,
+              "no_useful_saved_detection": 2
+            },
+            "false_positive_reasons": {
+              "class_confusion": 5,
+              "partial_overlap": 10,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 18,
+                "matched": 10
+              },
+              "8-16px": {
+                "targets": 11,
+                "matched": 2
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              }
+            }
+          },
+          "OP": {
+            "tp": 33,
+            "fp": 77,
+            "fn": 17,
+            "precision": 0.3,
+            "recall": 0.66,
+            "miss_reasons": {
+              "class_confusion": 3,
+              "score_suppressed": 7,
+              "same_class_localization": 3,
+              "no_useful_saved_detection": 1,
+              "wrong_class_partial_overlap": 3
+            },
+            "false_positive_reasons": {
+              "class_confusion": 16,
+              "partial_overlap": 51,
+              "duplicate": 10
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 19,
+                "matched": 10
+              },
+              ">=16px": {
+                "targets": 31,
+                "matched": 23
+              }
+            }
+          },
+          "MB": {
+            "tp": 19,
+            "fp": 77,
+            "fn": 45,
+            "precision": 0.19791666666666666,
+            "recall": 0.296875,
+            "miss_reasons": {
+              "score_suppressed": 13,
+              "no_useful_saved_detection": 11,
+              "class_confusion": 7,
+              "same_class_localization": 8,
+              "wrong_class_partial_overlap": 6
+            },
+            "false_positive_reasons": {
+              "class_confusion": 29,
+              "partial_overlap": 45,
+              "no_overlap": 2,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 37,
+                "matched": 10
+              },
+              ">=16px": {
+                "targets": 20,
+                "matched": 9
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "HB": {
+            "tp": 94,
+            "fp": 20,
+            "fn": 1,
+            "precision": 0.8245614035087719,
+            "recall": 0.9894736842105263,
+            "miss_reasons": {
+              "score_suppressed": 1
+            },
+            "false_positive_reasons": {
+              "no_overlap": 14,
+              "partial_overlap": 5,
+              "class_confusion": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 95,
+                "matched": 94
+              }
+            }
+          },
+          "CS": {
+            "tp": 28,
+            "fp": 75,
+            "fn": 17,
+            "precision": 0.27184466019417475,
+            "recall": 0.6222222222222222,
+            "miss_reasons": {
+              "score_suppressed": 7,
+              "same_class_localization": 4,
+              "class_confusion": 2,
+              "no_useful_saved_detection": 4
+            },
+            "false_positive_reasons": {
+              "no_overlap": 10,
+              "partial_overlap": 60,
+              "duplicate": 5
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 37,
+                "matched": 28
+              },
+              "4-8px": {
+                "targets": 2,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 6,
+                "matched": 0
+              }
+            }
+          },
+          "CFO": {
+            "tp": 24,
+            "fp": 37,
+            "fn": 24,
+            "precision": 0.39344262295081966,
+            "recall": 0.5,
+            "miss_reasons": {
+              "class_confusion": 12,
+              "no_useful_saved_detection": 4,
+              "wrong_class_partial_overlap": 2,
+              "score_suppressed": 4,
+              "same_class_localization": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 26,
+              "class_confusion": 6,
+              "no_overlap": 4,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 31,
+                "matched": 18
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 6
+              }
+            }
+          },
+          "BMFO": {
+            "tp": 31,
+            "fp": 57,
+            "fn": 7,
+            "precision": 0.3522727272727273,
+            "recall": 0.8157894736842105,
+            "miss_reasons": {
+              "score_suppressed": 1,
+              "class_confusion": 2,
+              "same_class_localization": 2,
+              "wrong_class_partial_overlap": 1,
+              "no_useful_saved_detection": 1
+            },
+            "false_positive_reasons": {
+              "class_confusion": 12,
+              "partial_overlap": 36,
+              "duplicate": 2,
+              "no_overlap": 7
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 21,
+                "matched": 19
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 12
+              }
+            }
+          }
+        },
+        "missed_target_confusions": {
+          "CFO->BMFO": 5,
+          "SP->MB": 3,
+          "OP->MB": 2,
+          "BMFO->OP": 1,
+          "CFO->OP": 2,
+          "CS->CFO": 1,
+          "OP->SH": 1,
+          "SP->SC": 1,
+          "SP->BMFO": 1,
+          "MB->SP": 4,
+          "MB->OP": 3,
+          "SC->SP": 4,
+          "SP->CFO": 1,
+          "SC->OP": 2,
+          "CFO->SP": 4,
+          "SH->SP": 3,
+          "CS->HB": 1,
+          "SH->MB": 1,
+          "SC->SH": 1,
+          "CFO->MB": 1,
+          "SC->CFO": 1,
+          "BMFO->SP": 1,
+          "SC->MB": 1
+        }
+      },
+      {
+        "score_threshold": 0.5,
+        "micro": {
+          "tp": 214,
+          "fp": 160,
+          "fn": 290,
+          "precision": 0.5721925133689839,
+          "recall": 0.4246031746031746
+        },
+        "per_class": {
+          "SH": {
+            "tp": 7,
+            "fp": 2,
+            "fn": 20,
+            "precision": 0.7777777777777778,
+            "recall": 0.25925925925925924,
+            "miss_reasons": {
+              "score_suppressed": 12,
+              "no_useful_saved_detection": 3,
+              "wrong_class_partial_overlap": 3,
+              "class_confusion": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 1,
+              "class_confusion": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 24,
+                "matched": 6
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 2,
+                "matched": 1
+              }
+            }
+          },
+          "SP": {
+            "tp": 26,
+            "fp": 61,
+            "fn": 81,
+            "precision": 0.2988505747126437,
+            "recall": 0.24299065420560748,
+            "miss_reasons": {
+              "no_useful_saved_detection": 34,
+              "score_suppressed": 30,
+              "class_confusion": 4,
+              "same_class_localization": 13
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 45,
+              "duplicate": 4,
+              "class_confusion": 6,
+              "no_overlap": 6
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 74,
+                "matched": 21
+              },
+              ">=16px": {
+                "targets": 26,
+                "matched": 5
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "SC": {
+            "tp": 3,
+            "fp": 4,
+            "fn": 27,
+            "precision": 0.42857142857142855,
+            "recall": 0.1,
+            "miss_reasons": {
+              "score_suppressed": 21,
+              "no_useful_saved_detection": 3,
+              "same_class_localization": 1,
+              "class_confusion": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 3,
+              "class_confusion": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 18,
+                "matched": 2
+              },
+              "8-16px": {
+                "targets": 11,
+                "matched": 1
+              },
+              "4-8px": {
+                "targets": 1,
+                "matched": 0
+              }
+            }
+          },
+          "OP": {
+            "tp": 18,
+            "fp": 16,
+            "fn": 32,
+            "precision": 0.5294117647058824,
+            "recall": 0.36,
+            "miss_reasons": {
+              "score_suppressed": 24,
+              "no_useful_saved_detection": 5,
+              "same_class_localization": 2,
+              "wrong_class_partial_overlap": 1
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 13,
+              "class_confusion": 3
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 19,
+                "matched": 3
+              },
+              ">=16px": {
+                "targets": 31,
+                "matched": 15
+              }
+            }
+          },
+          "MB": {
+            "tp": 9,
+            "fp": 11,
+            "fn": 55,
+            "precision": 0.45,
+            "recall": 0.140625,
+            "miss_reasons": {
+              "score_suppressed": 27,
+              "no_useful_saved_detection": 21,
+              "same_class_localization": 3,
+              "class_confusion": 3,
+              "wrong_class_partial_overlap": 1
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 8,
+              "class_confusion": 2,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              "8-16px": {
+                "targets": 37,
+                "matched": 5
+              },
+              ">=16px": {
+                "targets": 20,
+                "matched": 4
+              },
+              "4-8px": {
+                "targets": 7,
+                "matched": 0
+              }
+            }
+          },
+          "HB": {
+            "tp": 86,
+            "fp": 8,
+            "fn": 9,
+            "precision": 0.9148936170212766,
+            "recall": 0.9052631578947369,
+            "miss_reasons": {
+              "score_suppressed": 9
+            },
+            "false_positive_reasons": {
+              "no_overlap": 7,
+              "partial_overlap": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 95,
+                "matched": 86
+              }
+            }
+          },
+          "CS": {
+            "tp": 25,
+            "fp": 29,
+            "fn": 20,
+            "precision": 0.46296296296296297,
+            "recall": 0.5555555555555556,
+            "miss_reasons": {
+              "score_suppressed": 12,
+              "same_class_localization": 3,
+              "no_useful_saved_detection": 5
+            },
+            "false_positive_reasons": {
+              "no_overlap": 3,
+              "partial_overlap": 25,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 37,
+                "matched": 25
+              },
+              "4-8px": {
+                "targets": 2,
+                "matched": 0
+              },
+              "8-16px": {
+                "targets": 6,
+                "matched": 0
+              }
+            }
+          },
+          "CFO": {
+            "tp": 12,
+            "fp": 8,
+            "fn": 36,
+            "precision": 0.6,
+            "recall": 0.25,
+            "miss_reasons": {
+              "score_suppressed": 24,
+              "class_confusion": 4,
+              "no_useful_saved_detection": 5,
+              "wrong_class_partial_overlap": 1,
+              "same_class_localization": 2
+            },
+            "false_positive_reasons": {
+              "partial_overlap": 8
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 31,
+                "matched": 10
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 2
+              }
+            }
+          },
+          "BMFO": {
+            "tp": 28,
+            "fp": 21,
+            "fn": 10,
+            "precision": 0.5714285714285714,
+            "recall": 0.7368421052631579,
+            "miss_reasons": {
+              "score_suppressed": 5,
+              "class_confusion": 1,
+              "same_class_localization": 2,
+              "no_useful_saved_detection": 2
+            },
+            "false_positive_reasons": {
+              "class_confusion": 3,
+              "partial_overlap": 17,
+              "duplicate": 1
+            },
+            "short_side_bins": {
+              ">=16px": {
+                "targets": 21,
+                "matched": 19
+              },
+              "8-16px": {
+                "targets": 17,
+                "matched": 9
+              }
+            }
+          }
+        },
+        "missed_target_confusions": {
+          "CFO->BMFO": 2,
+          "BMFO->OP": 1,
+          "SP->BMFO": 1,
+          "MB->OP": 2,
+          "SC->OP": 1,
+          "SH->SP": 2,
+          "MB->SP": 1,
+          "SP->SH": 1,
+          "SP->SC": 1,
+          "SP->MB": 1,
+          "CFO->SP": 1,
+          "SC->SP": 1,
+          "CFO->MB": 1
+        }
+      }
+    ]
+  },
+  "matching": "Score-ordered one-to-one same-class IoU>=0.5; fixed diagnostic thresholds",
+  "miss_reason_priority": [
+    "matching_competition",
+    "class_confusion",
+    "score_suppressed",
+    "same_class_localization",
+    "wrong_class_partial_overlap",
+    "no_useful_saved_detection"
+  ],
+  "limitations": [
+    "Unreviewed source labels",
+    "Heuristics are not causal diagnoses",
+    "Saved detections are score-filtered and capped at 100 per image",
+    "Miss explanations reuse predictions and are not a one-to-one confusion matrix",
+    "No clean boards or independent camera qualification"
+  ],
+  "production_threshold_selected": false,
+  "model_inference_performed": false,
+  "training_performed": false,
+  "production_eligible": false,
+  "cases_sha256": "63230d47af31be2c60e6a2dded24282ed9aff3ec09855853f3309e65bf4e21ae"
+}
