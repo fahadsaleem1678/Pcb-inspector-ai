@@ -4,6 +4,16 @@ Updated: 2026-09-19 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+
+USER CANCELLED the 640-pixel run on 2026-09-19 at approximately 01:35 +05:00:
+"stop the training. i dont need better results". Both matching Python processes
+were stopped and their exit verified. Last logged progress: 675 / 3,968 steps;
+this is not an exact count of completed steps at termination. Existing logs and
+artifacts are preserved, with cancellation.json in the run directory. No final
+checkpoint or final result was produced. Do not restart training without a new
+user request. The completed 320-pixel full-pass model remains available; the
+website model has not changed. Launch details below are historical.
+
 The 3,968-step size-320 full pass is COMPLETE and independently verified. All 7,936
 train images were used once; first 600 steps and initialized validation match the
 600-step control exactly. AP50 45.97%, AP50:95 19.91%, AR100 36.65%.
