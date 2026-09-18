@@ -1,8 +1,29 @@
 # PCB Inspector AI â€” Agent handoff
 
-Updated: 2026-09-15 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
+Updated: 2026-09-18 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
+
+User changed the model-work scope on 2026-09-15: no expert reviewer is available; after the
+assistant proposed clearly unreviewed experimental training, the user explicitly said
+"ok do it". This permits the separate research run, not expert certification or promotion.
+Read ml/UNREVIEWED_RESEARCH.md; do not reimpose expert review as a prerequisite for this
+already-authorized experiment. Reviewed-release and production gates remain unchanged.
+Run: ml/runs/dspcbsd-nineclass-research-600steps-001. Code commit ee3071b; exactly 600
+optimizer steps, batch two, COCO initialization, nine preserved DsPCBSD+ source classes.
+The run is COMPLETE: 600 steps / 1,200 distinct training images. Do not rerun it.
+AP50 23.2258%, AP50:95 9.0906%, AR100 29.7874% on 256 unreviewed validation images.
+Initialization AP50 was 0.8656%; checkpoint reload reproduced final predictions exactly.
+Final evidence and report: ml/evidence/dspcbsd-nineclass-research-600steps-001.{json,md}.
+Saved-prediction metrics were independently recomputed on 2026-09-18; all hashes, source
+separation and all-nine-class exposure checks passed. Weakest AP50: MB 5.15%, SP 7.62%.
+Data: 7,936 train / fixed 256 source-validation images; 272 train similarity candidates
+quarantined; 304 bounded source-box corrections recorded as experimental preprocessing.
+No expert ledger was fabricated. 231 ML tests passed before execution. Post-run evidence
+verification helper: .runtime/export_dsp_research.py (run only after result.json exists).
+Next: analyze saved predictions for mouse-bite/spur misses, class confusion and localization
+before choosing another bounded research experiment. Website/production gates remain unchanged.
+
 
 Visual candidate review is complete: ml.candidate_viewer builds verified offline packages;
 ml/candidate_viewer.html and .js provide paired images, overlays, zoom, filtering, strict

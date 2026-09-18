@@ -42,3 +42,9 @@ DatasetManifest release. Train requires explicit opt-in and the exact pinned man
 Use a fresh output directory only for an intentionally authorized new run; do not rerun
 completed experiments just to recreate reports. The existing project test holdout is not
 loaded or inferred. The website remains unchanged and all artifacts remain promotion-ineligible.
+
+## Completed result
+
+The 600-step run completed and was verified on 2026-09-18. AP50 improved from 0.87% to
+23.23%; AP50:95 reached 9.09%. See the [full result and per-class limits](evidence/dspcbsd-nineclass-research-600steps-001.md).
+Do not rerun the command above to reproduce this report; preserve the completed run.
