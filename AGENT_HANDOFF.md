@@ -17,7 +17,11 @@ User authorized the matched 640-pixel experiment with "go ahead". Runner now acc
 size. Budget remains 3,968 steps, same data, seed, initialization and optimizer.
 Planned run: ml/runs/dspcbsd-nineclass-research640-3968steps-001.
 Check .runtime/dspcbsd-resolution640-001.* and run artifacts before launching to
-avoid a duplicate. Launch confirmation will be recorded below after tests pass.
+avoid a duplicate. Launched 2026-09-19 at 00:50 +05:00 after 248 ML tests and Ruff checks passed.
+Code commit c34c3d2; wrapper PID 6124, worker PID 26356. Configuration confirms
+640 input, 3,968 steps, batch two and the pinned data/weights. Initial validation
+is underway; check progress.json and result.json for actual training/completion.
+Do not launch a second copy. Keep the computer awake.
 Higher resolution requires substantially more CPU time. No production promotion.
 
 
