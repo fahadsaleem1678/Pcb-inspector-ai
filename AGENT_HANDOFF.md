@@ -4,6 +4,23 @@ Updated: 2026-09-18 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
 
+The user explicitly said "lets start" on 2026-09-18. The full-pass research experiment has
+been launched as a hidden background process. Run directory:
+ml/runs/dspcbsd-nineclass-research-3968steps-001. Do NOT start another copy.
+Job metadata: .runtime/dspcbsd-fullpass-001.job.json; stdout/stderr logs use the same prefix.
+Inspect process status, progress.json, result.json and logs before taking further action.
+Configuration: 3,968 steps, batch two, input 320, seed 20260915, same pinned manifest and
+COCO initialization as the 600-step control; nine source classes retained. This is a fresh
+matched run, not a resume from the checkpoint without optimizer state. Estimated CPU time
+is about three hours plus evaluation, conditional on the computer staying awake.
+The runner performs final validation and exact checkpoint-reload verification automatically.
+Next after completion: verify 7,936 distinct train images, all-nine-class exposure, matching
+initial evaluation and first-600-step history; compare final metrics and fixed-threshold
+errors with the control; export evidence and update this handoff. The old export helper
+.runtime/export_dsp_research.py is hardcoded to the 600-step run and must not be used as-is.
+No training completion, promotion or automatic notifications are implied by this launch.
+
+
 Saved-prediction error analysis completed on 2026-09-18. See
 ml/evidence/dspcbsd-nineclass-errors-001.{json,md} and ml/research_errors.py.
 At score .25: overall 145 TP / 518 FP / 359 FN; MB 0 TP / 0 FP / 64 FN;
@@ -13,7 +30,7 @@ without expert certification. Corrected the prior narrative's 604-label typo to 
 metrics/data were already based on the actual 504 labels. 243 ML tests passed.
 Next chosen experiment: fresh 3,968-step / batch-two / size-320 control from the same COCO
 initialization and seed, covering all 7,936 training images once; estimated ~3 hours CPU.
-Not launched in this diagnostic step. The old checkpoint lacks optimizer state, so do not
+This was subsequently launched as recorded above. The old checkpoint lacks optimizer state, so do not
 claim exact resume. Preserve fixed validation/quarantine; no production threshold selected.
 
 

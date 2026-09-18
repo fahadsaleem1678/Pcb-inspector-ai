@@ -48,3 +48,17 @@ loaded or inferred. The website remains unchanged and all artifacts remain promo
 The 600-step run completed and was verified on 2026-09-18. AP50 improved from 0.87% to
 23.23%; AP50:95 reached 9.09%. See the [full result and per-class limits](evidence/dspcbsd-nineclass-research-600steps-001.md).
 Do not rerun the command above to reproduce this report; preserve the completed run.
+
+## Full-pass experiment launched 2026-09-18
+
+The user explicitly authorized starting the selected 3,968-step experiment. It runs in
+`ml/runs/dspcbsd-nineclass-research-3968steps-001`, from the same COCO initialization,
+seed, batch size, input size and pinned research manifest. All 7,936 training images should
+be exposed once. The existing 600-step run is preserved. Background process metadata and
+stdout/stderr are in `.runtime/dspcbsd-fullpass-001.*`; keep the computer awake.
+
+This is a fresh matched run, not an optimizer-state resume. Expected runtime is roughly
+three CPU hours plus evaluation; status must be read from actual process/output evidence.
+Final evaluation and independent reload are built into the runner. Do not launch a duplicate.
+After completion verify the saved history and compare it to the control before reporting
+results. Research authorization does not permit model promotion or website deployment.
