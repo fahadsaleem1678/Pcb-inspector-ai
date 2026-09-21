@@ -8,8 +8,9 @@ classes are preserved. The 0.25 display threshold is not a calibrated pass/fail 
 ## Service layout
 
 - Vercel: React static frontend, root directory `frontend`.
-- Supabase: PostgreSQL only. Disable the Supabase Data API for this project before applying
-  migrations: the backend owns authorization and these tables have no browser RLS policies.
+- Supabase: PostgreSQL only. Disable the Supabase Data API for this project: the backend owns
+  authorization. Migrations enable RLS and revoke browser-role access on all app tables; no
+  browser RLS policies are needed.
   Never expose a database password or service-role key to Vercel/browser code.
 - AWS EC2: API and one CPU model worker, Caddy HTTPS gateway, using the provided Compose file.
   Start with an x86 Linux instance with at least 4 GiB RAM; verify resource use under load.
@@ -23,7 +24,10 @@ Cognito authentication and per-owner repository access remain mandatory in portf
 
 ## Configuration sequence
 
-1. Create a Supabase project. Disable its Data API. Copy the **session pooler** connection
+1. Create a Supabase project. Disable its Data API. Apply migrations with the `migrate` service
+   in step 7; all app tables and `alembic_version` have RLS enabled and no browser-role grants.
+   Supabase's "RLS enabled with no policy" advisory is expected for these backend-only tables.
+   Copy the **session pooler** connection
    string from Connect (port 5432 for a long-lived backend with IPv4). Use
    `postgresql+psycopg://` and append `?sslmode=require`; URL-encode the password.
    Use the provider CA and `sslmode=verify-full` where configured. Keep API/worker connection
@@ -57,7 +61,8 @@ Cognito authentication and per-owner repository access remain mandatory in portf
    ```
 
    Migrations must complete before API/worker start. The gateway obtains TLS for the configured
-   hostname. Container builds and live cloud acceptance remain to be run on the target host.
+   hostname. The API and worker images built and the pinned model loaded in local Linux
+   containers; live cloud acceptance remains to be run on the target host.
 8. In Vercel import the repository with root `frontend`, Vite preset, and these public build vars:
 
    ```text
@@ -86,7 +91,8 @@ the current code bounds individual uploads but not total per-user storage or que
 Use your own PCB photo initially. Public dataset samples are not bundled pending reuse review.
 
 Set AWS budget alerts before running continuously. Credits are finite; EC2, storage, egress
-and public IPv4 usage can consume them. This package has not created any cloud resources.
+and public IPv4 usage can consume them. The Supabase schema has been created; AWS and
+Vercel resources have not yet been created.
 Stop with `docker compose -f deploy/compose.portfolio.yml down`; this does not delete cloud
 storage or stop the EC2 instance. Retain backups and explicitly manage cloud resources.
 
