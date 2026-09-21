@@ -26,15 +26,13 @@ Mouse-bite AP50 is 16.32%; spur AP50 is 17.17%. Confidence, classification and
 localization problems remain. Diagnostic reason categories describe saved predictions,
 not causal proof; predictions are already capped and filtered by the detector.
 
-Next authorized experiment: input short side 640 (maximum long side 1,280), same
-3,968 steps, batch two, seed 20260915, initialization, optimizer and frozen data split.
-Default input remains 320. Final-step progress logging is also corrected, without
-changing optimization. Evaluate the fixed final checkpoint and compare metrics and
-fixed-threshold errors; do not choose production thresholds on this subset.
+The subsequent 640-pixel experiment was cancelled at the user's request and produced no
+final checkpoint. The portfolio adapter uses this completed 320-pixel checkpoint and
+labels its predictions experimental. No further training is scheduled.
 
 The fixed 256-image validation subset has 504 annotations and unreviewed labels.
 Group independence is unverified and clean-board coverage is absent. Expert review and
-the acceptable board-escape target remain unresolved. Website and production gates are unchanged.
+the acceptable board-escape target remain unresolved. The portfolio interface does not issue board acceptance decisions.
 
 Evidence: [run verification](dspcbsd-nineclass-research-3968steps-001.json) and
 [bound error diagnostics](dspcbsd-nineclass-fullpass-errors-001.json).

@@ -13,12 +13,13 @@ Open [the local workspace](http://127.0.0.1:5173).
 
 The Vite proxy forwards same-origin `/api` calls to port 8000. Set `PCB_API_PROXY` in the
 frontend process environment to use a different local backend. No permissive CORS is needed.
-The built frontend needs the same reverse proxy; `nginx.conf` provides it in Compose.
+Local Compose uses `nginx.conf`; Vercel uses `VITE_API_ORIGIN` for the HTTPS API.
+See [deployment](../docs/portfolio-deployment.md) for exact-origin CORS and hosting.
 
 Capabilities: file selection/drop, local preview, bounded uploads, status polling with timeout,
 backoff and cancellation, report download, paginated history, deep links, image zoom and
 coordinate-correct selectable boxes. Demo mode never renders a successful processing state as
-a defect pass. Real findings rendering is implemented and verified with test fixtures only.
+a defect pass. Experimental trained-model findings are supported; reports identify the model and its limits.
 
 ## Checks
 
@@ -56,5 +57,4 @@ page reload requires another hosted sign-in. Live AWS acceptance remains pending
 
 The separate auth browser suite uses port 5175 and mock provider/API responses; no AWS
 account is contacted. It verifies PKCE and auth failure paths on desktop and mobile, writing
-artifacts to `auth-test-results/`. URL ingestion, real models, cloud storage/queue integration
-and production deployment remain subsequent milestones.
+artifacts to `auth-test-results/`. Live cloud deployment acceptance remains pending.

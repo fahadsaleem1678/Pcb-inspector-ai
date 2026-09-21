@@ -1,61 +1,75 @@
-# Dataset preparation and model gate
+# Model and research tools
 
-V1 now targets PCB surface defects; assembly inspection moves to V2. PCB-Defect has been
-acquired with six verified label names and a [frozen grouped research manifest](../data/releases/pcb-defect-v1/README.md). PCB-IND's conflicting label dictionaries must be reconciled before use. The current
-detector remains explicitly demo-only. See [Dataset V1 specification](../docs/dataset-v1-spec.md)
-and [acquisition audit](../data/README.md). The optional [baseline workflow](BASELINE.md)
-now provides seeded CPU/CUDA training, full-board COCO metrics and local MLflow evidence.
+## Portfolio model
 
-The first preparation tool is `python -m pcb_inspector.datasets`. It validates a manifest and
-local images without downloading data, changing annotations or training a model.
+The app supports the completed nine-class DsPCBSD+ research checkpoint:
+Faster R-CNN MobileNetV3 320 FPN, COCO initialization, 3,968 optimizer steps, batch two,
+seed 20260915. All 7,936 training images were used once. The fixed 256-image validation
+subset contains 504 annotations. Labels were not expert-reviewed; group independence and
+clean-board performance are unverified.
+
+| Metric | Result |
+| --- | ---: |
+| AP50 | 45.97% |
+| AP50:95 | 19.91% |
+| AR100 | 36.65% |
+
+Classes: short, spur, spurious copper, open, mouse bite, hole breakout, conductor scratch,
+conductor foreign object and base-material foreign object. These remain distinct from the
+older six-class PCB-Defect dataset.
+
+[Verified result](evidence/dspcbsd-nineclass-research-3968steps-001.md),
+[run evidence](evidence/dspcbsd-nineclass-research-3968steps-001.json),
+[error diagnostics](evidence/dspcbsd-nineclass-fullpass-errors-001.json), and
+[frozen data evidence](evidence/dspcbsd-unreviewed-research-data-001.json) support the benchmark.
+The app displays scores >=0.25 for demonstration; it makes no board pass/fail decision.
+Training is stopped. The cancelled 640-pixel run produced no final checkpoint.
+
+## Local inference
+
+Install the optional ML runtime separately from the service environment:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pcb_inspector.datasets data/manifests/dataset-v1.json --root data/raw/dataset-v1 --purpose research --output .runtime/dataset-validation.json
+python -m venv .venv-ml
+.venv-ml\Scripts\python.exe -m pip install torch==2.13.0 torchvision==0.28.0 --index-url https://download.pytorch.org/whl/cpu
+.venv-ml\Scripts\python.exe -m pip install -c requirements.lock -c ml/requirements.lock -r ml/requirements.txt -e ".[dev]"
 ```
 
-Exit codes: 0 means the recorded integrity/usage gates passed; 1 means errors or review findings
-need attention; 2 means the manifest could not be parsed/read. A passing report does not
-independently prove license rights, dataset quality, adequate sample count or model accuracy.
-The license fields record a review performed by the dataset owner/reviewer.
+Supply the existing checkpoint at
+`ml/runs/dspcbsd-nineclass-research-3968steps-001/final-research.pt`, then:
 
-Start with `data/manifest.template.json` and the JSON schema in `data/manifest.schema.json`.
-The template intentionally fails validation until source/version, evidence, reviewer/date,
-permitted purposes and sample records are supplied. Do not fill license approval fields without
-an actual review. Evidence must be a nonempty file within the dataset root.
+```powershell
+$env:PCB_DETECTOR="research"
+$env:PCB_RESEARCH_CHECKPOINT="ml/runs/dspcbsd-nineclass-research-3968steps-001/final-research.pt"
+.venv-ml\Scripts\python.exe scripts/dev.py
+```
 
-Each sample has a relative image path, byte SHA-256, decoded width/height, physical
-board/template `group_id`, split (`train`, `validation`, `test`) and an annotation list.
-Annotations use zero-based `class_id` into the class map and pixel boxes `{x1,y1,x2,y2}`.
-An empty annotation list is allowed for a negative image. Normalize EXIF orientation and
-annotations together before validation; the validator does not silently transform coordinates.
+The adapter checks SHA256
+`1427332c3633582f34f1262ebbfaf3c832a411118412bcb2a359df8149c3c87e`
+before loading. It never downloads weights. The checkpoint and source images are ignored;
+a fresh Git clone alone cannot run trained inference. See [hosting](../docs/portfolio-deployment.md).
 
-Checks include path containment, image decoding and limits, byte checksums, duplicate paths,
-identical byte/pixel content, box bounds, class coverage and physical-group split leakage.
-A coarse 8×8 grayscale hash flags likely cross-split visual duplicates for human review.
-It can produce false positives and miss transformed duplicates; it does not replace a
-proper near-duplicate/embedding audit. Missing classes in any split also require review.
-Perceptual comparison is quadratic across splits and intended for initial dataset exploration.
+## Offline tooling
 
-`grouped_split(group_ids, seed="pcb-v1")` in `pcb_inspector.datasets` provides deterministic,
-order-independent group assignment (~70/15/15, with at least one group per split).
-For example, import it in a preparation script, then persist each returned split in the
-manifest. It requires at least three independent groups. Assignment is not class-stratified:
-check the resulting coverage. Adding groups can change assignments, so freeze the manifest
-and preserve the held-out test set; do not rerun splitting against a growing production dataset.
+Research code remains available for reproducibility and testing; running the app does not
+start training. Each CLI exposes its arguments through `python -m ml.MODULE --help`.
 
-Before M3 training is complete, release the reviewed dataset, add DVC versioning, grouped/duplicate
-audits, a calibrated quality/compatibility gate, a detector training adapter, MLflow runs,
-per-class held-out evaluation, and an artifact/label-map promotion contract.
+| Modules | Purpose |
+| --- | --- |
+| `research_dsp`, `research_errors` | Nine-class experimental preparation, training and saved-prediction analysis |
+| `baseline`, `data`, `metrics`, `schedule`, `summarize`, `probe` | Six-class baseline, tiled views and reproducible evaluation |
+| `candidate_audit`, `candidate_manifest`, `candidate_viewer` | Source-label audits and visual review packages |
+| `candidate_decisions`, `candidate_derive`, `review`, `adjudication` | Human review import and versioned correction candidates |
+| `error_analysis`, `qualification` | Error context and evidence-based qualification checks |
+| `pretrained` | Explicit acquisition and verification of initialization weights |
 
+The [initialization provenance record](PRETRAINED.md) is hashed by `pretrained.py` and must
+remain intact. [Dataset records](../data/README.md) preserve source metadata and the frozen
+six-class release. Review and qualification tools do not fabricate expert approvals.
 
-## Frozen six-class baseline data
+```powershell
+.venv-ml\Scripts\python.exe -m pytest tests/test_ml_views.py ml/tests tests/test_portfolio.py -q
+```
 
-Use data/manifests/pcb-defect-v1.0.json with data/processed/pcb-defect-v1 and
---max-image-pixels 40000000 for native-resolution validation. The manifest is research-only;
-its validator passes with 165/32/33 images across train/validation/test. Preparation is
-reproducible via scripts/prepare_pcb_defect.py review and build. Existing artifacts cannot
-be overwritten with different content. Read the release notes before creating model experiments.
-The report's ready_for_training value covers recorded integrity gates, not production suitability.
-
-Run commands, dependency setup, tiling policy and test-set controls are in [BASELINE.md](BASELINE.md).
-Pretrained weights and model deployment are not enabled by the baseline pipeline.
+Historical plans, handoffs and superseded experiment reports were removed from the working
+repository; prior commits retain that history. Current benchmark evidence remains versioned.
