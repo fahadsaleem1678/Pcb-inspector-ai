@@ -31,7 +31,15 @@ class Worker:
         self.repository = repository
         self.storage = storage
         self.settings = settings
-        self.detector = detector if detector is not None else DemoDetector()
+        if detector is not None:
+            self.detector = detector
+        elif settings.detector == "research":
+            from pcb_inspector.research_detector import ResearchDetector
+
+            assert settings.research_checkpoint is not None
+            self.detector = ResearchDetector(settings.research_checkpoint)
+        else:
+            self.detector = DemoDetector()
 
     def run_once(self) -> bool:
         job = self.repository.claim(self.settings)
@@ -46,11 +54,18 @@ class Worker:
             with Image.open(io.BytesIO(self.storage.get(job.image_key))) as image:
                 image.load()
                 predictions = self.detector.predict(image)
-                findings, ignored = decide(predictions, image.width, image.height)
+                experimental = bool(getattr(self.detector, "is_experimental", False))
+                findings, ignored = decide(
+                    predictions, image.width, image.height, experimental=experimental
+                )
                 report = Report(
                     inspection_id=job.id,
                     model_version=self.detector.version,
                     is_demo=self.detector.is_demo,
+                    is_experimental=experimental,
+                    decision_policy_version=(
+                        "portfolio-display-0.25-v1" if experimental else "provisional-1"
+                    ),
                     overall_result=(
                         "NOT_EVALUATED"
                         if self.detector.is_demo
@@ -66,7 +81,12 @@ class Worker:
                     limitations=[
                         "AI-assisted visual inspection only; "
                         "no electrical or functional certification.",
-                        "Demo mode: no trained model or PCB/quality classifier was run."
+                        "Experimental trained model; unreviewed labels. AP50 45.97% on 256 "
+                        "public validation images, not an accuracy percentage. Display threshold "
+                        "0.25 is uncalibrated. No PCB/quality classifier "
+                        "or board acceptance decision."
+                        if experimental
+                        else "Demo mode: no trained model or PCB/quality classifier was run."
                         if self.detector.is_demo
                         else "Decision thresholds are provisional; calibration is required.",
                     ],
@@ -110,7 +130,7 @@ def main() -> None:
         if args.once:
             run_once()
             return
-        logger.info("worker_started_demo_mode")
+        logger.info("worker_started:%s", settings.detector)
         while not stopped.is_set():
             try:
                 busy = run_once()

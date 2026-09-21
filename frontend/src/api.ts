@@ -1,3 +1,4 @@
+import { serviceUrl } from './serviceUrl';
 import { auth } from './auth';
 import type { components } from './generated/api';
 export type Inspection = components['schemas']['InspectionSummary'];
@@ -15,11 +16,7 @@ export class ApiError extends Error {
 }
 
 export async function protectedResponse(path: string, init: RequestInit = {}): Promise<Response> {
-  if (
-    !path.startsWith('/api/v1/') ||
-    new URL(path, window.location.origin).origin !== window.location.origin
-  )
-    throw new ApiError('Invalid service URL.');
+  const url = serviceUrl(path);
   const revision = auth.getRevision();
   const token = await auth.accessToken();
   if (auth.getRevision() !== revision) throw new ApiError('This session has ended.');
@@ -29,7 +26,7 @@ export async function protectedResponse(path: string, init: RequestInit = {}): P
   const signal = init.signal ? AbortSignal.any([init.signal, timeout]) : timeout;
   let response: Response;
   try {
-    response = await fetch(path, {
+    response = await fetch(url, {
       ...init,
       signal,
       headers,

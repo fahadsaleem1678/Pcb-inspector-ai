@@ -31,3 +31,6 @@ ml/runs/
 frontend/auth-test-results/
 frontend/.env.local
 frontend/.env.*.local
+
+# Private portfolio deployment configuration
+deploy/.env.portfolio

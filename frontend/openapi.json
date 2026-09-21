@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "PCB Inspector AI",
-    "description": "Local single-user demo. No trained detector is installed.",
+    "description": "Portfolio PCB inspection workflow with experimental visual predictions.",
     "version": "0.1.0"
   },
   "paths": {
@@ -400,6 +400,15 @@
       "DefectType": {
         "type": "string",
         "enum": [
+          "short",
+          "spur",
+          "spurious_copper",
+          "open",
+          "mouse_bite",
+          "hole_breakout",
+          "conductor_scratch",
+          "conductor_foreign_object",
+          "base_material_foreign_object",
           "missing_component",
           "misaligned_component",
           "solder_bridge",
@@ -628,6 +637,11 @@
           "is_demo": {
             "type": "boolean",
             "title": "Is Demo"
+          },
+          "is_experimental": {
+            "type": "boolean",
+            "title": "Is Experimental",
+            "default": false
           },
           "overall_result": {
             "type": "string",

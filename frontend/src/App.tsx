@@ -169,8 +169,8 @@ export default function App({
           <p>
             <strong>Demo mode</strong>
             <span>
-              Explore the inspection workflow. No trained model is connected; boards are not
-              evaluated for defects.
+              Explore the inspection workflow and experimental predictions when a model is
+              connected. Reports identify the model used; no result certifies a board.
             </span>
           </p>
           <span className="demo-tag">WORKFLOW PREVIEW</span>
@@ -209,7 +209,7 @@ export default function App({
                 src={source}
                 width={job?.width}
                 height={job?.height}
-                findings={report?.is_demo ? [] : report?.detections}
+                findings={report?.is_demo && !report?.is_experimental ? [] : report?.detections}
                 selected={selectedFinding}
                 onSelect={setSelectedFinding}
               />

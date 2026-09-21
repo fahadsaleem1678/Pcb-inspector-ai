@@ -22,6 +22,7 @@ const report = (id: string): Report => ({
   inspection_id: id,
   model_version: 'demo',
   is_demo: true,
+  is_experimental: false,
   overall_result: 'NOT_EVALUATED',
   inference_time_ms: 1,
   image_width: 128,

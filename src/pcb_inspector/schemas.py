@@ -13,6 +13,15 @@ class Status(StrEnum):
 
 
 class DefectType(StrEnum):
+    SHORT = "short"
+    SPUR = "spur"
+    SPURIOUS_COPPER = "spurious_copper"
+    OPEN = "open"
+    MOUSE_BITE = "mouse_bite"
+    HOLE_BREAKOUT = "hole_breakout"
+    CONDUCTOR_SCRATCH = "conductor_scratch"
+    CONDUCTOR_FOREIGN_OBJECT = "conductor_foreign_object"
+    BASE_MATERIAL_FOREIGN_OBJECT = "base_material_foreign_object"
     MISSING_COMPONENT = "missing_component"
     MISALIGNED_COMPONENT = "misaligned_component"
     SOLDER_BRIDGE = "solder_bridge"
@@ -53,6 +62,7 @@ class Report(BaseModel):
     inspection_id: str
     model_version: str
     is_demo: bool
+    is_experimental: bool = False
     overall_result: Literal["NOT_EVALUATED", "REVIEW_REQUIRED", "NO_VISIBLE_DEFECTS_DETECTED"]
     inference_time_ms: int = Field(ge=0)
     image_width: int = Field(gt=0)

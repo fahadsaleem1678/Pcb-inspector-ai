@@ -107,21 +107,31 @@ export function ReportPanel({
             role="status"
           >
             <Info size={24} aria-hidden />
-            <p className="eyebrow">{report.is_demo ? 'DEMO REPORT' : 'VISUAL FINDINGS'}</p>
+            <p className="eyebrow">
+              {report.is_experimental
+                ? 'EXPERIMENTAL MODEL'
+                : report.is_demo
+                  ? 'DEMO REPORT'
+                  : 'VISUAL FINDINGS'}
+            </p>
             <h3>
-              {report.is_demo || report.overall_result === 'NOT_EVALUATED'
-                ? 'Board not evaluated'
-                : report.overall_result === 'REVIEW_REQUIRED'
-                  ? 'Review required'
-                  : 'No visible defects detected'}
+              {report.is_experimental
+                ? 'Experimental predictions'
+                : report.is_demo || report.overall_result === 'NOT_EVALUATED'
+                  ? 'Board not evaluated'
+                  : report.overall_result === 'REVIEW_REQUIRED'
+                    ? 'Review required'
+                    : 'No visible defects detected'}
             </h3>
             <p>
-              {report.is_demo
-                ? 'The workflow completed successfully. No trained detector ran, so this is not a defect assessment.'
-                : 'Review the visible findings below. This result does not certify electrical or functional correctness.'}
+              {report.is_experimental
+                ? 'A trained research model ran. Predictions may miss defects or flag harmless features; this is a portfolio demonstration.'
+                : report.is_demo
+                  ? 'The workflow completed successfully. No trained detector ran, so this is not a defect assessment.'
+                  : 'Review the visible findings below. This result does not certify electrical or functional correctness.'}
             </p>
           </div>
-          {!report.is_demo && (
+          {(!report.is_demo || report.is_experimental) && (
             <section className="findings" aria-label="Detected defects">
               <h3>
                 Findings <span>{report.detections.length}</span>
@@ -149,6 +159,18 @@ export function ReportPanel({
             </section>
           )}
         </>
+      )}
+      {report?.is_experimental && (
+        <section aria-label="Model limitations" className="scope-note">
+          <p>
+            Research benchmark: 45.97% AP50 on 256 unreviewed validation images. This is not an
+            accuracy percentage.
+          </p>
+          <p>
+            Showing scores ≥ 25%; this is a display threshold, not a board acceptance threshold. No
+            findings does not mean a defect-free board.
+          </p>
+        </section>
       )}
       {job && (
         <dl className="metadata">

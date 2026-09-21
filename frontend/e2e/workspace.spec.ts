@@ -157,3 +157,81 @@ test('test-only detection overlay stays aligned through zoom', async ({ page }) 
     'true',
   );
 });
+
+test('experimental portfolio predictions are visible without board acceptance', async ({
+  page,
+}) => {
+  const id = '11111111-1111-1111-1111-111111111111';
+  await page.route(`**/api/v1/inspections/${id}`, (route) =>
+    route.fulfill({
+      json: {
+        id,
+        status: 'COMPLETED',
+        created_at: '2026-09-07T10:00:00Z',
+        completed_at: '2026-09-07T10:00:01Z',
+        width: 640,
+        height: 400,
+        attempts: 1,
+        model_version: 'test-fixture-only',
+        error_code: null,
+        overall_result: 'NOT_EVALUATED',
+      },
+    }),
+  );
+  await page.route(`**/api/v1/inspections/${id}/image`, (route) =>
+    route.fulfill({
+      path: path.resolve('../.runtime/e2e-fixtures/board.png'),
+      contentType: 'image/png',
+    }),
+  );
+  await page.route(`**/api/v1/inspections/${id}/results`, (route) =>
+    route.fulfill({
+      json: {
+        schema_version: '1.0',
+        inspection_id: id,
+        model_version: 'test-fixture-only',
+        is_demo: true,
+        is_experimental: true,
+        overall_result: 'NOT_EVALUATED',
+        inference_time_ms: 10,
+        image_width: 640,
+        image_height: 400,
+        ignored_detection_count: 0,
+        decision_policy_version: 'test-fixture',
+        limitations: ['Synthetic UI test response only.'],
+        detections: [
+          {
+            defect_type: 'mouse_bite',
+            confidence: 0.94,
+            severity: 'critical',
+            confidence_band: 'high',
+            bbox: { x1: 200, y1: 150, x2: 260, y2: 180 },
+          },
+        ],
+      },
+    }),
+  );
+  await page.goto(`/?inspection=${id}`);
+  await expect(page.getByRole('heading', { name: 'Experimental predictions' })).toBeVisible();
+  const region = page.getByRole('button', { name: 'Region 1: mouse bite' });
+  await expect(region).toBeVisible();
+  const image = page.getByRole('img', { name: 'PCB image submitted for inspection' });
+  for (const zoom of [100, 125]) {
+    if (zoom === 125) await page.getByRole('button', { name: 'Zoom in' }).click();
+    const imageBounds = await image.boundingBox();
+    const boxBounds = await region.boundingBox();
+    expect(imageBounds).not.toBeNull();
+    expect(boxBounds).not.toBeNull();
+    expect((boxBounds!.x - imageBounds!.x) / imageBounds!.width).toBeCloseTo(200 / 640, 2);
+    expect((boxBounds!.y - imageBounds!.y) / imageBounds!.height).toBeCloseTo(150 / 400, 2);
+    // The group's visual bounds include a 2px non-scaling outline.
+    expect((boxBounds!.width - 2) / imageBounds!.width).toBeCloseTo(60 / 640, 3);
+  }
+  await region.focus();
+  await page.keyboard.press('Enter');
+  await expect(region).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: /1 mouse bite/i })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+});

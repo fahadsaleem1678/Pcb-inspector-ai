@@ -45,3 +45,8 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 python_version = "3.12"
 strict = true
 files = ["src"]
+
+# Optional CPU inference dependencies are installed only in the worker runtime.
+[[tool.mypy.overrides]]
+module = ["torch", "torch.*", "torchvision", "torchvision.*"]
+ignore_missing_imports = true

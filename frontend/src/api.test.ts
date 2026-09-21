@@ -9,6 +9,7 @@ vi.mock('./auth', () => ({ auth: session }));
 import { api, imageUrl, protectedResponse, reportUrl } from './api';
 afterEach(() => {
   vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
   vi.clearAllMocks();
   session.getRevision.mockReturnValue(0);
 });
@@ -52,5 +53,25 @@ it('never sends credentials to another origin', async () => {
   await expect(protectedResponse('https://other.example/api/v1/inspections')).rejects.toThrow(
     'Invalid service URL',
   );
+  expect(http).not.toHaveBeenCalled();
+});
+
+it('sends requests only to the explicitly configured HTTPS API origin', async () => {
+  vi.stubEnv('VITE_API_ORIGIN', 'https://api.example.com');
+  const http = vi.fn().mockResolvedValue(new Response('{}'));
+  vi.stubGlobal('fetch', http);
+  await protectedResponse(imageUrl('board'));
+  expect(http.mock.calls[0][0]).toBe('https://api.example.com/api/v1/inspections/board/image');
+  expect(http.mock.calls[0][1].headers.get('Authorization')).toBe('Bearer access-token');
+});
+it.each([
+  'http://api.example.com',
+  'https://api.example.com/path',
+  'https://user:pass@api.example.com',
+])('rejects unsafe API configuration %s', async (origin) => {
+  vi.stubEnv('VITE_API_ORIGIN', origin);
+  const http = vi.fn();
+  vi.stubGlobal('fetch', http);
+  await expect(protectedResponse(imageUrl('board'))).rejects.toThrow('Invalid API origin');
   expect(http).not.toHaveBeenCalled();
 });

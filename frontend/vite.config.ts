@@ -5,6 +5,9 @@ const target = process.env.PCB_API_PROXY ?? 'http://127.0.0.1:8000';
 export default defineConfig({
   plugins: [react()],
   server: {
+    watch: {
+      ignored: ['**/test-results/**', '**/auth-test-results/**', '**/playwright-report/**'],
+    },
     port: 5173,
     strictPort: true,
     proxy: { '/api': target, '/health': target, '/ready': target },

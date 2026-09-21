@@ -8,8 +8,8 @@ remain operational endpoints and must sit behind appropriate deployment networki
 ## Local development
 
 The default local identity is explicitly a development shortcut. It preserves existing local
-jobs and the current React workflow. It is not user authentication. Non-local/test environments
-still fail settings validation until the remaining deployment integrations are ready.
+jobs and the current React workflow. It is not user authentication. `PCB_ENVIRONMENT=portfolio` requires Cognito; it cannot use the shared local identity.
+Other environment names remain unsupported. See [portfolio hosting](portfolio-deployment.md).
 
 ## Cognito API configuration
 

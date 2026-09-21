@@ -4,11 +4,15 @@ An asynchronous platform for AI-assisted PCB surface defect inspection, being im
 [the production architecture](PCB_Inspector_AI_Production_Architecture.md) with the accepted
 [V1 dataset and scope revision](docs/dataset-v1-spec.md). Assembly inspection is deferred to V2.
 
-**Current milestone: local web application, frozen research data and offline ML baseline tools.** React provides
-image upload/preview, automatic progress, zoomable images, history and JSON reports. The
-detector remains explicitly a demo: processed images return `is_demo: true`,
-`overall_result: NOT_EVALUATED`, and no detections. Managed browser login, a trained detector,
-PCB/quality classifiers, S3/SQS and cloud deployment remain later milestones.
+**Current milestone: portfolio application with opt-in trained research inference.** React
+provides uploads, progress, zoomable predictions, history and JSON reports. The pinned
+nine-class model achieved 45.97% AP50 on 256 unreviewed validation images. Experimental
+reports display predictions without issuing a board pass/fail decision. Default mode
+remains the no-model workflow. Training is stopped.
+
+See the [Vercel + Supabase + AWS portfolio deployment guide](docs/portfolio-deployment.md)
+for local model preview and the prepared hosting configuration. Live cloud deployment and
+acceptance have not been completed.
 
 Read the [implementation plan](docs/implementation-plan.md) for milestones, acceptance gates,
 decisions and remaining work. [Dataset notes](data/README.md) record the class/usage issues to
@@ -113,7 +117,7 @@ builds both containers, and runs frontend/browser checks with API-type drift det
 
 See [API contract](docs/api.md) and [architecture decisions](docs/architecture.md).
 
-Optional backend Cognito token verification is implemented; see [authentication configuration](docs/authentication.md). Browser login remains a subsequent step.
+Optional backend Cognito token verification is implemented; see [authentication configuration](docs/authentication.md). Browser PKCE login, renewal and logout are implemented; live Cognito acceptance is pending.
 
 
 ### Optional cloud service adapters

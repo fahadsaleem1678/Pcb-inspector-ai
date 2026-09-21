@@ -1,0 +1,16 @@
+{$PCB_API_HOST} {
+    request_body {
+        max_size 11MB
+    }
+    @api path /api/*
+    handle @api {
+        reverse_proxy api:8000
+    }
+    handle {
+        respond "Not found" 404
+    }
+    header {
+        X-Content-Type-Options nosniff
+        -Server
+    }
+}

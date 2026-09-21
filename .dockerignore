@@ -18,3 +18,5 @@ ml/runs
 *.pt
 *.pth
 *.onnx
+
+deploy/.env.portfolio

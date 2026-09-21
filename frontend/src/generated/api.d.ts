@@ -181,7 +181,7 @@ export interface components {
          * DefectType
          * @enum {string}
          */
-        DefectType: "missing_component" | "misaligned_component" | "solder_bridge" | "damaged_component" | "board_damage" | "foreign_object" | "contamination";
+        DefectType: "short" | "spur" | "spurious_copper" | "open" | "mouse_bite" | "hole_breakout" | "conductor_scratch" | "conductor_foreign_object" | "base_material_foreign_object" | "missing_component" | "misaligned_component" | "solder_bridge" | "damaged_component" | "board_damage" | "foreign_object" | "contamination";
         /** Finding */
         Finding: {
             defect_type: components["schemas"]["DefectType"];
@@ -266,6 +266,11 @@ export interface components {
             model_version: string;
             /** Is Demo */
             is_demo: boolean;
+            /**
+             * Is Experimental
+             * @default false
+             */
+            is_experimental: boolean;
             /**
              * Overall Result
              * @enum {string}

@@ -1,8 +1,43 @@
 # PCB Inspector AI â€” Agent handoff
 
-Updated: 2026-09-19 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
+Updated: 2026-09-21 (Asia/Karachi). Workspace: E:\PCB, Windows/PowerShell.
 
 ## Current task and stopping point
+
+
+Current scope supersedes the older industrial-release plan: user explicitly clarified this
+is a PORTFOLIO project and authorized deployment preparation using the completed model.
+User prefers Vercel + Supabase + AWS with credits. No more training is requested.
+
+Implemented pinned research inference adapter (checkpoint SHA verified before loading,
+nine exact source classes, CPU, no downloads); optional PCB_DETECTOR=research and
+PCB_RESEARCH_CHECKPOINT. Experimental reports display boxes at score >=.25 but retain
+NOT_EVALUATED board disposition and is_demo=true/is_experimental=true. Frontend exposes
+experimental findings and benchmark limitations, preserving the empty-demo default.
+Public portfolio environment requires Cognito. Shared HTTPS API origin is used by both
+login verification and inspection requests; exact-origin CORS supports Vercel -> AWS.
+Prepared deploy/compose.portfolio.yml, worker Dockerfile, Caddy HTTPS gateway,
+private env template, frontend/vercel.json, and docs/portfolio-deployment.md.
+Supabase is PostgreSQL only; disable its Data API before migrations to avoid bypassing
+backend ownership checks. S3 is private; Cognito supplies identity. No cloud resources
+were provisioned and no live deployment has occurred. Docker Linux engine is stopped;
+Compose syntax is verified but container builds/live acceptance remain unverified.
+
+Validation: 126 service tests passed (one real-model test skipped in the service-only
+environment and passed in the ML environment); 248 ML tests passed; 11 portfolio
+integration checks passed in the ML runtime; 33 frontend tests passed. Frontend build,
+Ruff, mypy, ESLint, formatting and Compose syntax checks passed. Browser inspection
+checks passed on desktop/mobile; all 10 authentication browser checks also passed
+after the watcher fix (20 browser checks total). Vite now ignores generated browser test folders to
+avoid Windows locked-download watcher failures.
+
+Real adapter predictions matched saved results exactly on three validation images.
+The real checkpoint passed upload -> worker -> JSON report integration in the ML runtime.
+Next: obtain actual Vercel production URL, AWS region/API hostname, Supabase connection
+configured privately, and Cognito pool/client/domain. Follow docs/portfolio-deployment.md
+for server setup and two-user live acceptance. No credentials in chat/Git/VITE variables.
+Public sample dataset images are not bundled; use an owned PCB photo for live acceptance.
+Do not claim industrial certification or resume training.
 
 
 USER CANCELLED the 640-pixel run on 2026-09-19 at approximately 01:35 +05:00:

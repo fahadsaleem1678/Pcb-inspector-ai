@@ -93,8 +93,18 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         title="PCB Inspector AI",
         version="0.1.0",
         lifespan=lifespan,
-        description="Local single-user demo. No trained detector is installed.",
+        description="Portfolio PCB inspection workflow with experimental visual predictions.",
     )
+    if settings.cors_origins:
+        from fastapi.middleware.cors import CORSMiddleware
+
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=list(settings.cors_origins),
+            allow_methods=["GET", "POST"],
+            allow_headers=["Authorization", "Content-Type"],
+            allow_credentials=False,
+        )
     app.state.authenticator = Authenticator(settings)
     app.state.repository = repository
     app.state.storage = storage

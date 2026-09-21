@@ -1,3 +1,4 @@
+import { serviceUrl } from './serviceUrl';
 import { InMemoryWebStorage, UserManager, WebStorageStateStore } from 'oidc-client-ts';
 import type { User } from 'oidc-client-ts';
 import type { components } from './generated/api';
@@ -166,7 +167,7 @@ export class BrowserAuth {
           return;
         }
       }
-      const response = await this.http('/api/v1/auth/me', {
+      const response = await this.http(serviceUrl('/api/v1/auth/me'), {
         headers: user ? { Authorization: `Bearer ${user.access_token}` } : {},
         credentials: 'omit',
         cache: 'no-store',
